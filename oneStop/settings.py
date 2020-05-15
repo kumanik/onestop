@@ -133,4 +133,4 @@ MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
 MONGO_PORT = config('MONGO_PORT', cast=int)
 
-mongoengine.connect('onestop', host='localhost', port=27017, alias='default')
+mongoengine.connect(MONGO_NAME, host=MONGO_HOST, port=MONGO_PORT, alias='default')

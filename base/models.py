@@ -2,19 +2,15 @@
 from mongoengine import *
 
 
-def get_event_names():
-    event_names = {}
-    for event in Event.objects:
-        event_names.update({event.name: event.name})
-    return event_names
-
-
-class StudentList(EmbeddedDocument):
-    event_name = StringField(choices=get_event_names().keys())
-    type = StringField(max_length=256, required=True)
-    list = ListField()
-
-
-class Event(Document):
+class Event(EmbeddedDocument):
     name = StringField(max_length=256, required=True)
-    students = EmbeddedDocumentField(StudentList)
+
+
+class Student(EmbeddedDocument):
+    name = StringField(max_length=256, required=True)
+
+
+class StudentList(Document):
+    event = EmbeddedDocumentField(Event)
+    type = StringField(max_length=256, required=True)
+    list = EmbeddedDocumentListField(Student)
