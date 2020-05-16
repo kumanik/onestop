@@ -2,15 +2,20 @@
 from mongoengine import *
 
 
-class Event(EmbeddedDocument):
-    name = StringField(max_length=256, required=True)
+class Event(DynamicEmbeddedDocument):
+    name = StringField(max_length=256)
+    single_input = DictField()
 
 
-class Student(EmbeddedDocument):
-    name = StringField(max_length=256, required=True)
+class Student(DynamicEmbeddedDocument):
+    name = StringField(max_length=256)
 
 
-class StudentList(Document):
+class StudentList(DynamicDocument):
     event = EmbeddedDocumentField(Event)
-    type = StringField(max_length=256, required=True)
-    list = EmbeddedDocumentListField(Student)
+    type = StringField(max_length=256)
+    list = ListField(EmbeddedDocumentField(Student))
+
+
+class File(Document):
+    file = FileField()
