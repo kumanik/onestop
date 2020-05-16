@@ -5,7 +5,7 @@ from .models import *
 
 class EventForm(ModelForm):
     model = Event
-    exclude = ('name',)
+    exclude = ()
     widgets = {
         'single_input': Textarea(attrs={'rows': 10}),
     }
@@ -18,4 +18,12 @@ class FileForm(ModelForm):
 
 class StudentListForm(ModelForm):
     model = StudentList
-    exclude = ('list',)
+    exclude = ('list','event',)
+
+
+class Student(ModelForm):
+    model = Student
+    exclude = ()
+    widgets = {
+        'single_input': Textarea(attrs={'rows': 10}),
+    }
