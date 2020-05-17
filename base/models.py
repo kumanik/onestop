@@ -12,9 +12,7 @@ class StudentList(DynamicEmbeddedDocument):
 
 class Event(DynamicDocument):
     name = StringField(max_length=256)
-    student_lists = ListField(StudentList)
-    # def get_fields(self):
-    #     return [(field.name, field.value_to_string(self)) for field in Event._meta.fields]
+    student_lists = ListField(EmbeddedDocumentField(StudentList))
 
 
 class File(Document):
