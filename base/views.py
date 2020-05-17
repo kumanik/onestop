@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+import csv
 
 
 def listEvents(request):
@@ -16,5 +17,8 @@ def viewEvent(request, event_id):
 def viewStudentList(request, student_list_id):
     student_list = get_object_or_404(StudentList, id=student_list_id)
     return render(request, "base/studentList.html", {'student_list': student_list})
+
+with open('csv/students_list.csv', 'r') as students_list_csv:
+    csv_dict_reader = csv.DictReader(students_list_csv)
 
 
