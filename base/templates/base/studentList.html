@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div>
+            <ol>
+                {%  for student in student_list %}
+                    <div>{{ student.to_mongo }}</div>
+                {%  endfor  %}
+            </ol>
+    </body>
+</html>

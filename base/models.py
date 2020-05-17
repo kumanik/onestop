@@ -3,7 +3,6 @@ from mongoengine import *
 
 class Student(DynamicEmbeddedDocument):
     name = StringField(max_length=256)
-    single_input = DictField()
 
 
 class StudentList(DynamicEmbeddedDocument):
@@ -13,9 +12,14 @@ class StudentList(DynamicEmbeddedDocument):
 
 class Event(DynamicDocument):
     name = StringField(max_length=256)
-    single_input = DictField()
     student_lists = ListField(StudentList)
+    # def get_fields(self):
+    #     return [(field.name, field.value_to_string(self)) for field in Event._meta.fields]
 
 
 class File(Document):
     file = FileField()
+
+
+class SingleLine(Document):
+    single_input = DictField()

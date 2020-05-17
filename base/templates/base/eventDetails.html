@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div>
+{#            <ul>#}
+{#                {% for name, value in event.get_fields %}#}
+{#                    {% if value %}#}
+{#                        <li>{{ name }} : {{ value }}</li>#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            </ul>#}
+            <div>{{ event.to_mongo }}</div>
+            <p>Student lists :</p>
+            <ul>
+                {% for student_list in student_lists %}
+                <li><a href="{% url 'viewStudents' student_list.id %}">student_list.type</a></li>
+                {% endfor %}
+            </ul>
+    </body>
+</html>

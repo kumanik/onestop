@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <div>
+            <ol>
+                {%  for event in events %}
+                    <li><a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></li>
+                {%  endfor  %}
+            </ol>
+    </body>
+</html>

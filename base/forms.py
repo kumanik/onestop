@@ -1,14 +1,11 @@
-from django import forms
-from django.forms import ModelForm, Textarea
+from typing import Tuple
+from django.forms import ModelForm
 from .models import *
 
 
 class EventForm(ModelForm):
     model = Event
-    exclude = ()
-    widgets = {
-        'single_input': Textarea(attrs={'rows': 10}),
-    }
+    exclude = ('student_lists', 'name', )
 
 
 class FileForm(ModelForm):
@@ -18,12 +15,14 @@ class FileForm(ModelForm):
 
 class StudentListForm(ModelForm):
     model = StudentList
-    exclude = ('list','event',)
+    exclude = ('list', )
 
 
 class Student(ModelForm):
     model = Student
     exclude = ()
-    widgets = {
-        'single_input': Textarea(attrs={'rows': 10}),
-    }
+
+
+class SinglelineForm(ModelForm):
+    model = SingleLine
+    exclude = ()
