@@ -1,18 +1,18 @@
 from mongoengine import *
 
 
-class Student(DynamicEmbeddedDocument):
+class Student(DynamicDocument):
     name = StringField(max_length=256)
 
 
-class StudentList(DynamicEmbeddedDocument):
+class StudentList(DynamicDocument):
     type = StringField(max_length=256)
-    list = ListField(EmbeddedDocumentField(Student))
+    list = ListField(ReferenceField(Student, reverse_delete_rule=CASCADE))
 
 
 class Event(DynamicDocument):
     name = StringField(max_length=256)
-    student_lists = ListField(EmbeddedDocumentField(StudentList))
+    student_lists = ListField(ReferenceField(StudentList, reverse_delete_rule=CASCADE))
 
 
 class File(Document):

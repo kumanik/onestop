@@ -10,11 +10,12 @@ def listEvents(request):
 def viewEvent(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     student_lists = event.student_lists
-    return render(request, '', {'student_lists': student_lists, 'event': event})
+    return render(request, '', {'event': event})
 
 
-def viewStudentList(request, student_list_id):
-    student_list = get_object_or_404(StudentList, id=student_list_id)
+def viewStudentList(request, list_id):
+    student_list = get_object_or_404(StudentList, id=list_id)
     return render(request, "base/studentList.html", {'student_list': student_list})
+
 
 
