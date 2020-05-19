@@ -31,4 +31,3 @@ def deleteEvent(request, event_id):
     return redirect('index')
 
 
-
