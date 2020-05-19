@@ -14,7 +14,8 @@ def viewEvent(request, event_id):
 
 def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
-    return render(request, "base/studentList.html", {'student_list': student_list})
+    event = Event.objects.get(student_lists__=student_list)
+    return render(request, "base/studentList.html", {'student_list': student_list, 'event': event})
 
 
 def deleteStudentList(request, list_id):

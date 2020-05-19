@@ -7,6 +7,7 @@
     </head>
     <body>
         <div>
+            <a>Event List</a>
             <ol>
                 {%  for event in events %}
                     <li><a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></li>

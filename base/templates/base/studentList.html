@@ -7,9 +7,10 @@
     </head>
     <body>
         <div>
+            <a href=""{% url 'index' %}>Events List</a>&raquo;<a href="{% url 'viewEvent' event.id%}">{{ event.name }}</a>&raquo;<a>{{ student_list.type }}</a>
             <ol>
-                {%  for student in student_list %}
-                    <li>{{ student.name }}</li>
+                {%  for student in student_list.list %}
+                    <li id="list">{{ student.to_json }}</li>
                 {%  endfor  %}
             </ol>
     </body>
