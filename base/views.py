@@ -30,5 +30,12 @@ def deleteEvent(request, event_id):
         deleteStudentList(request, list1.id)
     event.delete()
     return redirect('index')
+
 with open('csv/students_list.csv', 'r') as students_list_csv:
     csv_dict_reader  = csv.DictReader(students_list_csv)
+    
+    for line in csv_dict_reader:
+        stu = Student(name='line['names']')
+        StudentList.list.append(stu)
+        
+    
