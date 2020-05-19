@@ -10,8 +10,8 @@
             <div>{{ event.to_mongo }}</div>
             <p>Student lists :</p>
             <ul>
-                {% for student_list in student_lists %}
-                <li><a href="{% url 'viewStudents' student_list.id %}">student_list.type</a></li>
+                {% for student_list in event.student_lists %}
+                <li><a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a></li>
                 {% endfor %}
             </ul>
     </body>

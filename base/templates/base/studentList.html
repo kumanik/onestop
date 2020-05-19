@@ -9,7 +9,7 @@
         <div>
             <ol>
                 {%  for student in student_list %}
-                    <div>{{ student.to_mongo }}</div>
+                    <li>{{ student.name }}</li>
                 {%  endfor  %}
             </ol>
     </body>
