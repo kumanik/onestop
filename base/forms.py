@@ -1,28 +1,34 @@
 from typing import Tuple
-from django.forms import ModelForm
+from mongodbforms import DocumentForm
 from .models import *
 
 
-class EventForm(ModelForm):
-    model = Event
-    exclude = ('student_lists', 'name', )
+
+class EventForm(DocumentForm):
+    class Meta:
+        model = Event
+        exclude = ('student_lists', 'name', )
 
 
-class FileForm(ModelForm):
-    model = File
-    exclude = ()
+class FileForm(DocumentForm):
+    class Meta:
+        document = File
+        exclude = ()
 
 
-class StudentListForm(ModelForm):
-    model = StudentList
-    exclude = ('list', )
+class StudentListForm(DocumentForm):
+    class Meta:
+        model = StudentList
+        exclude = ('list', )
 
 
-class Student(ModelForm):
-    model = Student
-    exclude = ()
+class Student(DocumentForm):
+    class Meta:
+        model = Student
+        exclude = ()
 
 
-class SinglelineForm(ModelForm):
-    model = SingleLine
-    exclude = ()
+class SinglelineForm(DocumentForm):
+    class Meta:
+        model = SingleLine
+        exclude = ()
