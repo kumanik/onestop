@@ -38,15 +38,12 @@ def upload_file(request):
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
-            print("Hello")
             data = request.FILES['file']
-            print(data.name)
             decoded_file = data.read().decode('utf-8').splitlines()
             csv_dict_reader = csv.DictReader(decoded_file)
-            print("isha")
             for row in csv_dict_reader:
                 stu = Student()
-                StudentList.list.append(Stu)
+                StudentList.list.append(stu)
                
             return redirect('upload_file')
     else:
