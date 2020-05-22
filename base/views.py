@@ -44,7 +44,7 @@ def upload_file(request):
             lists = StudentList()
             eventss = Event()
             for row in csv_dict_reader:
-                stu = Student(row)
+                stu = Student(**row)
                 stu.save()
                 lists.list.append(stu)
                 lists.save()
