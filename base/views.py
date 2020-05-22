@@ -42,11 +42,14 @@ def upload_file(request):
             decoded_file = data.read().decode('utf-8').splitlines()
             csv_dict_reader = csv.DictReader(decoded_file)
             lists = StudentList()
+            eventss = Event()
             for row in csv_dict_reader:
                 stu = Student(row)
                 stu.save()
                 lists.list.append(stu)
                 lists.save()
+                eventss.student_lists.append(lists)
+                eventss.save()
                
             return redirect('upload_file')
     else:
