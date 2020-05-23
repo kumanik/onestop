@@ -8,5 +8,5 @@ urlpatterns = [
     path("event/studentlist/<list_id>", viewStudentList, name="viewStudents"),
     path("event/delete/<event_id>", deleteEvent, name="deleteEvent"),
     path("event/student_list/delete/<list_id>", deleteStudentList, name="deleteStudentList"),
-    path("files/upload/", views.upload_file, name="upload_file"),
+    path("event/addstudentlist/upload/<event_id>", upload_student_list, name="upload_studentlist"),
 ]

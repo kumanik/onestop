@@ -1,34 +1,38 @@
 from typing import Tuple
-from mongodbforms import DocumentForm
+from mongodbforms import DocumentForm, documentformset_factory
 from .models import *
 
 
+# class EventForm(DocumentForm):
+#     class Meta:
+#         model = Event
+#         exclude = ('student_lists', 'name', )
 
-class EventForm(DocumentForm):
-    class Meta:
-        model = Event
-        exclude = ('student_lists', 'name', )
+
+# class StudentListForm(DocumentForm):
+#     class Meta:
+#         model = StudentList
+#         exclude = ('list', )
+
+
+# class Student(DocumentForm):
+#     class Meta:
+#         model = Student
+#         exclude = ()
 
 
 class FileForm(DocumentForm):
     class Meta:
         document = File
-        exclude = ()
+        fields = [
+            'file', 'input',
+        ]
 
 
-class StudentListForm(DocumentForm):
+class SingleLineForm(DocumentForm):
     class Meta:
-        model = StudentList
-        exclude = ('list', )
+        document = SingleLine
+        fields = [
+            'field_name', 'field_value',
+        ]
 
-
-class Student(DocumentForm):
-    class Meta:
-        model = Student
-        exclude = ()
-
-
-class SinglelineForm(DocumentForm):
-    class Meta:
-        model = SingleLine
-        exclude = ()

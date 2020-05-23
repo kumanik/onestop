@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import FileForm
+from .forms import *
 import csv
 
 
@@ -33,33 +33,24 @@ def deleteEvent(request, event_id):
     return redirect('index')
 
 
-def upload_file(request):
-    document =File
+def upload_student_list(request, event_id):
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             data = request.FILES['file']
+            type1 = request.POST.get['input']
             decoded_file = data.read().decode('utf-8').splitlines()
             csv_dict_reader = csv.DictReader(decoded_file)
-            lists = StudentList()
-            eventss = Event()
+            list1 = StudentList(type=type1)
+            event = Event.objects.get(id=event_id)
             for row in csv_dict_reader:
                 stu = Student(**row)
                 stu.save()
-                lists.list.append(stu)
-                lists.save()
-                eventss.student_lists.append(lists)
-                eventss.save()
-               
-            return redirect('upload_file')
+                list1.list.append(stu)
+            list1.save()
+            event.student_lists.append(list1)
+            event.save()
+            return redirect('viewEvent', event_id)
     else:
-        form = FileForm()        
-    
-    return render(request, 'upload_file.html', {
-        'form': form
-        })
-
-
-        
-    
-
+        form = FileForm()
+    return render(request, "base/upload_file.html", {'form': form})
