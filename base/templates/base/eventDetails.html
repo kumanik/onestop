@@ -14,5 +14,6 @@
                     <li><a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a></li>
                 {% endfor %}
             </ul>
+            <button href="{% url 'upload_studentlist' event.id %}">Add list</button>
     </body>
 </html>

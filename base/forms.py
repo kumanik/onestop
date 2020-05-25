@@ -1,5 +1,5 @@
 from typing import Tuple
-from mongodbforms import DocumentForm, documentformset_factory
+from mongodbforms import DocumentForm
 from .models import *
 
 
@@ -28,11 +28,4 @@ class FileForm(DocumentForm):
             'file', 'input',
         ]
 
-
-class SingleLineForm(DocumentForm):
-    class Meta:
-        document = SingleLine
-        fields = [
-            'field_name', 'field_value',
-        ]
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 import csv
+import json
 
 
 def listEvents(request):
@@ -54,3 +55,12 @@ def upload_student_list(request, event_id):
     else:
         form = FileForm()
     return render(request, "base/upload_file.html", {'form': form})
+
+
+def create_event(request):
+    if request.POST.get('action') == 'post':
+        data = json.loads(request.POST.get('json_sent'))
+        event = Event(**data)
+        event.save()
+        return redirect('index')
+    return render(request, 'base/addEvent.html')

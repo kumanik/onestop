@@ -23,8 +23,3 @@ class Event(DynamicDocument):
 class File(Document):
     file = FileField()
     input = StringField(max_length=256)
-
-
-class SingleLine(Document):
-    field_name = StringField(max_length=256)
-    field_value = StringField(max_length=256)
