@@ -2,12 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>OneStop</title>
     </head>
     <body>
         <div>
             <a href="{% url 'index' %}">Event List</a>&raquo;<a>{{ event.name }}</a>
             <div>{{ event.to_json }}</div>
+            <button href="{% url 'deleteEvent' event.id%}">Delete Event</button>
             <p>Student lists :</p>
             <ul>
                 {% for student_list in event.student_lists %}

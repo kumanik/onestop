@@ -112,10 +112,7 @@ STATIC_URL = '/static/'
 
 
 #MongoDB vars
-MONGO_USER = config('MONGO_USER')
-MONGO_PASS = config('MONGO_PASS')
 MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
-MONGO_PORT = config('MONGO_PORT', cast=int)
 
-mongoengine.connect(MONGO_NAME, host=MONGO_HOST, port=MONGO_PORT, alias='default')
+mongoengine.connect(MONGO_NAME, host=MONGO_HOST)
