@@ -12,7 +12,7 @@ SECRET_KEY = '*n-c4&^0(9lju8+ka7^*-_l#7&xoz@n6m$m^o$$%&z2(ybj-j&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['one-1-stop.herokuapp.com',]
 
 
 # Application definition
