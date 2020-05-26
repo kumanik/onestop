@@ -1,1 +1,1 @@
-web: gunicorn oneStop.wsgi
+web: gunicorn oneStop.wsgi ---log-file -
