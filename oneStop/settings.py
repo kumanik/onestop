@@ -1,7 +1,6 @@
 import os
 import mongoengine
 from decouple import config
-import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -121,6 +120,3 @@ MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
 
 mongoengine.connect(MONGO_NAME, host=MONGO_HOST)
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
