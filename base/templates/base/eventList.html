@@ -7,7 +7,8 @@
     <body>
         <div>
             <a>Event List</a>
-            <button href="{% url 'addEvent' %}">Add Event</button>
+            <br>
+            <a class="button btn-primary" href="{% url 'addEvent' %}">Add Event</a>
             <ol>
                 {%  for event in events %}
                     <li><a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></li>

@@ -6,15 +6,16 @@
     </head>
     <body>
         <div>
-            <a href="{% url 'index' %}">Event List</a>&raquo;<a>{{ event.name }}</a>
+            <a href="{% url 'index' %}">Event List</a>&raquo;<a>{{ event.name }}</a><br>
             <div>{{ event.to_json }}</div>
-            <button href="{% url 'deleteEvent' event.id%}">Delete Event</button>
+            <br>
+            <a href="{% url 'deleteEvent' event.id%}">Delete Event</a>
             <p>Student lists :</p>
             <ul>
                 {% for student_list in event.student_lists %}
                     <li><a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a></li>
                 {% endfor %}
             </ul>
-            <button href="{% url 'upload_studentlist' event.id %}">Add list</button>
+            <a href="{% url 'upload_studentlist' event.id %}">Add list</a>
     </body>
 </html>
