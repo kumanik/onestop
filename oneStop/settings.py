@@ -1,6 +1,7 @@
 import os
-import mongoengine
+from mongoengine import *
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,7 +13,10 @@ SECRET_KEY = '*n-c4&^0(9lju8+ka7^*-_l#7&xoz@n6m$m^o$$%&z2(ybj-j&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['one-1-stop.herokuapp.com',]
+ALLOWED_HOSTS = [
+    'one-1-stop.herokuapp.com',
+    '127.0.0.1',
+    ]
 
 
 # Application definition
@@ -25,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +61,7 @@ TEMPLATES = [
 ]
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'accounts/templates'),
 )
 
 WSGI_APPLICATION = 'oneStop.wsgi.application'
@@ -66,12 +71,15 @@ WSGI_APPLICATION = 'oneStop.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': '',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
+MONGO_HOST = config('MONGO_HOST')
+MONGO_NAME = config('MONGO_NAME')
+
+connect(MONGO_NAME, host=MONGO_HOST, alias="mongo")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -109,13 +117,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 
-#MongoDB vars
-MONGO_HOST = config('MONGO_HOST')
-MONGO_NAME = config('MONGO_NAME')
-
-mongoengine.connect(MONGO_NAME, host=MONGO_HOST)
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>OneStop</title>
+    </head>
+    <body>
+        <div>
+            <a>REGISTER</a>
+            <br>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" name="file" class="btn btn-primary">REGISTER</button>
+            </form>
+    </body>
+</html>

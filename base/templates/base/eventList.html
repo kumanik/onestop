@@ -6,6 +6,8 @@
     </head>
     <body>
         <div>
+            <a>Logged in as : {{ user.username }}</a>
+            <br>
             <a>Event List</a>
             <br>
             <a class="button btn-primary" href="{% url 'addEvent' %}">Add Event</a>

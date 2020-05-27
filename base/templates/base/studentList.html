@@ -6,6 +6,8 @@
     </head>
     <body>
         <div>
+            <a>Logged in as : {{ user.username }}</a>
+            <br>
             <a href="{% url 'index' %}">Events List</a>&raquo;<a href="{% url 'viewEvent' event.id%}">{{ event.name }}</a>&raquo;<a>{{ student_list.type }}</a>
             <br>
             <a href="{% url 'deleteStudentList' student_list.id%}">Delete student list</a>

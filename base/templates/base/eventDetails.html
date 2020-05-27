@@ -6,6 +6,8 @@
     </head>
     <body>
         <div>
+            <a>Logged in as : {{ user.username }}</a>
+            <br>
             <a href="{% url 'index' %}">Event List</a>&raquo;<a>{{ event.name }}</a><br>
             <div>{{ event.to_json }}</div>
             <br>
