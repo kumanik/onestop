@@ -31,15 +31,15 @@ class UserLoginForm(forms.ModelForm):
 
 
 class UserRegisterForm(forms.ModelForm):
-    username = forms.CharField(max_length=20,widget=forms.TextInput(attrs={'placeholder': 'Enter a Username', 'label': ""}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password', 'label': ""}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Retype password', 'label': ""}))
+    username = forms.CharField(max_length=20,widget=forms.TextInput(attrs={'placeholder': 'Enter a username', 'class':'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password', 'class':'form-control'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'class':'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
-        self.fields['username'].label = ''
-        self.fields['password'].label = ''
-        self.fields['password1'].label = ''
+        self.fields['username'].label = 'USERNAME'
+        self.fields['password'].label = 'PASSWORD'
+        self.fields['password1'].label = 'CONFIRM PASSWORD'
 
     class Meta:
         model = User
