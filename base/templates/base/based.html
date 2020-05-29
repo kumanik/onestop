@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OneStop</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script">
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy">
+
+</head>
+<style>
+	body{
+		background: #222D32;
+		color: white;
+	}
+	h1{
+		color: white;
+		text-align: center;
+		margin-left: 2%;
+	}
+	h4{
+		color: white;
+		font-family: 'cursive';
+		font-size: 3vh;
+		margin-left: 2%;
+	}
+	label{
+		color: white;
+		margin-left: 2%;
+		font-size: 2vh;
+		font-weight: bold;
+	}
+	button{
+		margin-left: 2%;
+		}
+	 .nav-cont{
+  color:#0DB8DE;
+}
+
+.navbar {
+
+  background-color:black;
+  color:#0DB8DE;
+  font-size: 25px;
+  font-family: 'Satisfy', cursive;
+
+}
+
+.nav-link {
+  font-size: 20px;
+  font-weight: bold;
+  /*margin-right: 13px;*/
+  color:#0DB8DE !important;
+  font-family: 'Satisfy', cursive;
+}
+.btn-whatever{
+	background-color: #0DB8DE;
+	color: black;
+}
+div{
+	margin-left:2%;
+}
+p{
+	font-size: 2vh;
+	margin-left: 2%;
+}
+a{
+	font-size: 2.2vh;
+	color: #0DB8DE;
+}
+
+a:hover {
+   color: white;
+}
+	</style>
+<body>
+<nav class="navbar navbar-expand-sm navbar-light">
+	  	<span class="fa fa-database"><strong> OneStop</strong></span>
+
+      <div class="container nav-cont">
+
+        <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            {% if not user.is_anonymous %}
+            <li class="nav-item">
+              <a class="nav-link"><span class="fa fa-user pr-2"></span>{{user}}</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ '/accounts/logout/' }}" class="nav-link"><span class="fa fa-sign-out pr-2"></span>Logout</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>
