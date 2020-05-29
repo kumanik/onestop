@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>OneStop</title>
-    </head>
-    <body>
+{% extends 'base/based.html' %}
+{% block content %}
+<style>
+  li a{
+    font-size: 2vh;
+
+  }
+  </style>
+
         <div>
-            <a>Logged in as : {{ user.username }}</a>
             <br>
-            <a>Event List</a>
+            <h3>Events List :</h3>
             <br>
-            <a class="button btn-primary" href="{% url 'addEvent' %}">Add Event</a>
             <ol>
-                {%  for event in events %}
+                {% for event in events %}
                     <li><a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></li>
                 {%  endfor  %}
             </ol>
-    </body>
-</html>
+            <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
+        </div>
+
+        {% endblock %}
