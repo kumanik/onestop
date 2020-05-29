@@ -86,14 +86,14 @@ a:hover {
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav ml-auto">
-            
+            {% if not user.is_anonymous %}
             <li class="nav-item">
               <a class="nav-link"><span class="fa fa-user pr-2"></span>{{user}}</a>
             </li>
             <li class="nav-item">
               <a href="{{ '/accounts/logout/' }}" class="nav-link"><span class="fa fa-sign-out pr-2"></span>Logout</a>
             </li>
-            
+            {% endif %}
           </ul>
         </div>
       </div>
