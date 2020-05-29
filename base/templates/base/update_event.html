@@ -4,31 +4,30 @@
 	label{
 		color: #0DB8DE;
 		font-weight: normal;
+        font-size: 14px;
 	}
 	</style>
-		<br>
-		<br>
 		<form class="field_wrapper" id="eventForm" method="POST">
 			{% csrf_token %}
-		    
-		    	<label>Field name</label>
-		        <input type="text" name="field_name[]" value=""/>
-		        <label>Field value</label>
-		        <input type="text" name="field_value[]" value=""/>
-		        <br>
-		        <a href="javascript:void(0);" class="add_button" title="Add field"><strong>Add</strong></a>
-		        <br>
-
-      <input type="submit" class="submit"/>
-      
-  
+            {% for key, value in event_dict.items%}
+                {% if key is not "student_lists" and key is not "id" %}
+                <label>Field name</label>
+                <input type="text" name="field_name[]" value="{{ key }}"/>
+                <label>Field value</label>
+                <input type="text" name="field_value[]" value="{{ value }}"/>
+                {% endif %}
+                <br>
+            {% endfor %}
+            <a href="javascript:void(0);" class="add_button" title="Add field"><strong>Add</strong></a>
+            <br>
+            <input type="submit" class="submit"/>
 		</form>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 	    <script>// https://github.com/HasanQQ/formToJson.git
 			$.fn.formToJson=function(){form=$(this);var formArray=form.serializeArray(),jsonOutput={};return $.each(formArray,(function(i,element){var elemNameSplit=element.name.split("["),elemObjName="jsonOutput";$.each(elemNameSplit,(function(nameKey,value){nameKey!=elemNameSplit.length-1?(elemObjName="]"==value.slice(value.length-1)?"]"===value?elemObjName+"["+Object.keys(eval(elemObjName)).length+"]":elemObjName+"["+value:elemObjName+"."+value,void 0===eval(elemObjName)&&eval(elemObjName+" = {};")):"]"==value.slice(value.length-1)?"]"===value?eval(elemObjName+"["+Object.keys(eval(elemObjName)).length+"] = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"["+value+" = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"."+value+" = '"+element.value.replace("'","\\'")+"';")}))})),jsonOutput};
 		</script>
 
-		
+
 	    <script type="text/javascript">
 			$(document).ready(function(){
 			    var addButton = $('.add_button');
@@ -38,11 +37,11 @@
 			    var line = '<br>';
 
 			    $(addButton).click(function(){
-			    	
-			            $(wrapper).append(fieldHTML);
-			            $(wrapper).append(addButton);
-                  		$(wrapper).append(line);
-                 		$(wrapper).append(submit_button);
+
+                    $(wrapper).append(fieldHTML);
+                    $(wrapper).append(addButton);
+                    $(wrapper).append(line);
+                    $(wrapper).append(submit_button);
 
 			    });
 
@@ -59,7 +58,7 @@
 
 		        $.ajax({
 			        type:'POST',
-			        url:'{% url "addEvent" %}',
+			        url:'{% url "updateEvent" event.id%}',
 			        data:{
 			            json_sent:JSON.stringify(json_send),
 			            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
@@ -67,7 +66,7 @@
 			        },
                     success: function (data) {
                         console.log("SUCC");
-                        window.location = '{% url "index" %}'
+                        window.location = '{% url "viewEvent" event.id %}'
                     },
                     error: function(data) {
                         console.log("ERR");

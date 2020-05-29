@@ -33,15 +33,6 @@ def deleteStudentList(request, list_id):
 
 
 @login_required
-def deleteEvent(request, event_id):
-    event = Event.objects.get(id=event_id)
-    for list1 in event.student_lists:
-        deleteStudentList(request, list1.id)
-    event.delete()
-    return redirect('index')
-
-
-@login_required
 def upload_student_list(request, event_id):
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
@@ -76,3 +67,28 @@ def create_event(request):
         event.save()
         return redirect('index')
     return render(request, 'base/addEvent.html')
+
+
+@login_required
+def deleteEvent(request, event_id):
+    event = Event.objects.get(id=event_id)
+    for list1 in event.student_lists:
+        deleteStudentList(request, list1.id)
+    event.delete()
+    return redirect('index')
+
+
+@login_required
+def updateEvent(request, event_id):
+    event = Event.objects.get(id=event_id)
+    event_dict = event.to_mongo().to_dict()
+    event_dict.pop('_id')
+    event_dict.pop('student_lists')
+    if request.POST.get('action') == 'post':
+        data = json.loads(request.POST.get('json_sent'))
+        print(data)
+        for key, value in data.items():
+            setattr(event, key, value)
+        event.save()
+        return redirect('viewEvent', event.id)
+    return render(request, 'base/update_event.html', {'event': event, 'event_dict': event_dict})
