@@ -45,11 +45,8 @@ def upload_student_list(request, event_id):
             event = Event.objects.get(id=event_id)
             for row in csv_dict_reader:
                 stu = Student(**row)
-                if Student.objects(**row).count() == 0:
-                    stu.save()
-                    list1.list.append(stu)
-                else:
-                    pass
+                stu.save()
+                list1.list.append(stu)
             list1.save()
             event.student_lists.append(list1)
             event.save()
