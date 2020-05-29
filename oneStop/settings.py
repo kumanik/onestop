@@ -16,6 +16,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'one-1-stop.herokuapp.com',
     '127.0.0.1',
+    'localhost',
     ]
 
 
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,7 +121,10 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+     )
+# STATICFILES_STORAGE = 'whitenoise.storage.CompresssedManifestStaticFilesStorage'
 
 
 LOGIN_REDIRECT_URL = '/'
