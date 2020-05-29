@@ -1,23 +1,38 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>OneStop</title>
-    </head>
-    <body>
+{% extends 'base/based.html' %}
+{% block content %}
+<style>
+    .b{
+       margin-left: 2%; 
+    }
+    body{
+        font-family: 'Satisfy', cursive;
+    }
+    p{
+        font-size: 2.5vh;
+    }
+
+    </style>
         <div>
-            <a>Logged in as : {{ user.username }}</a>
             <br>
-            <a href="{% url 'index' %}">Event List</a>&raquo;<a>{{ event.name }}</a><br>
-            <div>{{ event.to_json }}</div>
+
+            
+            <h4>Event : {{event.name}}</h4>
+            <div>{{event.to_json}}</div>
+
             <br>
-            <a href="{% url 'deleteEvent' event.id%}">Delete Event</a>
-            <p>Student lists :</p>
+            <br>
+            <p>Student list :</p>
             <ul>
                 {% for student_list in event.student_lists %}
                     <li><a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a></li>
-                {% endfor %}
+            {% endfor %}
             </ul>
-            <a href="{% url 'upload_studentlist' event.id %}">Add list</a>
-    </body>
-</html>
+            <a class="b" href="{% url 'upload_studentlist' event.id %}">Add Student list for {{event.name}}</a>
+            <br><br>
+            <p>Do you want to delete this event ?</p>
+            <br>
+            <a class="b" href="{% url 'deleteEvent' event.id%}">Delete Event</a>
+            
+            
+            </div>
+{% endblock %}
