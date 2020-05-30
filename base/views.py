@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
-from django.contrib.auth import login, logout
 import csv
 import json
+import pandas as pd
 from django.contrib.auth.decorators import login_required
 
 
@@ -39,6 +39,9 @@ def upload_student_list(request, event_id):
         if form.is_valid():
             data = request.FILES['file']
             type1 = request.POST.get['input']
+            df = pd.read_csv(data)
+            df.drop_duplicates(inplace=True)
+            df.to_csv(data, index=False)
             decoded_file = data.read().decode('utf-8').splitlines()
             csv_dict_reader = csv.DictReader(decoded_file)
             list1 = StudentList(type=type1)
