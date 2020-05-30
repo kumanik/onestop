@@ -2,6 +2,7 @@ import os
 from mongoengine import *
 from decouple import config
 import dj_database_url
+from mongoengine import connect
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -77,6 +78,10 @@ DATABASES = {
         default=config('DATABASE_URL')
     )
 }
+
+MONGO_DATABASE_NAME = 'db_name'
+
+DEFAULT_CONNECTION_NAME = connect(MONGO_DATABASE_NAME)
 
 MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
