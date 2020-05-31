@@ -51,7 +51,7 @@
 		    $("#eventForm").submit(function(e) {
 		    	var json_obj=$(this).formToJson()
 		        var json_send = {}
-		        var count = Object.keys(json_obj).length;
+		        var count = Object.keys(json_obj.field_name).length;
 		      	for(var i=0; i<count; i++){
 		        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
 		        }
