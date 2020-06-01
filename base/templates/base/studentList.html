@@ -1,20 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>OneStop</title>
-    </head>
-    <body>
-        <div>
-            <a>Logged in as : {{ user.username }}</a>
+{% extends 'base/based.html' %}
+{% block content %}
+<style>
+    ol{
+        font-size: 2vh;
+    }
+    </style>
+            <div>
             <br>
-            <a href="{% url 'index' %}">Events List</a>&raquo;<a href="{% url 'viewEvent' event.id%}">{{ event.name }}</a>&raquo;<a>{{ student_list.type }}</a>
+
+            <a href="{% url 'index' %}">Events List</a>
             <br>
-            <a href="{% url 'deleteStudentList' student_list.id%}">Delete student list</a>
+            
+            
             <ol>
                 {%  for student in student_list.list %}
                     <li id="list">{{ student.to_json }}</li>
                 {%  endfor  %}
             </ol>
-    </body>
-</html>
+            <a>{{ student_list.type }}</a>
+            <br>
+            <a href="{% url 'deleteStudentList' student_list.id %}">Delete student list</a>
+        </div>
+            
+{% endblock %}
