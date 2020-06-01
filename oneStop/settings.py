@@ -79,10 +79,6 @@ DATABASES = {
     )
 }
 
-# MONGO_DATABASE_NAME = 'db_name'
-
-# DEFAULT_CONNECTION_NAME = connect(MONGO_DATABASE_NAME)
-
 MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
 
