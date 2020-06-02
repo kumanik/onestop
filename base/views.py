@@ -32,6 +32,7 @@ def deleteStudentList(request, list_id):
     list1.delete()
     return redirect('index')
 
+
 def handle_uploaded_file(f):
     with open('base/upload/' + f.name, 'wb+') as destination:
         for chunk in f.chunks():
@@ -56,10 +57,23 @@ def upload_student_list(request, event_id):
             event = Event.objects.get(id=event_id)
             with open('base/upload/' + data.name, 'r') as csv_file:
                 datas = csv.DictReader(csv_file)
+                c = 0
+                stud = {}
+                fields = []
                 for row in datas:
-                    stu = Student(**row)
-                    stu.save()
-                    list1.list.append(stu)
+                    if c == 0:
+                        for field in row:
+                            stud[field] = ""
+                            fields.append(field)
+                        c += 1
+                    else:
+                        i = 0
+                        for value in row:
+                            stud[fields[i]] = value
+                            i += 1
+                        stu = Student(**stud)
+                        stu.save()
+                        list1.list.append(stu)
             os.remove('base/upload/' + data.name)
             list1.save()
             event.student_lists.append(list1)
