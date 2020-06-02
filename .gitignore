@@ -2,4 +2,4 @@
 __pycache__/
 .idea/
 db.sqlite3
-!/base/upload/
+!/base/upload/*
