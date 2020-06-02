@@ -36,6 +36,9 @@ def handle_uploaded_file(f):
     with open('base/upload/' + f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    if f.name.endswith('.xlsx'):
+        data_xls = pd.read_excel('base/upload/' + f.name)
+        data_xls.to_csv('base/upload/' + f.name, encoding='utf-8', index=False)
     df = pd.read_csv('base/upload/' + f.name)
     df.drop_duplicates(inplace=True)
     df.to_csv('base/upload/' + f.name, index=False)
