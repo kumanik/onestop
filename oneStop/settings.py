@@ -82,7 +82,7 @@ DATABASES = {
 MONGO_HOST = config('MONGO_HOST')
 MONGO_NAME = config('MONGO_NAME')
 
-connect(MONGO_NAME, host=MONGO_HOST, alias="default")
+DEFAULT_CONNECTION_NAME = connect(MONGO_NAME, host=MONGO_HOST, alias="mongo")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
