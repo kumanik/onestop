@@ -1,5 +1,4 @@
 from mongoengine import *
-from decouple import config
 
 
 class Student(DynamicDocument):

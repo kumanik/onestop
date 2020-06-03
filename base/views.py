@@ -17,20 +17,26 @@ def listEvents(request):
 @login_required
 def viewEvent(request, event_id):
     event = Event.objects.get(id=event_id)
-    return render(request, 'base/eventDetails.html', {'event': event})
+    event_dict = event.to_mongo().to_dict()
+    event_dict.pop('_id')
+    event_dict.pop('student_lists')
+    event_dict.pop('name')
+    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict})
 
 
 @login_required
 def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
-    return render(request, "base/studentList.html", {'student_list': student_list})
+    event = Event.objects.get(student_lists__contains=student_list.id)
+    return render(request, "base/studentList.html", {'student_list': student_list, 'event': event})
 
 
 @login_required
 def deleteStudentList(request, list_id):
     list1 = StudentList.objects.get(id=list_id)
+    event = Event.objects.get(student_lists__contains=list1.id)
     list1.delete()
-    return redirect('index')
+    return redirect('viewEvent', event.id)
 
 
 def handle_uploaded_file(f):
@@ -48,24 +54,22 @@ def handle_uploaded_file(f):
 @login_required
 def upload_student_list(request, event_id):
     if request.method == 'POST':
-        form = FileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            data = request.FILES['file']
-            type1 = request.POST.get('input')
-            list1 = StudentList(type=type1)
-            event = Event.objects.get(id=event_id)
-            with open('base/upload/' + data.name, 'r') as csv_file:
-                datas = csv.DictReader(csv_file)
-                for row in datas:
-                    stu = Student(**row)
-                    stu.save()
-                    list1.list.append(stu)
-            os.remove('base/upload/' + data.name)
-            list1.save()
-            event.student_lists.append(list1)
-            event.save()
-            return redirect('viewEvent', event_id)
+        handle_uploaded_file(request.FILES['file'])
+        data = request.FILES['file']
+        type1 = request.POST.get('input')
+        list1 = StudentList(type=type1)
+        event = Event.objects.get(id=event_id)
+        with open('base/upload/' + data.name, 'r') as csv_file:
+            datas = csv.DictReader(csv_file)
+            for row in datas:
+                stu = Student(**row)
+                stu.save()
+                list1.list.append(stu)
+        os.remove('base/upload/' + data.name)
+        list1.save()
+        event.student_lists.append(list1)
+        event.save()
+        return redirect('viewEvent', event_id)
     else:
         form = FileForm()
     return render(request, "base/upload_file.html", {'form': form})

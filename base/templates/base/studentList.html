@@ -6,20 +6,22 @@
     }
     </style>
             <div>
-            <br>
-
-            <a href="{% url 'index' %}">Events List</a>
-            <br>
-            
-            
-            <ol>
-                {%  for student in student_list.list %}
-                    <li id="list">{{ student.to_json }}</li>
-                {%  endfor  %}
-            </ol>
-            <a>{{ student_list.type }}</a>
-            <br>
-            <a href="{% url 'deleteStudentList' student_list.id %}">Delete student list</a>
+                <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></a>
+                <br>
+                <a>Identifier : {{ student_list.type }}</a> <br>
+                <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
+                <ol>
+                    {%  for student in student_list.list %}
+                        <li>
+                            {% for key, value in student.to_mongo.to_dict.items%}
+                                <ul>
+                                    <li>{{ key }} : {{ value }}</li>
+                                </ul>
+                            {% endfor %}
+                        </li>
+                        <p></p>
+                    {%  endfor  %}
+                </ol>
         </div>
             
 {% endblock %}

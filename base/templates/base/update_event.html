@@ -10,12 +10,10 @@
 		<form class="field_wrapper" id="eventForm" method="POST">
 			{% csrf_token %}
             {% for key, value in event_dict.items%}
-                {% if key is not "student_lists" and key is not "id" %}
                 <label>Field name</label>
                 <input type="text" name="field_name[]" value="{{ key }}"/>
                 <label>Field value</label>
                 <input type="text" name="field_value[]" value="{{ value }}"/>
-                {% endif %}
                 <br>
             {% endfor %}
             <a href="javascript:void(0);" class="add_button" title="Add field"><strong>Add</strong></a>
