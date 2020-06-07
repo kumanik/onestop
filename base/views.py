@@ -18,9 +18,12 @@ def listEvents(request):
 def viewEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
-    event_dict.pop('_id')
-    event_dict.pop('student_lists')
-    event_dict.pop('name')
+    try:
+        event_dict.pop('_id')
+        event_dict.pop('student_lists')
+        event_dict.pop('name')
+    except:
+        pass
     return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict})
 
 

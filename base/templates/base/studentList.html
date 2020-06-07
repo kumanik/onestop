@@ -15,7 +15,9 @@
                         <li>
                             {% for key, value in student.to_mongo.to_dict.items%}
                                 <ul>
+                                    {% if key is "_id" %}
                                     <li>{{ key }} : {{ value }}</li>
+                                    {% endif %}
                                 </ul>
                             {% endfor %}
                         </li>
