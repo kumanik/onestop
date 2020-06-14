@@ -13,6 +13,10 @@ def listEvents(request):
     events = Event.objects.all()
     return render(request, "base/eventList.html", {'events': events})
 
+def search(request):
+    query = request.GET.get('search')
+    events = Event.objects.filter(name__icontains = query)
+    return render(request, 'base/eventList.html', {'events': events})
 
 @login_required
 def viewEvent(request, event_id):
