@@ -2,18 +2,31 @@
 {% block content %}
 <style>
   li a{
-    font-size: 2.5vh;
+    font-size: 3vh;
 
+  }
+  body{
+    font-family: Share;
   }
   </style>
 
         <div class="container">
             <br>
+            <br>
+            <h4>Search the Event !</h4>
+            <br>
+            <br>
+                <form action="{% url 'search' %}" method="get">
+                <input name="search" type="text" placeholder="Search...">
+                </form>
+                <br>
+                <br>
             <h3>Events List :</h3>
             <br>
             <ol>
                 {% for event in events %}
-                    <li><a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></li>
+                    <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
+                    
                 {%  endfor  %}
             </ol>
             <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>

@@ -1,25 +1,30 @@
 {% extends 'base/based.html' %}
 {% block content %}
 <style>
-    .b{
-       margin-left: 2%;
-    }
+    
     body{
         font-family: 'Share', cursive;
+        font-size: 2.5vh;
     }
     p{
         font-size: 2.5vh;
     }
-
+    a{
+        font-size: 3vh;
+    }
+    
+    
     </style>
         <div class="container">
             <input type="hidden" id="count" value="{{count}}">
             <br>
             <h4>Event Name: {{event.name}}</h4>
+            <br>
             <div id="eventDetails">
                 {% for key, value in event_dict.items %}
                     <p>{{ key }} : {{ value }} </p>
                 {% endfor %}
+                <p>To edit the details of {{event.name}} click below :</p>
             <a href="{% url 'updateEvent' event.id %}">Edit the details</a>
             </div>
             <br>
@@ -47,7 +52,7 @@
                 </form>
 
                 <div style="margin:30px 0px 0px 0px" >
-                    <p style="font-size:16px">Student lists:</p>
+                    <p style="font-size:3vh">Student lists:</p>
                     <ol style="align:center">
                         {% for student_list in event.student_lists %}
                             <li>
@@ -72,7 +77,7 @@
                                     </ol>
                                     <br><br>
                                 </div>
-
+                                <br>
                             </li>
                         {% endfor %}
                     </ol>
