@@ -5,6 +5,8 @@ from base import views
 urlpatterns = [
     path("", listEvents, name="index"),
 
+    path("newList/", search, name="search"),
+
     path("addEvent", create_event, name="addEvent"),
 
     path("event/<event_id>", viewEvent, name="viewEvent"),
