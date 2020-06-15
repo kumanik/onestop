@@ -18,13 +18,13 @@
 	h1{
 		color: white;
 		text-align: center;
-		
+
 	}
 	h4{
 		color: white;
 		font-family: 'Oswald', sans-serif;
 		font-size: 3vh;
-		
+
 	}
 	label{
 		color: white;
@@ -66,19 +66,23 @@ a:hover {
 }
 	</style>
 <body>
-<nav class="navbar navbar-expand-sm navbar-light">
-	  	<span class="fa fa-database"><a href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif;"> OneStop</a></span>
-
+<nav class="navbar navbar-expand-lg navbar-light">
       <div class="container nav-cont">
 
+		<span class="fa fa-database">
+  				<a href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif;"> OneStop</a>
+  		</span>
         <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarCollapse">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
+
           <ul class="navbar-nav ml-auto">
+			{% block search %}
+			{% endblock %}
             {% if not user.is_anonymous %}
             <li class="nav-item">
-              <a class="nav-link"><span class="fa fa-user pr-2"></span>{{user}}</a>
+              <a class="nav-link"><span class="fa fa-user pr-2"></span>Logged in as:{{user}}</a>
             </li>
             <li class="nav-item">
               <a href="{{ '/accounts/logout/' }}" class="nav-link"><span class="fa fa-sign-out pr-2"></span>Logout</a>

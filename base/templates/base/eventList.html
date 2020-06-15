@@ -1,35 +1,40 @@
 {% extends 'base/based.html' %}
+{% block search%}
+
+  <form class="form-inline " action="{% url 'search' %}" method="get">
+        <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+
+{% endblock %}
+
 {% block content %}
-<style>
-  li a{
-    font-size: 3vh;
+  <style>
+    li a{
+      font-size: 2.5vh;
 
-  }
-  body{
-    font-family: Share;
-  }
-  </style>
+    }
+    body{
+      font-family: Share;
+    }
+    </style>
 
-        <div class="container">
-            <br>
-            <br>
-            <h4>Search the Event !</h4>
-            <br>
-            <br>
-                <form action="{% url 'search' %}" method="get">
-                <input name="search" type="text" placeholder="Search...">
-                </form>
-                <br>
-                <br>
-            <h3>Events List :</h3>
-            <br>
+  <div class="container">
+      <div class="jumbotron" style="background-color:#34495e; margin:30px 0px 0px 0px">
+          <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
+            {% if events.count > 0 %}
+            <h3 style="margin-top:10px">Events List :</h3>
             <ol>
                 {% for event in events %}
                     <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
-                    
                 {%  endfor  %}
             </ol>
-            <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
-        </div>
+            </div>
+          {% else %}
+              <h3>No matches</h3>
+          {% endif %}
 
-        {% endblock %}
+  </div>
+
+{% endblock %}

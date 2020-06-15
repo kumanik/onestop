@@ -5,51 +5,63 @@
 		color: #0DB8DE;
 		font-weight: normal;
 	}
-	</style>
+</style>
 		<br>
 		<br>
-		<form class="field_wrapper" id="eventForm" method="POST">
-			{% csrf_token %}
-		    
-		    	<label>Field name</label>
-		        <input type="text" name="field_name[]" value=""/>
-		        <label>Field value</label>
-		        <input type="text" name="field_value[]" value=""/>
-		        <br>
-		        <a href="javascript:void(0);" class="add_button" title="Add field"><strong>Add</strong></a>
-		        <br>
-      <input type="submit" class="submit"/>
-      
-  
-		</form>
+		<div class="container">
+			<form class="field_wrapper" id="eventForm" method="POST">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label>Field name</label>
+							<input type="text" name="field_name[]" value="name" class="form-control"/>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label>Field value</label>
+							<input type="text" name="field_value[]" value="" class="form-control"/>
+						</div>
+					</div>
+				</div>
+
+
+			        <a href="javascript:void(0);" class="btn btn-primary btn-outline" id="add_button" title="Add field" style="margin-right:10px"><strong>Add</strong></a>
+	      			<input class="btn btn-success btn-outline" type="submit" id="btnSubmit"/>
+			</form>
+		</div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 	    <script>// https://github.com/HasanQQ/formToJson.git
 			$.fn.formToJson=function(){form=$(this);var formArray=form.serializeArray(),jsonOutput={};return $.each(formArray,(function(i,element){var elemNameSplit=element.name.split("["),elemObjName="jsonOutput";$.each(elemNameSplit,(function(nameKey,value){nameKey!=elemNameSplit.length-1?(elemObjName="]"==value.slice(value.length-1)?"]"===value?elemObjName+"["+Object.keys(eval(elemObjName)).length+"]":elemObjName+"["+value:elemObjName+"."+value,void 0===eval(elemObjName)&&eval(elemObjName+" = {};")):"]"==value.slice(value.length-1)?"]"===value?eval(elemObjName+"["+Object.keys(eval(elemObjName)).length+"] = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"["+value+" = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"."+value+" = '"+element.value.replace("'","\\'")+"';")}))})),jsonOutput};
 		</script>
-		
+
 	    <script type="text/javascript">
 			$(document).ready(function(){
-			    var addButton = $('.add_button');
-			    var wrapper = $('.field_wrapper');
-			    var submit_button = $('.submit');
-			    var fieldHTML = '<label>Field name </label><input type="text" name="field_name[]" value=""/><label>Field value </label><input type="text" name="field_value[]" value=""/><br>'; //New input field html
-			    var line = '<br>';
+
+			    var addButton = $('#add_button');
+			    var wrapper = $('#eventForm');
+			    var submit_button = $('#btnSubmit');
+			    var fieldHTML = '<div class="row"><div class="col"><div class="form-group"><label>Field name</label><input type="text" name="field_name[]" value="" class="form-control"/></div></div><div class="col"><div class="form-group"><label>Field value</label><input type="text" name="field_value[]" value="" class="form-control"/></div></div>';
+
 			    $(addButton).click(function(){
-			    	
+
 			            $(wrapper).append(fieldHTML);
 			            $(wrapper).append(addButton);
-                  		$(wrapper).append(line);
                  		$(wrapper).append(submit_button);
 			    });
 			});
+
 		    $("#eventForm").submit(function(e) {
-		    	var json_obj=$(this).formToJson()
+				$("#btnSubmit").prop("disabled", true);
+				var json_obj=$(this).formToJson()
 		        var json_send = {}
 		        var count = Object.keys(json_obj).length;
 		        var count = Object.keys(json_obj.field_name).length;
 		      	for(var i=0; i<count; i++){
 		        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
 		        }
+
 		        $.ajax({
 			        type:'POST',
 			        url:'{% url "addEvent" %}',

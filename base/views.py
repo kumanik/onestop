@@ -29,7 +29,6 @@ def viewEvent(request, event_id):
     except:
         pass
     count = len(event.student_lists)
-    print(count)
     return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count})
 
 
