@@ -30,7 +30,8 @@
 			<input class="btn btn-success btn-outline" type="submit" id="btnSubmit"/>
 		</form>
 	</div>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+	
 	    <script>// https://github.com/HasanQQ/formToJson.git
 			$.fn.formToJson=function(){form=$(this);var formArray=form.serializeArray(),jsonOutput={};return $.each(formArray,(function(i,element){var elemNameSplit=element.name.split("["),elemObjName="jsonOutput";$.each(elemNameSplit,(function(nameKey,value){nameKey!=elemNameSplit.length-1?(elemObjName="]"==value.slice(value.length-1)?"]"===value?elemObjName+"["+Object.keys(eval(elemObjName)).length+"]":elemObjName+"["+value:elemObjName+"."+value,void 0===eval(elemObjName)&&eval(elemObjName+" = {};")):"]"==value.slice(value.length-1)?"]"===value?eval(elemObjName+"["+Object.keys(eval(elemObjName)).length+"] = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"["+value+" = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"."+value+" = '"+element.value.replace("'","\\'")+"';")}))})),jsonOutput};
 		</script>
