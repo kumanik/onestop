@@ -51,7 +51,7 @@
                     </div>
                     <input class="btn btn-success btn-outline" type="submit" id="btnSubmit"/>
                 </form>
-
+                {% if count > 0 %}
                 <div style="margin:30px 0px 0px 0px" class="container">
                     <p style="font-size:3vh">Student lists:</p>
                     <ol style="align:center">
@@ -84,6 +84,9 @@
                     </ol>
 
                 </div>
+                {% else %}
+                    <p style="font-size:3vh; margin:30px 0px 0px 0px;">Student lists:</p>
+                {% endif %}
             </div>
 
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
