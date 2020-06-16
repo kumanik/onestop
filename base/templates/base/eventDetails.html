@@ -26,7 +26,6 @@
     </style>
         <div class="container">
             <input type="hidden" id="count" value="{{count}}">
-<<<<<<< HEAD
             <div class="jumbotron" style="margin-top:20px">
                 <h4>Event Name: {{event.name}}</h4>
                 <div id="eventDetails" class="container">
@@ -38,20 +37,6 @@
                     <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
                     <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
                 </div>
-=======
-            <br>
-            <h4>Event Name: {{event.name}}</h4>
-        
-            <br>
-            <div id="eventDetails" class="container">
-                {% for key, value in event_dict.items %}
-                    <p>{{ key }} : {{ value }} </p>
-                {% endfor %}
-            </div>
-            <div class="container">
-                <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
-                <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
->>>>>>> 298c16bd9d40febe97df04e4f8197cc1aff1d74f
             </div>
 
 
