@@ -7,6 +7,8 @@ urlpatterns = [
 
     path("newList/", search, name="search"),
 
+    path("search_identifier/event/<event_id>", search1, name="search1"),
+
     path("addEvent", create_event, name="addEvent"),
 
     path("event/<event_id>", viewEvent, name="viewEvent"),
