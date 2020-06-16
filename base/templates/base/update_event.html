@@ -10,6 +10,7 @@
 	</style>
 	<div class="container">
 		<form class="field_wrapper" id="eventForm" method="POST">
+			<a href="{% url 'viewEvent' event.id %}" class="btn btn-outline-danger" style="margin-bottom: 20px">Cancel</a>
 			{% csrf_token %}
             {% for key, value in event_dict.items%}
 			<div class="row">
@@ -29,13 +30,10 @@
             {% endfor %}
 			<a href="javascript:void(0);" class="btn btn-outline-primary" id="add_button" title="Add field" style="margin-right:10px">Add</a>
 			<input class="btn btn-outline-success" type="submit" id="btnSubmit"/>
-			<a href="{% url 'viewEvent' event.id %}" class="btn btn-outline-danger" style="margin-left: 10px">Cancel</a>
 		</form>
 	</div>
 
-		<script type="text/javascript" src={% static 'js/addEvent.js'%}>
-
-		</script>
+		<script type="text/javascript" src={% static 'js/addEvent.js'%}></script>
 	    <script>
 
 		    $("#eventForm").submit(function(e) {
