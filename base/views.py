@@ -6,6 +6,7 @@ import os
 import json
 import pandas as pd
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
 @login_required
@@ -28,8 +29,24 @@ def viewEvent(request, event_id):
         event_dict.pop('name')
     except:
         pass
+    eventss = event.student_lists
     count = len(event.student_lists)
-    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count})
+    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss})
+
+def search1(request, event_id):
+    query = request.GET.get('search1')
+    event = Event.objects.get(id=event_id)
+    event_dict = event.to_mongo().to_dict()
+    try:
+        event_dict.pop('_id')
+        event_dict.pop('student_lists')
+        event_dict.pop('name')
+    except:
+        pass
+    eventss = StudentList.objects.filter(type__icontains=query)
+    count = len(eventss)
+    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss})
+
 
 
 @login_required

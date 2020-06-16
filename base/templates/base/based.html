@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>OneStop</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>OneStop</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Share&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-	<!-- jQuery, Popper js, bootstrap -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <!-- jQuery, Popper js, bootstrap -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </head>
 <style>
-	body{
-		background: #222D32;
-		color: white;
-	}
-	h1{
-		color: white;
-		text-align: center;
+  body{
+    background: #222D32;
+    color: white;
+  }
+  h1{
+    color: white;
+    text-align: center;
 
-	}
-	h4{
-		color: white;
-		font-family: 'Oswald', sans-serif;
-		font-size: 3vh;
+  }
+  h4{
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 3vh;
 
-	}
-	label{
-		color: white;
-		font-size: 2vh;
-		font-weight: bold;
-	}
-	 .nav-cont{
+  }
+  label{
+    color: white;
+    font-size: 2vh;
+    font-weight: bold;
+  }
+   .nav-cont{
   color:#0DB8DE;
 }
-
+.navbar-toggler-icon{
+  color: red;
+}
 .navbar {
 
   background-color:black;
@@ -56,45 +58,47 @@
   font-family: 'Share', cursive;
 }
 .btn-whatever{
-	background-color: #0DB8DE;
-	color: black;
+  background-color: #0DB8DE;
+  color: black;
 }
 
 a{
-	font-size: 2.2vh;
-	color: #0DB8DE;
+  font-size: 2.2vh;
+  color: #0DB8DE;
 }
 
 a:hover {
    color: white;
 }
-	</style>
+  </style>
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark" >
-		<div class="container">
-			<span class="fa fa-database">&nbsp;<a class="navbar-brand" href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif;">OneStop</a></span>
+  <nav class="navbar navbar-expand-md navbar-dark" >
+    <div class="container">
+      <span class="fa fa-database">&nbsp;<a class="navbar-brand" href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif;">OneStop</a></span>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	  		<span class="navbar-toggler-icon"></span>
-	  		</button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="abc">
+          <i class="fa fa-bars" style="color:#0DB8DE; font-size:28px;"></i>
+        </span>
+        </button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			    <ul class="navbar-nav mr-auto">
-					{% if not user.is_anonymous %}
-				    <li class="nav-item active">
-				    	<a class="nav-link" href="#">Logged in as : {{user}} <span class="sr-only">(current)</span></a>
-				    </li>
-					{% endif %}
-			      	<li class="nav-item">
-			        	<a class="nav-link" href="{% url "logout" %}">Logout</a>
-			      	</li>
-			    </ul>
-			    {% block search %}
-				{% endblock %}
-			</div>
-		</div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+          {% if not user.is_anonymous %}
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Logged in as : {{user}} <span class="sr-only">(current)</span></a>
+            </li>
+          {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+          </ul>
+          {% block search %}
+        {% endblock %}
+      </div>
+    </div>
 
-	</nav>
+  </nav>
     {% block content %}
     {% endblock %}
 
