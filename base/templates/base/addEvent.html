@@ -1,5 +1,7 @@
 {% extends 'base/based.html' %}
+{% load static %}
 {% block content %}
+
 <style>
 	label{
 		color: #0DB8DE;
@@ -27,42 +29,24 @@
 				</div>
 
 
-			        <a href="javascript:void(0);" class="btn btn-primary btn-outline" id="add_button" title="Add field" style="margin-right:10px"><strong>Add</strong></a>
-	      			<input class="btn btn-success btn-outline" type="submit" id="btnSubmit"/>
+			        <a href="javascript:void(0);" class="btn btn-outline-primary" id="add_button" title="Add field" style="margin-right:10px">Add</a>
+	      			<input class="btn btn-outline-success" type="submit" id="btnSubmit"/>
+					<a href="{% url 'index' %}" class="btn btn-outline-danger" style="margin-left: 10px">Cancel</a>
 			</form>
 		</div>
-		
-	    <script>// https://github.com/HasanQQ/formToJson.git
-			$.fn.formToJson=function(){form=$(this);var formArray=form.serializeArray(),jsonOutput={};return $.each(formArray,(function(i,element){var elemNameSplit=element.name.split("["),elemObjName="jsonOutput";$.each(elemNameSplit,(function(nameKey,value){nameKey!=elemNameSplit.length-1?(elemObjName="]"==value.slice(value.length-1)?"]"===value?elemObjName+"["+Object.keys(eval(elemObjName)).length+"]":elemObjName+"["+value:elemObjName+"."+value,void 0===eval(elemObjName)&&eval(elemObjName+" = {};")):"]"==value.slice(value.length-1)?"]"===value?eval(elemObjName+"["+Object.keys(eval(elemObjName)).length+"] = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"["+value+" = '"+element.value.replace("'","\\'")+"';"):eval(elemObjName+"."+value+" = '"+element.value.replace("'","\\'")+"';")}))})),jsonOutput};
-		</script>
 
-	    <script type="text/javascript">
-			$(document).ready(function(){
+	    <script>
+			$("#eventForm").submit(function(e) {
+			    $("#btnSubmit").prop("disabled", true);
+			    var json_obj=$(this).formToJson()
+			    var json_send = {}
+			    var count = Object.keys(json_obj).length;
+			    var count = Object.keys(json_obj.field_name).length;
+			    for(var i=0; i<count; i++){
+			        json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+			    }
 
-			    var addButton = $('#add_button');
-			    var wrapper = $('#eventForm');
-			    var submit_button = $('#btnSubmit');
-			    var fieldHTML = '<div class="row"><div class="col"><div class="form-group"><label>Field name</label><input type="text" name="field_name[]" value="" class="form-control"/></div></div><div class="col"><div class="form-group"><label>Field value</label><input type="text" name="field_value[]" value="" class="form-control"/></div></div>';
-
-			    $(addButton).click(function(){
-
-			            $(wrapper).append(fieldHTML);
-			            $(wrapper).append(addButton);
-                 		$(wrapper).append(submit_button);
-			    });
-			});
-
-		    $("#eventForm").submit(function(e) {
-				$("#btnSubmit").prop("disabled", true);
-				var json_obj=$(this).formToJson()
-		        var json_send = {}
-		        var count = Object.keys(json_obj).length;
-		        var count = Object.keys(json_obj.field_name).length;
-		      	for(var i=0; i<count; i++){
-		        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
-		        }
-
-		        $.ajax({
+			    $.ajax({
 			        type:'POST',
 			        url:'{% url "addEvent" %}',
 			        data:{
@@ -70,15 +54,20 @@
 			            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
 			            action: 'post',
 			        },
-                    success: function (data) {
-                        console.log("SUCC");
-                        window.location = '{% url "index" %}'
-                    },
-                    error: function(data) {
-                        console.log("ERR");
-                    }
+			        success: function (data) {
+			            console.log("SUCC");
+			            window.location = '{% url "index" %}'
+			        },
+			        error: function(data) {
+			            console.log("ERR");
+			        }
 			    });
-		        return false;
+			    return false;
 			});
+
+		</script>
+
+	    <script type="text/javascript" src={% static 'js/addEvent.js'%}>
+
 		</script>
 		{% endblock %}

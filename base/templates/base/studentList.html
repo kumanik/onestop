@@ -19,27 +19,29 @@ body{
     }
     </style>
             <div class="container">
-                <br>
-                <br>
+                <div class="container">
                 <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a>
-                <br>
                 <a>Identifier : {{ student_list.type }}</a>
-                <br>
+                </div>
                 <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
                 <br>
-                <p style="margin: 30px 0px 0px 0px ">Students in the list</p>
-                <ol>
-                    {%  for student in student_list.list %}
-                        <li>
-                            {% for key, value in student.to_mongo.to_dict.items %}
-                                <ul>
-                                    <li>{{ key }} : {{ value }}</li>
-                                </ul>
-                            {% endfor %}
-                        </li>
-                        <p></p>
-                    {%  endfor  %}
-                </ol>
+                <div class="container">
+                    <p style="margin: 30px 0px 0px 0px ">Students in the list</p>
+                    <ol>
+                        {%  for student in student_list.list %}
+                            <li>
+                                <div class="jumbotron">
+                                    {% for key, value in student.to_mongo.to_dict.items %}
+                                        <ul>
+                                        <li>{{ key }} : {{ value }}</li>
+                                        </ul>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            <p></p>
+                        {%  endfor  %}
+                    </ol>
+                </div>
         </div>
 
 {% endblock %}

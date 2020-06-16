@@ -17,19 +17,20 @@
     </style>
         <div class="container">
             <input type="hidden" id="count" value="{{count}}">
-            <br>
-            <h4>Event Name: {{event.name}}</h4>
-            <br>
-            <div id="eventDetails" class="container">
-                {% for key, value in event_dict.items %}
-                    <p>{{ key }} : {{ value }} </p>
-                {% endfor %}
+            <div class="jumbotron" style="margin-top:20px">
+                <h4>Event Name: {{event.name}}</h4>
+                <div id="eventDetails" class="container">
+                    {% for key, value in event_dict.items %}
+                        <p>{{ key }} : {{ value }} </p>
+                    {% endfor %}
+                </div>
+                <div class="container">
+                    <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
+                    <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
+                </div>
             </div>
-            <div class="container">
-                <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
-                <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
-            </div>
-                <br>
+
+
 
                 <button class="addStudentList btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff;" >Add a student list</button>
                 <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
@@ -38,18 +39,18 @@
                         <div class="col-3 ">
                             <div class="form-group">
                                 <label for="id_file">File:</label>
-                                <input class="form-control" type="file" name="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="background-color:#222D32; color:#0DB8DE; border-width:0px;">
+                                <input class="form-control" type="file" name="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="border-width:0px;">
                             </div>
                         </div>
 
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="id_input">Identifier for list:</label>
-                                <input type="text" name="input" class="form-control">
+                                <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
                             </div>
                         </div>
                     </div>
-                    <input class="btn btn-success btn-outline" type="submit" id="btnSubmit"/>
+                    <input class="btn btn-outline-success " type="submit" id="btnSubmit"/>
                 </form>
                 {% if count > 0 %}
                 <div style="margin:30px 0px 0px 0px" class="container">
@@ -62,7 +63,7 @@
                                     <button class="expand btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff; text-align:right" data-value="{{forloop.counter}}">Expand</button>
                                 </div>
 
-                                <div class="jumbotron" id="{{forloop.counter}}" style="color=#95a5a6; background-color: #2c3e50; margin-top: 10px; font-size: 2vh">
+                                <div class="jumbotron" id="{{forloop.counter}}" style="margin-top: 10px; font-size: 2vh">
                                     <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
                                     <p style="margin: 10px 0px 0px 0px ">Students in the list</p>
                                     <ol>
@@ -89,7 +90,7 @@
                 {% endif %}
             </div>
 
-            
+
             <script type="text/javascript">
 
                 var clicks = 0;
@@ -120,6 +121,7 @@
                             $('.form-list').show()
                         }
                     });
+
 
                     $('.form-list').submit(function(e){
                         $("#btnSubmit").prop("disabled", true);
