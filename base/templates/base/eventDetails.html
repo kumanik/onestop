@@ -2,8 +2,8 @@
 {% block search%}
 
   <form class="form-inline my-2 my-lg-0" action="{% url 'search1' event.id %}" method="get">
-        <input class="form-control mr-sm-2" name="search1" type="text" placeholder="Search..." aria-label="Search" style="border-color: black">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" name="search1" type="text" placeholder="Search..." aria-label="Search" style="border-color:black">
+        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color: black">Search</button>
   </form>
 
 
@@ -58,9 +58,12 @@
                                 <label for="id_input">Identifier for list:</label>
                                 <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
                             </div>
-
                         </div>
-                    <input class="btn btn-outline-success " type="submit" id="btnSubmit"/>
+                        <div class="form-group" style="position:relative">
+
+                            <input class="btn btn-outline-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0"/>
+                        </div>
+
                 </div>
 
                 </form>

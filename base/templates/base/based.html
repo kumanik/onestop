@@ -22,23 +22,23 @@
 
 
 	<body>
-		<nav class="navbar navbar-expand-md navbar-light">
+		<nav class="navbar navbar-expand-md navbar-light bg-light">
 			<div class="container">
-				<span class="fa fa-database">&nbsp;<a class="navbar-brand" href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif; color: #0892D0"><strong>OneStop</strong></a></span>
+				<span class="fa fa-database">&nbsp;<a class="navbar-brand" href="{% url 'index' %}" style="font-size: 3vh ;font-family: 'Oswald', sans-serif;"><strong>OneStop</strong></a></span>
 
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  		<span class="navbar-toggler-icon"></span>
 		  		</button>
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				    <ul class="navbar-nav mr-auto">
+				    <ul class="navbar-nav mr-auto" style="color: black">
 						{% if not user.is_anonymous %}
 					    <li class="nav-item active">
-					    	<a class="nav-link">Logged in as : {{user}} <span class="sr-only">(current)</span></a>
+					    	<a class="nav-link">Logged in as : {{user}} </a>
 					    </li>
 						{% endif %}
 				      	<li class="nav-item">
-				        	<a class="nav-link" href="{% url "logout" %}">Logout</a>
+				        	<a class="nav-link" href="{% url "logout" %}" style="color:black">Logout</a>
 				      	</li>
 				    </ul>
 				    {% block search %}
