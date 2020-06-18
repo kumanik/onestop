@@ -17,13 +17,13 @@ class MongoTestCase(TestCase):
         app = App(name="first_app")
         app.save()
         assert App.objects.first().name == app.name
-        
     In terminal :
 
     python manage.py test
 
     Note: Dont forget to specify test db details in settings.
     """
+
     def setUp(self):
         mongoengine.connection.disconnect()
         mongoengine.connect(
