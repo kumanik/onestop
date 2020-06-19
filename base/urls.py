@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 from .views import *
 from base import views
 
@@ -22,5 +23,10 @@ urlpatterns = [
     path("event/student_list/delete/<list_id>", deleteStudentList, name="deleteStudentList"),
 
     path("event/addstudentlist/upload/<event_id>", upload_student_list, name="upload_studentlist"),
+
+    path("api/", views.EventView.as_view()),
+
+    path("apis/", views.StudentView.as_view()),
+
 
 ]

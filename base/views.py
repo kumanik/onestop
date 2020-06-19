@@ -3,10 +3,17 @@ from .models import *
 from .forms import *
 import csv
 import os
-import json
 import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import *
+import requests
+from requests.exceptions import HTTPError
+import json
+
 
 
 @login_required
@@ -31,7 +38,23 @@ def viewEvent(request, event_id):
         pass
     eventss = event.student_lists
     count = len(event.student_lists)
-    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss})
+    name = event.name
+    url1 = "https://my-json-server.typicode.com/typicode/demo/db"
+    response = requests.get(url1)
+    if response.text == '':
+        print("no data")
+    geodata = response.json()
+    posts = geodata['posts']
+    '''a = 'posts'
+    listed = geodata[a]
+    list2 = StudentList(type=a)
+    for row in listed:
+        print(row)
+        stud = Student(**row)
+        stud.save()
+        list2.list.append(stud)
+    list2.save()'''
+    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss, 'posts': posts})
 
 def search1(request, event_id):
     query = request.GET.get('search1')
@@ -133,3 +156,45 @@ def upload_student_list(request, event_id):
     else:
         form = FileForm()
     return render(request, "base/upload_file.html", {'form': form})
+
+
+
+class EventView(APIView):
+
+    def get(self, request):
+        serializer = EventSerializer(Event.objects.all(), many=True)
+        response = {"base": serializer.data}
+        return Response(response, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = EventSerializer(data=data)
+        if serializer.is_valid():
+            eve = Event(**data)
+            eve.save()
+            response = serializer.data
+            return Response(response, status=status.HTTP_200_OK)
+
+
+class StudentView(APIView):
+
+    def get(self, request):
+        serializer = StudentSerializer(Student.objects.all(), many=True)
+        response = {"base": serializer.data}
+        return Response(response, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = StudentSerializer(data=data)
+        if serializer.is_valid():
+            eve = Student(**data)
+            eve.save()
+            response = serializer.data
+            return Response(response, status=status.HTTP_200_OK)
+
+
+
+
+
+
+   
