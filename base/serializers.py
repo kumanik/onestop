@@ -1,27 +1,27 @@
-from rest_framework_mongoengine import serializers
-from .models import *
+from rest_framework_mongoengine.serializers import DynamicDocumentSerializer
+from .models import Event, Student, StudentList
 
 
+class EventSerializer(DynamicDocumentSerializer):
 
-
-class StudentSerializer(serializers.DynamicDocumentSerializer):
-    class Meta:
-        model = Student
-        fields = '__all__'
-
-
-class StudentListSerializer(serializers.DynamicDocumentSerializer):
-    class Meta:
-        model = StudentList
-        fields = '__all__'
-
-class EventSerializer(serializers.DynamicDocumentSerializer):
-        
     class Meta:
         model = Event
-        fields = '__all__'
+        exclude = ('student_lists', )
 
-class FileSerializer(serializers.DocumentSerializer):
-    class Meta:
-        model = File
-        fields = '__all__'
+    def create(self, validated_data):
+        student_lists = validated_data.pop('student_lists')
+        event = Event(**validated_data)
+        for student_list in student_lists:
+            list = student_list.pop('list')
+            li = StudentList(**student_list)
+            for each in list:
+                stu = Student(**each)
+                stu.save()
+                li.list.append(stu)
+            li.save()
+            # serializer = StudentListSerializer(**student_list)
+            # if serializer.is_valid():
+            #     list = serializer.save()
+            event.student_lists.append(li)
+            event.save()
+        return event

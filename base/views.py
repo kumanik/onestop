@@ -1,19 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import *
-from .forms import *
+from .models import Event, StudentList, Student
+from .forms import FileForm
 import csv
 import os
 import pandas as pd
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import *
-import requests
-from requests.exceptions import HTTPError
+from .serializers import EventSerializer
 import json
-
+from rest_framework.decorators import api_view
+# import requests
 
 
 @login_required
@@ -21,10 +18,12 @@ def listEvents(request):
     events = Event.objects.all()
     return render(request, "base/eventList.html", {'events': events})
 
+
 def search(request):
     query = request.GET.get('search')
-    events = Event.objects.filter(name__icontains = query)
+    events = Event.objects.filter(name__icontains=query)
     return render(request, 'base/eventList.html', {'events': events})
+
 
 @login_required
 def viewEvent(request, event_id):
@@ -34,27 +33,13 @@ def viewEvent(request, event_id):
         event_dict.pop('_id')
         event_dict.pop('student_lists')
         event_dict.pop('name')
-    except:
+    except KeyError:
         pass
     eventss = event.student_lists
     count = len(event.student_lists)
-    name = event.name
-    url1 = "https://my-json-server.typicode.com/typicode/demo/db"
-    response = requests.get(url1)
-    if response.text == '':
-        print("no data")
-    geodata = response.json()
-    posts = geodata['posts']
-    '''a = 'posts'
-    listed = geodata[a]
-    list2 = StudentList(type=a)
-    for row in listed:
-        print(row)
-        stud = Student(**row)
-        stud.save()
-        list2.list.append(stud)
-    list2.save()'''
-    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss, 'posts': posts})
+    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    return render(request, 'base/eventDetails.html', context)
+
 
 def search1(request, event_id):
     query = request.GET.get('search1')
@@ -64,12 +49,12 @@ def search1(request, event_id):
         event_dict.pop('_id')
         event_dict.pop('student_lists')
         event_dict.pop('name')
-    except:
+    except KeyError:
         pass
     eventss = StudentList.objects.filter(type__icontains=query)
     count = len(eventss)
-    return render(request, 'base/eventDetails.html', {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss})
-
+    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    return render(request, 'base/eventDetails.html', context)
 
 
 @login_required
@@ -158,43 +143,12 @@ def upload_student_list(request, event_id):
     return render(request, "base/upload_file.html", {'form': form})
 
 
-
-class EventView(APIView):
-
-    def get(self, request):
-        serializer = EventSerializer(Event.objects.all(), many=True)
-        response = {"base": serializer.data}
-        return Response(response, status=status.HTTP_200_OK)
-
-    def post(self, request, format=None):
-        data = request.data
-        serializer = EventSerializer(data=data)
-        if serializer.is_valid():
-            eve = Event(**data)
-            eve.save()
-            response = serializer.data
-            return Response(response, status=status.HTTP_200_OK)
-
-
-class StudentView(APIView):
-
-    def get(self, request):
-        serializer = StudentSerializer(Student.objects.all(), many=True)
-        response = {"base": serializer.data}
-        return Response(response, status=status.HTTP_200_OK)
-
-    def post(self, request, format=None):
-        data = request.data
-        serializer = StudentSerializer(data=data)
-        if serializer.is_valid():
-            eve = Student(**data)
-            eve.save()
-            response = serializer.data
-            return Response(response, status=status.HTTP_200_OK)
-
-
-
-
-
-
-   
+@api_view(['POST'])
+def event_APIView(request):
+    data = request.data
+    serializer = EventSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
