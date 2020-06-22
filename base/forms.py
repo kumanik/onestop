@@ -1,6 +1,6 @@
 from typing import Tuple
 from mongodbforms import DocumentForm
-from .models import *
+from .models import File
 
 
 # class EventForm(DocumentForm):
@@ -27,5 +27,3 @@ class FileForm(DocumentForm):
         fields = [
             'file', 'input',
         ]
-
-
