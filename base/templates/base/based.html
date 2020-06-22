@@ -31,7 +31,7 @@
 		  		</button>
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				    <ul class="navbar-nav mr-auto" style="color: black">
+				    <ul class="navbar-nav mr-auto">
 						{% if not user.is_anonymous %}
 					    <li class="nav-item active">
 					    	<a class="nav-link">Logged in as : {{user}} </a>
@@ -40,6 +40,28 @@
 				      	<li class="nav-item">
 				        	<a class="nav-link" href="{% url "logout" %}" style="color:black">Logout</a>
 				      	</li>
+						<li>
+							<a class="nav-link" href="{% url "showKey" %}" data-toggle="modal" data-target="#myModal" id="modaltoggle" style="color:black">View API Key</a>
+
+							<div id="myModal" class="modal fade" role="dialog">
+							  	<div class="modal-dialog">
+
+							    	<div class="modal-content">
+							      		<div class="modal-header">
+							        		<h4 class="modal-title">API Key for {{user}}</h4>
+							      		</div>
+							      		<div class="modal-body">
+											<input type="text" name="" id="keystore" value="" style="width:100%"/>
+							      		</div>
+							      		<div class="modal-footer">
+							        		<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+							      		</div>
+							    	</div>
+
+							  	</div>
+							</div>
+
+						</li>
 				    </ul>
 				    {% block search %}
 					{% endblock %}
@@ -49,4 +71,14 @@
 	    {% block content %}
 	    {% endblock %}
 	</body>
+	<script>
+		$(document).ready(function(){
+			$.get("{% url 'showKey' %}", function(data){
+				console.log(data)
+				var keystore = document.getElementById('keystore')
+				keystore.value = ""+data.key
+			})
+		})
+
+	</script>
 </html>

@@ -11,6 +11,8 @@ urlpatterns = [
     path("event/delete/<event_id>", views.deleteEvent, name="deleteEvent"),
     path("event/update/<event_id>", views.updateEvent, name="updateEvent"),
     path("event/student_list/delete/<list_id>", views.deleteStudentList, name="deleteStudentList"),
+    path("event/studentlist/student/<student_id>", views.updateStudent, name="updateStudent"),
     path("event/addstudentlist/upload/<event_id>", views.upload_student_list, name="upload_studentlist"),
     path("api/event", views.event_APIView),
+    path("key", views.key_viewer, name="showKey"),
 ]

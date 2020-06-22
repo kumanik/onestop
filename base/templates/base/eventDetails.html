@@ -86,20 +86,18 @@
 
                                 <div class="jumbotron" id="{{forloop.counter}}" style="margin-top: 10px; font-size: 2vh">
                                     <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
-                                    <p style="margin: 10px 0px 0px 0px ">Students in the list</p>
-                                    <ol>
-                                        {%  for student in student_list.list %}
-
-                                                {% for key, value in student.to_mongo.to_dict.items %}
-                                                    <ul>
-                                                        <li>{{ key }} : {{ value }}</li>
-                                                    </ul>
+                                    <p>Students in the list</p>
+                                    <div class="container" style="background-color: #212121;font-size:1.8vh">
+                                        {% for stu in student_list.list %}
+                                            <hr size="3"/>
+                                            <ul style="margin-bottom:0px">
+                                                {% for key,value in stu.to_mongo.to_dict.items %}
+                                                    <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
                                                 {% endfor %}
-
-                                            <br>
-                                        {%  endfor  %}
-                                    </ol>
-                                    <br><br>
+                                            </ul>
+                                            <hr size="3"/>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                                 <br>
                             </li>
