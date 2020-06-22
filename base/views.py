@@ -1,42 +1,45 @@
 from django.shortcuts import render, redirect
-from .models import Event, Student, StudentList
+from .models import Event, StudentList, Student
 from .forms import FileForm
 import csv
 import os
-import json
 import pandas as pd
-from django.contrib.auth.decorators import login_required
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import EventSerializer
+import json
+from rest_framework.decorators import api_view
+from django.contrib.admin.views.decorators import staff_member_required
+from accounts.models import api_key
 
 
-@login_required
+@staff_member_required(login_url="/accounts/login/")
 def listEvents(request):
     events = Event.objects.all()
     return render(request, "base/eventList.html", {"events": events})
 
 
+
 def search(request):
-    query = request.GET.get("search")
+    query = request.GET.get('search')
     events = Event.objects.filter(name__icontains=query)
-    return render(request, "base/eventList.html", {"events": events})
+    return render(request, 'base/eventList.html', {'events': events})
 
 
-@login_required
+@staff_member_required
 def viewEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
     try:
-        event_dict.pop("_id")
-        event_dict.pop("student_lists")
-        event_dict.pop("name")
-    except:
+        event_dict.pop('_id')
+        event_dict.pop('student_lists')
+        event_dict.pop('name')
+    except KeyError:
         pass
     eventss = event.student_lists
     count = len(event.student_lists)
-    return render(
-        request,
-        "base/eventDetails.html",
-        {"event": event, "event_dict": event_dict, "count": count, "eventss": eventss},
-    )
+    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    return render(request, 'base/eventDetails.html', context)
 
 
 def search1(request, event_id):
@@ -44,21 +47,17 @@ def search1(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
     try:
-        event_dict.pop("_id")
-        event_dict.pop("student_lists")
-        event_dict.pop("name")
-    except:
+        event_dict.pop('_id')
+        event_dict.pop('student_lists')
+        event_dict.pop('name')
+    except KeyError:
         pass
     eventss = StudentList.objects.filter(type__icontains=query)
     count = len(eventss)
-    return render(
-        request,
-        "base/eventDetails.html",
-        {"event": event, "event_dict": event_dict, "count": count, "eventss": eventss},
-    )
+    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    return render(request, 'base/eventDetails.html', context)
 
-
-@login_required
+@staff_member_required
 def create_event(request):
     if request.POST.get("action") == "post":
         data = json.loads(request.POST.get("json_sent"))
@@ -68,16 +67,14 @@ def create_event(request):
     return render(request, "base/addEvent.html")
 
 
-@login_required
+@staff_member_required
 def deleteEvent(request, event_id):
     event = Event.objects.get(id=event_id)
-    for list1 in event.student_lists:
-        deleteStudentList(request, list1.id)
     event.delete()
     return redirect("index")
 
 
-@login_required
+@staff_member_required
 def updateEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
@@ -95,7 +92,7 @@ def updateEvent(request, event_id):
     )
 
 
-@login_required
+@staff_member_required
 def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
@@ -104,7 +101,7 @@ def viewStudentList(request, list_id):
     )
 
 
-@login_required
+@staff_member_required
 def deleteStudentList(request, list_id):
     list1 = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=list1.id)
@@ -124,7 +121,7 @@ def handle_uploaded_file(f):
     df.to_csv("base/upload/" + f.name, index=False)
 
 
-@login_required
+@staff_member_required
 def upload_student_list(request, event_id):
     if request.method == "POST":
         handle_uploaded_file(request.FILES["file"])
@@ -145,4 +142,22 @@ def upload_student_list(request, event_id):
         return redirect("viewEvent", event_id)
     else:
         form = FileForm()
-    return render(request, "base/upload_file.html", {"form": form})
+    return render(request, "base/upload_file.html", {'form': form})
+
+
+@api_view(['POST'])
+def event_APIView(request):
+    apikey = request.META.get('HTTP_KEY')
+    if apikey is not None:
+        if api_key.objects.filter(apiKey=apikey).count() == 1:
+            data = request.data
+            serializer = EventSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("INVALID API KEY", status=status.HTTP_403_FORBIDDEN)
+    else:
+        return Response("API KEY NOT PROVIDED", status=status.HTTP_401_UNAUTHORIZED)

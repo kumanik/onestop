@@ -41,7 +41,7 @@
 
 
 
-                <button class="addStudentList btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff;" data-value="abc" >Add a student list</button>
+                <button class="addStudentList btn btn-outline-primary" style="background-color:#00000000; color:#ffffff;" data-value="abc" >Add a student list</button>
                <!--  <div class="jumbotron" id="abc" style="color=#95a5a6; background-color: #2c3e50; margin-top: 10px; font-size: 2vh"> -->
                 <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
                     {% csrf_token %}
@@ -71,9 +71,14 @@
                 {% if count > 0 %}
                 <div style="margin:30px 0px 0px 0px" class="container">
                     <p style="font-size:3vh">Student lists:</p>
+
+
                     <ol style="align:center">
+
                         {% for student_list in eventss %}
+
                             <li>
+
                                 <div class="container" style="width:70%; display: flex; justify-content: space-between;">
                                     <a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a>
                                     <button class="expand btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff; text-align:right" data-value="{{forloop.counter}}">Expand</button>
@@ -84,13 +89,13 @@
                                     <p style="margin: 10px 0px 0px 0px ">Students in the list</p>
                                     <ol>
                                         {%  for student in student_list.list %}
-                                            <li>
+
                                                 {% for key, value in student.to_mongo.to_dict.items %}
                                                     <ul>
                                                         <li>{{ key }} : {{ value }}</li>
                                                     </ul>
                                                 {% endfor %}
-                                            </li>
+
                                             <br>
                                         {%  endfor  %}
                                     </ol>

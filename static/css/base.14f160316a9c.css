@@ -1,0 +1,29 @@
+h1{
+    color: white;
+    text-align: center;
+}
+h4{
+    font-family: 'Oswald', sans-serif;
+    font-size: 3vh;
+}
+label{
+    font-size: 2vh;
+    font-weight: bold;
+}
+.navbar {
+  font-size: 25px;
+  font-family: 'Oswald', sans-serif;
+  color: black;
+}
+.nav-link {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Share', cursive;
+}
+a{
+    font-size: 2.2vh;
+}
+a:hover {
+   color: #f7d794;
+   text-decoration: none;
+}

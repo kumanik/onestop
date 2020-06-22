@@ -19,8 +19,13 @@ class StudentList(DynamicDocument):
 
 class Event(DynamicDocument):
     name = StringField(max_length=256)
-    student_lists = ListField(ReferenceField(StudentList, reverse_delete_rule=PULL))
+    student_lists = ListField(ReferenceField(StudentList))
     meta = {'db_alias': 'default'}
+
+    def delete(self, *args, **kwargs):
+        for list in self.student_lists:
+            list.delete()
+        super(Event, self).delete(*args, **kwargs)
 
 
 class File(Document):

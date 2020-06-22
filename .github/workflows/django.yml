@@ -21,6 +21,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Check if Deployable
+    - name: Check
       run: |
-        - python manage.py check --deploy --fail-level ERROR
+        - python manage.py check
