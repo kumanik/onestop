@@ -24,7 +24,7 @@
       <div class="jumbotron" style="margin:30px 0px 0px 0px">
           <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
             {% if events.count > 0 %}
-            <h3 style="margin-top:10px">Events List :</h3>
+            <h3 style="margin-top:10px; font-size:4vh">Events List :</h3>
             <ol>
                 {% for event in events %}
                     <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
