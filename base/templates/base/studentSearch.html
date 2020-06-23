@@ -1,0 +1,65 @@
+{% extends 'base/based.html' %}
+{% block content %}
+  <style>
+    li a{
+      font-size: 2.5vh;
+
+    }
+    body{
+      font-family: Share;
+    }
+    p{
+      font-size: 2vh;
+    }
+    </style>
+
+  <div class="container">
+    <br><br>
+    
+
+  </form>
+  
+      <div class="jumbotron" style="margin:30px 0px 0px 0px">
+          
+
+            {% if events.count > 0 %}
+            <h3 style="margin-top:10px">Participated Events:</h3>
+            <ol>
+
+                {% for event in events %}
+                    <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
+
+                  {% for student_list in event.student_lists %}
+
+                      
+                      <a href="{% url 'viewStudents' student_list.id %}">Identifier - {{student_list.type}}</a>
+                      <br><br>
+                      
+                    
+                    
+                    
+
+                    {%  for student in student_event %}
+                      {% if student in student_list.list %}
+                                            
+                                                {% for key, value in student.to_mongo.to_dict.items %}
+                                                    <ul>
+                                                        <li>{{ key }} : {{ value }}</li>
+                                                    </ul>
+                                                {% endfor %}
+                                            
+                                            <br>
+                                            {% endif %}
+                                        {%  endfor  %}
+                    {% endfor %}
+                    {% endfor %}
+               
+            </ol>
+            </div>
+          {% else %}
+              <h3>No matches</h3>
+          {% endif %}
+
+  </div>
+
+{% endblock %}
