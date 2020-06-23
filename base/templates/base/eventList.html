@@ -21,6 +21,12 @@
     </style>
 
   <div class="container">
+    <br><br>
+    <p>Search Student Name :</p>
+<form class="form-inline my-2 my-lg-0" action="{% url 'search_name' %}" method="get">
+        <input class="form-control mr-sm-2" name="search_name" type="text" placeholder="Search..." aria-label="Search" style="border-color:black">
+        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Search</button>
+  </form>
       <div class="jumbotron" style="margin:30px 0px 0px 0px">
           <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
             {% if events.count > 0 %}
