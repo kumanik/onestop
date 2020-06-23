@@ -86,17 +86,27 @@
 
                                 <div class="jumbotron" id="{{forloop.counter}}" style="margin-top: 10px; font-size: 2vh">
                                     <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
-                                    <p>Students in the list</p>
-                                    <div class="container" style="background-color: #212121;font-size:1.8vh">
+                                    <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
+                                    <div class="container-fluid" style="background-color: #212121;font-size:1.8vh">
+                                        <table class="table">
                                         {% for stu in student_list.list %}
-                                            <hr size="3"/>
-                                            <ul style="margin-bottom:0px">
-                                                {% for key,value in stu.to_mongo.to_dict.items %}
-                                                    <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
+                                            {% if forloop.counter is 1 %}
+                                            <thead>
+                                                <tr>
+                                                    {% for key, value in stu.to_mongo.to_dict.items %}
+                                                    <th scope="col">{{key}}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            {% endif %}
+                                            <tr style="height:20px">
+                                                {% for key, value in stu.to_mongo.to_dict.items %}
+                                                <td>{{value}}</td>
                                                 {% endfor %}
-                                            </ul>
-                                            <hr size="3"/>
-                                        {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+
                                     </div>
                                 </div>
                                 <br>

@@ -88,7 +88,7 @@ def updateEvent(request, event_id):
         event.save()
         return redirect("viewEvent", event.id)
     return render(
-        request, "base/update_event.html", {"event": event, "event_dict": event_dict}
+        request, "base/updateEvent.html", {"event": event, "event_dict": event_dict}
     )
 
 
@@ -124,18 +124,19 @@ def handle_uploaded_file(f):
 @staff_member_required
 def upload_student_list(request, event_id):
     if request.method == "POST":
-        handle_uploaded_file(request.FILES["file"])
-        data = request.FILES["file"]
+        data = request.FILES.get("file")
         type1 = request.POST.get("input")
         list1 = StudentList(type=type1)
         event = Event.objects.get(id=event_id)
-        with open("base/upload/" + data.name, "r") as csv_file:
-            datas = csv.DictReader(csv_file)
-            for row in datas:
-                stu = Student(**row)
-                stu.save()
-                list1.list.append(stu)
-        os.remove("base/upload/" + data.name)
+        if data is not None:
+            handle_uploaded_file(request.FILES["file"])
+            with open("base/upload/" + data.name, "r") as csv_file:
+                datas = csv.DictReader(csv_file)
+                for row in datas:
+                    stu = Student(**row)
+                    stu.save()
+                    list1.list.append(stu)
+            os.remove("base/upload/" + data.name)
         list1.save()
         event.student_lists.append(list1)
         event.save()
@@ -158,9 +159,30 @@ def updateStudent(request, student_id):
             setattr(stu, key, value)
         stu.save()
         return redirect("viewStudents", list.id)
-    return render(request, "base/update_student.html", {
+    return render(request, "base/updateStudent.html", {
         "stu": stu, "stu_dict": stu_dict, "event": event, "stulist": list
     })
+
+
+@staff_member_required
+def createStudent(request, list_id):
+    list = StudentList.objects.get(id=list_id)
+    if request.POST.get("action") == "post":
+        data = json.loads(request.POST.get("json_sent"))
+        stu = Student(**data)
+        stu.save()
+        list.list.append(stu)
+        list.save()
+        return redirect("viewStudents", list_id)
+    return render(request, "base/addStudent.html", {'list': list})
+
+
+@staff_member_required
+def deleteStudent(request, student_id):
+    stu = Student.objects.get(id=student_id)
+    list = StudentList.objects.get(list__contains=stu.id)
+    stu.delete()
+    return redirect("viewStudents", list.id)
 
 
 @api_view(['POST'])

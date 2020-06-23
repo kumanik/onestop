@@ -18,21 +18,34 @@
 </style>
         <div class="container" style="margin-top:20px">
             <div class="container">
-            <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></a>
-            <br>
-            <a>Identifier : {{ student_list.type }}</a><br>
-            <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
+                <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></a>
+                <br/>
+                <a>Identifier : {{ student_list.type }}</a><br>
+                <div class="btn-group" style="margin-bottom: 10px">
+                    <a class="btn btn-outline-danger" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>&nbsp;
+                    <a  class="btn btn-outline-success" href="{% url 'addStudent' student_list.id %}">Add student</a>
+                </div>
             </div>
 
             <div class="jumbotron" style="font-size:1.8vh">
-                {% for stu in student_list.list %}
-                    <ul style="margin-bottom:0px">
-                        {% for key,value in stu.to_mongo.to_dict.items %}
-                            <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
-                        {% endfor %}
-                    </ul>
-                    <hr size="4"/>
-                {% endfor %}
+                <table>
+                    {% for stu in student_list.list %}
+                    <tr>
+                        <td style="width:90%">
+                            <ul>
+                                {% for key,value in stu.to_mongo.to_dict.items %}
+                                    <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+
             </div>
         </div>
 
