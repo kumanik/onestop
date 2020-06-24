@@ -28,7 +28,7 @@ def search(request):
 
 def search_name(request):
     query = request.GET.get('search_name')
-    studs = Student.objects.filter(name__icontains = query)
+    studs = Student.objects.filter(name__icontains=query)
     abc = []
     stuid =[]
     for i in studs:
@@ -181,14 +181,19 @@ def updateStudent(request, student_id):
 @staff_member_required
 def createStudent(request, list_id):
     list = StudentList.objects.get(id=list_id)
+    try:
+        stu1st = list.list[0].to_mongo().to_dict()
+        stu1st.pop('_id')
+    except:
+        stu1st = None
     if request.POST.get("action") == "post":
         data = json.loads(request.POST.get("json_sent"))
         stu = Student(**data)
         stu.save()
         list.list.append(stu)
         list.save()
-        return redirect("viewStudents", list_id)
-    return render(request, "base/addStudent.html", {'list': list})
+        return render(request, "base/addStudent.html", {'list': list, 'stu1st': stu1st})
+    return render(request, "base/addStudent.html", {'list': list, 'stu1st': stu1st})
 
 
 @staff_member_required
