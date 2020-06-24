@@ -86,26 +86,25 @@
                                     <div class="container-fluid" id="{{forloop.counter}}" style="font-size:1.8vh;">
                                     <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
                                     <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
-                                   
+
                                         <table class="table table-striped table-red" style="width: 100%">
                                         {% for stu in student_list.list %}
                                             {% if forloop.counter is 1 %}
                                             <thead>
-                                                <tr>
+                                                <tr id="header">
                                                     {% for key, value in stu.to_mongo.to_dict.items %}
-                                                    {% if not forloop.counter is 1 %}
-                                                    <th scope="col">{{key}}</th>
-                                                    {% endif %}
+                                                        {% if not forloop.counter is 1 %}
+                                                            <th scope="col">{{key}}</th>
+                                                        {% endif %}
                                                     {% endfor %}
                                                 </tr>
                                             </thead>
                                             {% endif %}
                                             <tr style="height:20px">
                                                 {% for key, value in stu.to_mongo.to_dict.items %}
-                                                {% if not forloop.counter is 1 %}
-
-                                                <td>{{value}}</td>
-                                                {% endif %}
+                                                    {% if not forloop.counter is 1 %}
+                                                        <td>{{ value }}</td>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </tr>
 
@@ -113,7 +112,7 @@
                                         </table>
 
                                     </div>
-                                
+
                                 <br>
                             </li>
                         {% endfor %}
