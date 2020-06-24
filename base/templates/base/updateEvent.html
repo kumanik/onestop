@@ -43,6 +43,11 @@
 		        var count = Object.keys(json_obj.field_name).length;
 		      	for(var i=0; i<count; i++){
 		        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+					if (json_obj.field_value[i] == ""){
+						alert("Fill in all the defined fields")
+						$("#btnSubmit").prop("disabled", false);
+						return false;
+					}
 		        }
 
 		        $.ajax({

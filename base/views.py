@@ -30,7 +30,7 @@ def search_name(request):
     query = request.GET.get('search_name')
     studs = Student.objects.filter(name__icontains=query)
     abc = []
-    stuid =[]
+    stuid = []
     for i in studs:
         r = StudentList.objects.get(list__contains=i.id)
         stuid.append(i.id)
@@ -136,7 +136,7 @@ def handle_uploaded_file(f):
 
 
 @staff_member_required
-def upload_student_list(request, event_id):
+def addStudentList(request, event_id):
     if request.method == "POST":
         data = request.FILES.get("file")
         type1 = request.POST.get("input")

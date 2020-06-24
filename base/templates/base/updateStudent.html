@@ -23,7 +23,7 @@
 				<div class="col">
 					<div class="form-group">
 						<label>Field value</label>
-						<input type="text" name="field_value[]" value="{{ value }}" class="form-control"/>
+						<input type="text" name="field_value[]" value="{{ value }}" class="form-control" required/>
 					</div>
 				</div>
 			</div>
@@ -43,6 +43,12 @@
 	        var count = Object.keys(json_obj.field_name).length;
 	      	for(var i=0; i<count; i++){
 	        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+				if (json_obj.field_value[i] == ""){
+					alert("Fill in all the defined fields")
+					$("#btnSubmit").prop("disabled", false);
+					$("#btnAddAnother").prop("disabled", false);
+					return false;
+				}
 	        }
 
 	        $.ajax({
