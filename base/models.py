@@ -5,6 +5,9 @@ class Student(DynamicDocument):
     name = StringField(max_length=256)
     meta = {'db_alias': 'default'}
 
+    def __lt__(self, other):
+        return self.name < other.name
+
 
 class StudentList(DynamicDocument):
     type = StringField(max_length=256)
