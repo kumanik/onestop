@@ -121,17 +121,18 @@ def sort_by(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
     sort_by = request.GET.get('sort_by')
-    student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by))
-    # except:
-    #     print(sort_by)
-    #     return render(
-    #         request, "base/studentList.html",
-    #         {
-    #             "student_list": student_list,
-    #             "event": event,
-    #             "message": "Enter an attribute present on all objects"
-    #         }
-    #     )
+    try:
+        student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by))
+    except:
+        print(sort_by)
+        return render(
+            request, "base/studentList.html",
+            {
+                "student_list": student_list,
+                "event": event,
+                "message": "Enter an attribute present on all objects"
+            }
+        )
     return render(
         request, "base/studentList.html", {"student_list": student_list, "event": event, "message": None}
     )
