@@ -125,7 +125,7 @@ def sort_by(request, list_id):
         if sort_by[0] == '-':
             student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]), reverse=True)
         else:
-            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]), reverse=False)
+            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by), reverse=False)
     except:
         print(sort_by)
         return render(
