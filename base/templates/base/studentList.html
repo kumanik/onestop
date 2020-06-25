@@ -1,4 +1,15 @@
 {% extends 'base/based.html' %}
+
+{% block search%}
+
+  <form class="form-inline my-2 my-lg-0" action="{% url 'sort_by' student_list.id %}" method="get">
+        <input class="form-control mr-sm-2" name="sort_by" type="text" placeholder="Sort By" aria-label="sort_by" style="border-color:black">
+        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Sort</button>
+  </form>
+
+
+{% endblock %}
+
 {% block content %}
 <style>
 
@@ -18,6 +29,13 @@
 </style>
     <div class="container" style="margin-top:20px">
         <div class="container">
+            {% if message %}
+            <div class="alert alert-danger" role="alert">
+                <h4> Error! </h4>
+                <hr>
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
             <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></a>
             <br/>
             <a>Identifier : {{ student_list.type }}</a><br>
@@ -34,7 +52,9 @@
                     <td style="width:90%">
                         <ul>
                             {% for key,value in stu.to_mongo.to_dict.items %}
+                                {% if forloop.counter is not 1 %}
                                 <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </td>

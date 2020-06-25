@@ -12,6 +12,7 @@ from rest_framework.decorators import api_view
 from django.contrib.admin.views.decorators import staff_member_required
 from accounts.models import api_key
 from django.http import JsonResponse
+import operator
 
 
 @staff_member_required(login_url="/accounts/login/")
@@ -110,6 +111,27 @@ def updateEvent(request, event_id):
 def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
+    return render(
+        request, "base/studentList.html", {"student_list": student_list, "event": event}
+    )
+
+
+@staff_member_required
+def sort_by(request, list_id):
+    student_list = StudentList.objects.get(id=list_id)
+    event = Event.objects.get(student_lists__contains=student_list.id)
+    sort_by = request.GET.get('sort_by')
+    try:
+        student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by))
+    except:
+        return render(
+            request, "base/studentList.html",
+            {
+                "student_list": student_list,
+                "event": event,
+                "message": "Enter an attribute present on all objects"
+            }
+        )
     return render(
         request, "base/studentList.html", {"student_list": student_list, "event": event}
     )
