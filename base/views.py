@@ -121,21 +121,28 @@ def sort_by(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
     sort_by = request.GET.get('sort_by')
-    try:
-        if sort_by[0] == '-':
-            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]).lower, reverse=True)
-        else:
-            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by).lower, reverse=False)
-    except:
-        print(sort_by)
-        return render(
-            request, "base/studentList.html",
-            {
-                "student_list": student_list,
-                "event": event,
-                "message": "Enter an attribute present on all objects"
-            }
+    if sort_by[0] == '-':
+        student_list.list = sorted(
+            student_list.list, key=lambda mbr: operator.attrgetter(sort_by[1:])(mbr).lower(), reverse=True
         )
+    elif sort_by[0] == '+':
+        student_list.list = sorted(
+            student_list.list, key=lambda mbr: operator.attrgetter(sort_by[1:])(mbr).lower(), reverse=False
+        )
+    else:
+        student_list.list = sorted(
+            student_list.list, key=lambda mbr: operator.attrgetter(sort_by)(mbr).lower(), reverse=False
+        )
+    # except:
+    #     print(sort_by)
+    #     return render(
+    #         request, "base/studentList.html",
+    #         {
+    #             "student_list": student_list,
+    #             "event": event,
+    #             "message": "Enter an attribute present on all objects"
+    #         }
+    #     )
     return render(
         request, "base/studentList.html", {"student_list": student_list, "event": event, "message": None}
     )
