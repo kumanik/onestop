@@ -123,9 +123,9 @@ def sort_by(request, list_id):
     sort_by = request.GET.get('sort_by')
     try:
         if sort_by[0] == '-':
-            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]), reverse=True)
+            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]).lower, reverse=True)
         else:
-            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by), reverse=False)
+            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by).lower, reverse=False)
     except:
         print(sort_by)
         return render(

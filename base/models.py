@@ -8,7 +8,7 @@ class Student(DynamicDocument):
 
 class StudentList(DynamicDocument):
     type = StringField(max_length=256)
-    list = ListField(ReferenceField(Student, reverse_delete_rule=PULL))
+    list = ListField(ReferenceField(Student, reverse_delete_rule=NULLIFY))
     meta = {'db_alias': 'default'}
 
     def delete(self, *args, **kwargs):
@@ -19,7 +19,7 @@ class StudentList(DynamicDocument):
 
 class Event(DynamicDocument):
     name = StringField(max_length=256)
-    student_lists = ListField(ReferenceField(StudentList))
+    student_lists = ListField(ReferenceField(StudentList, reverse_delete_rule=PULL))
     meta = {'db_alias': 'default'}
 
     def delete(self, *args, **kwargs):
