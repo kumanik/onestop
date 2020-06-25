@@ -122,7 +122,10 @@ def sort_by(request, list_id):
     event = Event.objects.get(student_lists__contains=student_list.id)
     sort_by = request.GET.get('sort_by')
     try:
-        student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by))
+        if sort_by[0] == '-':
+            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]), reverse=True)
+        else:
+            student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by[1:]), reverse=False)
     except:
         print(sort_by)
         return render(
