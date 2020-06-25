@@ -124,6 +124,7 @@ def sort_by(request, list_id):
     try:
         student_list.list = sorted(student_list.list, key=operator.attrgetter(sort_by))
     except:
+        print(sort_by)
         return render(
             request, "base/studentList.html",
             {
@@ -133,7 +134,7 @@ def sort_by(request, list_id):
             }
         )
     return render(
-        request, "base/studentList.html", {"student_list": student_list, "event": event}
+        request, "base/studentList.html", {"student_list": student_list, "event": event, "message": None}
     )
 
 
