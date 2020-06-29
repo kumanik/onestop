@@ -39,5 +39,4 @@ jobs:
     - name: Run migrate
       run: python manage.py migrate
     - name: Check
-      run: |
-        - python manage.py test
+      run: python manage.py test
