@@ -144,17 +144,27 @@ def sort_by(request, list_id):
             student_list.list = sorted(
                 student_list.list,
                 key=lambda mbr:
-                    (operator.attrgetter(sort_by[1:])(mbr) or " ").lower(),
+                    (int(operator.attrgetter(sort_by[1:])(mbr) or 0)),
                 reverse=True
             )
         elif sort_by[0] == '+':
+            sort_by = sort_by[1:]
+            student_list.list = sorted(
+                student_list.list,
+                key=lambda mbr:
+                    (int(operator.attrgetter(sort_by)(mbr) or 0)),
+                reverse=False
+            )
+    except ValueError:
+        if sort_by[0] == '-':
             student_list.list = sorted(
                 student_list.list,
                 key=lambda mbr:
                     (operator.attrgetter(sort_by[1:])(mbr) or " ").lower(),
-                reverse=False
+                reverse=True
             )
-        else:
+        elif sort_by[0] == '+':
+            sort_by = sort_by[1:]
             student_list.list = sorted(
                 student_list.list,
                 key=lambda mbr:
