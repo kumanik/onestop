@@ -40,4 +40,4 @@ jobs:
       run: python manage.py migrate
     - name: Check
       run: |
-        - python manage.py check
+        - python manage.py test
