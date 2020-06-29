@@ -147,8 +147,9 @@ def sort_by(request, list_id):
                     (int(operator.attrgetter(sort_by[1:])(mbr) or 0)),
                 reverse=True
             )
-        elif sort_by[0] == '+':
-            sort_by = sort_by[1:]
+        else:
+            if sort_by[0] == '+':
+                sort_by = sort_by[1:]
             student_list.list = sorted(
                 student_list.list,
                 key=lambda mbr:
@@ -163,8 +164,9 @@ def sort_by(request, list_id):
                     (operator.attrgetter(sort_by[1:])(mbr) or " ").lower(),
                 reverse=True
             )
-        elif sort_by[0] == '+':
-            sort_by = sort_by[1:]
+        else:
+            if sort_by[0] == '+':
+                sort_by = sort_by[1:]
             student_list.list = sorted(
                 student_list.list,
                 key=lambda mbr:
