@@ -8,7 +8,7 @@ class Student(DynamicDocument):
 
 class StudentList(DynamicDocument):
     type = StringField(max_length=256)
-    list = ListField(ReferenceField(Student, reverse_delete_rule=NULLIFY))
+    list = ListField(ReferenceField(Student, reverse_delete_rule=PULL))
     meta = {'db_alias': 'default'}
 
     def delete(self, *args, **kwargs):

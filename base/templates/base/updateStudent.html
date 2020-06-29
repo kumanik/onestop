@@ -13,20 +13,20 @@
 			<a href="{% url 'viewStudents' stulist.id %}" class="btn btn-outline-danger" style="margin-bottom: 20px">Cancel</a>
 			{% csrf_token %}
             {% for key, value in stu_dict.items%}
-			<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label>Field name</label>
-						<input type="text" name="field_name[]" value="{{ key }}" class="form-control" readonly/>
-					</div>
-				</div>
-				<div class="col">
-					<div class="form-group">
-						<label>Field value</label>
-						<input type="text" name="field_value[]" value="{{ value }}" class="form-control" required/>
-					</div>
-				</div>
-			</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<label>Field name</label>
+											<input type="text" name="field_name[]" value="{{ key }}" class="form-control" readonly/>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-group">
+											<label>Field value</label>
+											<input type="text" name="field_value[]" value="{{ value }}" class="form-control"/>
+										</div>
+									</div>
+								</div>
             {% endfor %}
 			<a href="javascript:void(0);" class="btn btn-outline-primary" id="add_button" title="Add field" style="margin-right:10px">Add</a>
 			<input class="btn btn-outline-success" type="submit" id="btnSubmit"/>
@@ -36,19 +36,19 @@
     <script type="text/javascript" src={% static 'js/addEvent.js'%}></script>
     <script>
 
-	    $("#eventForm").submit(function(e) {
+    	$("#eventForm").submit(function(e) {
 			$("#btnSubmit").prop("disabled", true);
-	    	var json_obj=$(this).formToJson()
-	        var json_send = {}
+    			var json_obj=$(this).formToJson()
+        	var json_send = {}
 	        var count = Object.keys(json_obj.field_name).length;
-	      	for(var i=0; i<count; i++){
-	        	json_send[json_obj.field_name[i]] = json_obj.field_value[i]
-				if (json_obj.field_value[i] == ""){
-					alert("Fill in all the defined fields")
-					$("#btnSubmit").prop("disabled", false);
-					$("#btnAddAnother").prop("disabled", false);
-					return false;
-				}
+    			for(var i=0; i<count; i++){
+	        		json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+							// if (json_obj.field_value[i] == ""){
+							// 	alert("Fill in all the defined fields")
+							// 	$("#btnSubmit").prop("disabled", false);
+							// 	$("#btnAddAnother").prop("disabled", false);
+							// 	return false;
+							// }
 	        }
 
 	        $.ajax({

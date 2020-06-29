@@ -3,7 +3,7 @@
 {% block search%}
 
   <form class="form-inline my-2 my-lg-0" action="{% url 'sort_by' student_list.id %}" method="get">
-        <input class="form-control mr-sm-2" name="sort_by" type="text" placeholder="Sort By" aria-label="sort_by" style="border-color:black">
+        <input class="form-control mr-sm-2" name="sort_by" type="text" placeholder="Sort By" aria-label="sort_by" style="border-color:black" required>
         <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Sort</button>
   </form>
 
@@ -52,14 +52,17 @@
                     <td style="width:90%">
                         <ul>
                             {% for key,value in stu.to_mongo.to_dict.items %}
-                                {% if forloop.counter is not 1 %}
-                                <li><a href="{% url 'updateStudent' stu.id %}" style="font-size:1.8vh">{{key}}</a> : {{value}}</li>
+                                {% if forloop.counter is not 1 and value %}
+                                <li><a style="font-size:1.8vh; color: #0892D0">{{key}}</a> : {{value}}</li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
                     </td>
                     <td>
-                        <a class="btn btn-outline-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>
+                      <div class="btn-group">
+                        <a class="btn btn-outline-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>&nbsp
+                        <a class="btn btn-outline-warning" href="{% url 'updateStudent' stu.id %}">EDIT</a>
+                      </div>
                     </td>
                 </tr>
                 {% endfor %}

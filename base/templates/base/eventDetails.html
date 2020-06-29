@@ -84,7 +84,7 @@
                                     <button class="expand btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff; text-align:right" data-value="{{forloop.counter}}">Expand</button>
                                 </div>
                                     <div class="container-fluid" id="{{forloop.counter}}" style="font-size:1.8vh;">
-                                    <a href="{% url 'deleteStudentList' student_list.id %}">Delete this list</a>
+                                    <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
                                     <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
 
                                         <table class="table table-striped table-red" style="width: 100%">
@@ -100,10 +100,14 @@
                                                 </tr>
                                             </thead>
                                             {% endif %}
-                                            <tr style="height:20px">
+                                            <tr>
                                                 {% for key, value in stu.to_mongo.to_dict.items %}
                                                     {% if not forloop.counter is 1 %}
+                                                      {% if value %}
                                                         <td>{{ value }}</td>
+                                                      {% else %}
+                                                        <td>---</td>
+                                                      {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             </tr>

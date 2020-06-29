@@ -38,7 +38,11 @@ def search_name(request):
         abc.append(r.id)
     student_event = Student.objects.filter(id__in=stuid)
     t = Event.objects.filter(student_lists__in=abc)
-    return render(request, 'base/studentSearch.html', {'events': t, 'student_event': student_event})
+    return render(
+        request,
+        'base/studentSearch.html',
+        {'events': t, 'student_event': student_event}
+    )
 
 
 @staff_member_required
@@ -53,7 +57,12 @@ def viewEvent(request, event_id):
         pass
     eventss = event.student_lists
     count = len(event.student_lists)
-    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    context = {
+                'event': event,
+                'event_dict': event_dict,
+                'count': count,
+                'eventss': eventss
+              }
     return render(request, 'base/eventDetails.html', context)
 
 
@@ -69,7 +78,12 @@ def search1(request, event_id):
         pass
     eventss = StudentList.objects.filter(type__icontains=query)
     count = len(eventss)
-    context = {'event': event, 'event_dict': event_dict, 'count': count, 'eventss': eventss}
+    context = {
+        'event': event,
+        'event_dict': event_dict,
+        'count': count,
+        'eventss': eventss
+        }
     return render(request, 'base/eventDetails.html', context)
 
 
@@ -103,7 +117,9 @@ def updateEvent(request, event_id):
         event.save()
         return redirect("viewEvent", event.id)
     return render(
-        request, "base/updateEvent.html", {"event": event, "event_dict": event_dict}
+        request,
+        "base/updateEvent.html",
+        {"event": event, "event_dict": event_dict}
     )
 
 
@@ -112,7 +128,9 @@ def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
     return render(
-        request, "base/studentList.html", {"student_list": student_list, "event": event}
+        request,
+        "base/studentList.html",
+        {"student_list": student_list, "event": event}
     )
 
 
@@ -124,28 +142,43 @@ def sort_by(request, list_id):
     try:
         if sort_by[0] == '-':
             student_list.list = sorted(
-                student_list.list, key=lambda mbr: operator.attrgetter(sort_by[1:])(mbr).lower(), reverse=True
+                student_list.list,
+                key=lambda mbr:
+                    (operator.attrgetter(sort_by[1:])(mbr) or " ").lower(),
+                reverse=True
             )
         elif sort_by[0] == '+':
             student_list.list = sorted(
-                student_list.list, key=lambda mbr: operator.attrgetter(sort_by[1:])(mbr).lower(), reverse=False
+                student_list.list,
+                key=lambda mbr:
+                    (operator.attrgetter(sort_by[1:])(mbr) or " ").lower(),
+                reverse=False
             )
         else:
             student_list.list = sorted(
-                student_list.list, key=lambda mbr: operator.attrgetter(sort_by)(mbr).lower(), reverse=False
+                student_list.list,
+                key=lambda mbr:
+                    (operator.attrgetter(sort_by)(mbr) or " ").lower(),
+                reverse=False
             )
     except AttributeError:
         print(sort_by)
         return render(
             request, "base/studentList.html",
             {
-                "student_list": student_list,
                 "event": event,
+                "student_list": student_list,
                 "message": "Enter an attribute present on all objects"
             }
         )
     return render(
-        request, "base/studentList.html", {"student_list": student_list, "event": event, "message": None}
+        request,
+        "base/studentList.html",
+        {
+            "student_list": student_list,
+            "event": event,
+            "message": None
+        }
     )
 
 
@@ -198,13 +231,19 @@ def addStudentList(request, event_id):
 def updateStudent(request, student_id):
     stu = Student.objects.get(id=student_id)
     list = StudentList.objects.filter(list__contains=stu.id)[0]
+    stu1st = list.list[0]
     event = Event.objects.filter(student_lists__contains=list.id)
     stu_dict = stu.to_mongo().to_dict()
     stu_dict.pop("_id")
+    keys = []
+    for key, val in stu1st.to_mongo().to_dict().items():
+        keys.append(key)
     if request.POST.get("action") == "post":
         data = json.loads(request.POST.get("json_sent"))
         for key, value in data.items():
-            setattr(stu, key, value)
+            stu.update(**{key: value})
+            if key not in keys:
+                addField(list.id, key)
         stu.save()
         return redirect("viewStudents", list.id)
     return render(request, "base/updateStudent.html", {
@@ -218,22 +257,45 @@ def createStudent(request, list_id):
     try:
         stu1st = list.list[0].to_mongo().to_dict()
         stu1st.pop('_id')
-    except:
+    except AttributeError or KeyError:
         stu1st = None
     if request.POST.get("action") == "post":
         data = json.loads(request.POST.get("json_sent"))
         stu = Student(**data)
         stu.save()
+        if stu1st is not None:
+            keys = []
+            for key, val in stu1st.items():
+                keys.append(key)
+            for key, value in data.items():
+                if key not in keys:
+                    addField(list.id, key)
         list.list.append(stu)
         list.save()
-        return render(request, "base/addStudent.html", {'list': list, 'stu1st': stu1st})
-    return render(request, "base/addStudent.html", {'list': list, 'stu1st': stu1st})
+        return render(
+            request,
+            "base/addStudent.html",
+            {'list': list, 'stu1st': stu1st}
+            )
+    return render(
+        request,
+        "base/addStudent.html",
+        {'list': list, 'stu1st': stu1st}
+        )
+
+
+def addField(list_id, key):
+    list = StudentList.objects.get(id=list_id)
+    for each in list.list:
+        each.update(**{key: None})
+        each.save()
+    return None
 
 
 @staff_member_required
 def deleteStudent(request, student_id):
     stu = Student.objects.get(id=student_id)
-    list = StudentList.objects.get(list__contains=stu.id)
+    list = StudentList.objects.filter(list__contains=stu.id)[0]
     stu.delete()
     return redirect("viewStudents", list.id)
 
@@ -247,13 +309,24 @@ def event_APIView(request):
             serializer = EventSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED
+                )
             print(serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
         else:
-            return Response("INVALID API KEY", status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                "INVALID API KEY",
+                status=status.HTTP_403_FORBIDDEN)
     else:
-        return Response("API KEY NOT PROVIDED", status=status.HTTP_401_UNAUTHORIZED)
+        return Response(
+            "API KEY NOT PROVIDED",
+            status=status.HTTP_401_UNAUTHORIZED
+        )
 
 
 def key_viewer(request):
