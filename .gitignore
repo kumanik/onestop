@@ -6,3 +6,4 @@ db.sqlite3
 .ropeproject/*
 static/css
 static/js
+.vscode

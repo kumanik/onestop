@@ -47,11 +47,12 @@
 							  	<div class="modal-dialog">
 
 							    	<div class="modal-content">
+											{% load api-key %}
 							      		<div class="modal-header">
 							        		<h4 class="modal-title">API Key for {{user}}</h4>
 							      		</div>
 							      		<div class="modal-body">
-											<input type="text" name="" id="keystore" value="" style="width:100%"/>
+											<input type="text" name="" id="keystore" value={% get_key user %} style="width:100%"/>
 							      		</div>
 							      		<div class="modal-footer">
 							        		<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
@@ -71,14 +72,4 @@
 	    {% block content %}
 	    {% endblock %}
 	</body>
-	<script>
-		$(document).ready(function(){
-			$.get("{% url 'showKey' %}", function(data){
-				console.log(data)
-				var keystore = document.getElementById('keystore')
-				keystore.value = ""+data.key
-			})
-		})
-
-	</script>
 </html>
