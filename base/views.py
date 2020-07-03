@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .models import Event, StudentList, Student
-from .forms import FileForm
 import csv
 import os
 import pandas as pd
@@ -234,9 +233,6 @@ def addStudentList(request, event_id):
         event.student_lists.append(list1)
         event.save()
         return redirect("viewEvent", event_id)
-    else:
-        form = FileForm()
-    return render(request, "base/upload_file.html", {'form': form})
 
 
 @staff_member_required
