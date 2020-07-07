@@ -22,11 +22,15 @@
 
   <div class="container">
     <br><br>
-    <p>Search Student Name :</p>
-<form class="form-inline my-2 my-lg-0" action="{% url 'search_name' %}" method="get">
-        <input class="form-control mr-sm-2" name="search_name" type="text" placeholder="Search..." aria-label="Search" style="border-color:black">
-        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Search</button>
+    <p>Search based on Fieldname :</p>
+    
+  <form class="form-inline my-2 my-lg-0" action="{% url 'search_field' %}" method="get">
+        <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="Search Fieldname ..." aria-label="Search" style="border-color:black">
+
+         <input class="form-control mr-sm-2" name="searches" type="text" placeholder="Search Value ..." aria-label="Search" style="border-color:black">
+        <button class="btn btn-warning my-2 my-sm-0" type="submit" style="color:black;">Search</button>
   </form>
+  <br>
       <div class="jumbotron" style="margin:30px 0px 0px 0px">
           <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
             {% if events.count > 0 %}
