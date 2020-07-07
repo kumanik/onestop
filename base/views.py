@@ -25,24 +25,18 @@ def search(request):
     events = Event.objects.filter(name__icontains=query)
     return render(request, 'base/eventList.html', {'events': events})
 
-
-def search_name(request):
-    query = request.GET.get('search_name')
-    studs = Student.objects.filter(name__icontains=query)
-    abc = []
-    stuid = []
-    for i in studs:
+def search_field(request):
+    query = request.GET.get('search_field')
+    querys = request.GET.get('searches')
+    abc =[]
+    field = query
+    val = querys
+    s = Student.objects.filter(**{field: val})
+    for i in s:
         r = StudentList.objects.get(list__contains=i.id)
-        stuid.append(i.id)
         abc.append(r.id)
-    student_event = Student.objects.filter(id__in=stuid)
     t = Event.objects.filter(student_lists__in=abc)
-    return render(
-        request,
-        'base/studentSearch.html',
-        {'events': t, 'student_event': student_event}
-    )
-
+    return render(request, 'base/studentSearch.html', {'events': t, 'student_event': s})
 
 @staff_member_required
 def viewEvent(request, event_id):
