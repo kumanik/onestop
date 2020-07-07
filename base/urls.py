@@ -6,7 +6,7 @@ urlpatterns = [
     # Search
     path("newList/", views.search, name="search"),
     path("search_identifier/event/<event_id>", views.search1, name="search1"),
-    path("searchStudentName/", views.search_name, name="search_name"),
+    path("searchField/", views.search_field, name="search_field"),
 
     # Event Model
     path("", views.listEvents, name="index"),
