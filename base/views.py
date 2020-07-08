@@ -29,7 +29,10 @@ def search_field(request):
     query = request.GET.get('search_field')
     querys = request.GET.get('searches')
     abc =[]
-    field = query+"__icontains"
+    if querys.isnumeric():
+        field = query
+    else:
+        field = query+"__icontains"
     val = querys
     s = Student.objects.filter(**{field: val})
     for i in s:
