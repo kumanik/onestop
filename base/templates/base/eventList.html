@@ -25,9 +25,9 @@
     <p>Search based on Fieldname :</p>
     
   <form class="form-inline my-2 my-lg-0" action="{% url 'search_field' %}" method="get">
-        <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="Search Fieldname ..." aria-label="Search" style="border-color:black">
+        <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="Search Fieldname ..." aria-label="Search" style="border-color:black" required>
 
-         <input class="form-control mr-sm-2" name="searches" type="text" placeholder="Search Value ..." aria-label="Search" style="border-color:black">
+         <input class="form-control mr-sm-2" name="searches" type="text" placeholder="Search Value ..." aria-label="Search" style="border-color:black" required>
         <button class="btn btn-warning my-2 my-sm-0" type="submit" style="color:black;">Search</button>
   </form>
   <br>
