@@ -213,6 +213,7 @@ def merge_file(request, list_id):
         with open('base/upload/' + data.name, 'r') as csv_file:
             datas = csv.DictReader(csv_file)
             for row in datas:
+                c=0
                 for i in previous:
                     if row==i:
                         c=1
