@@ -15,7 +15,9 @@ urlpatterns = [
     path("event/delete/<event_id>", views.deleteEvent, name="deleteEvent"),
     path("event/update/<event_id>", views.updateEvent, name="updateEvent"),
 
+
     # StudentList Model
+    path("event/mergestudentlist/upload/<list_id>", views.merge_file, name="merge_file"),
     path(
         "event/studentlist/<list_id>",
         views.viewStudentList, name="viewStudents"

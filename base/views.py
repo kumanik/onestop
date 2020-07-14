@@ -198,6 +198,36 @@ def deleteStudentList(request, list_id):
     return redirect("viewEvent", event.id)
 
 
+@staff_member_required
+def merge_file(request, list_id):
+    if request.method == 'POST':
+        handle_uploaded_file(request.FILES['file'])
+        data = request.FILES['file']
+        list1 = StudentList.objects.get(id=list_id)
+        previous=[]
+        c=0
+        for i in list1.list:
+            student_dict = i.to_mongo().to_dict()
+            student_dict.pop('_id')
+            previous.append(student_dict)
+        with open('base/upload/' + data.name, 'r') as csv_file:
+            datas = csv.DictReader(csv_file)
+            for row in datas:
+                for i in previous:
+                    if row==i:
+                        c=1
+                if c==0:
+                    stu = Student(**row)
+                    stu.save()
+                    list1.list.append(stu)
+        os.remove('base/upload/' + data.name)
+        list1.save()
+        return redirect('index')
+    else:
+        form = FileForm()
+    return render(request, "base/upload_file.html", {'form': form})
+
+    
 def handle_uploaded_file(f):
     with open("base/upload/" + f.name, "wb+") as destination:
         for chunk in f.chunks():
