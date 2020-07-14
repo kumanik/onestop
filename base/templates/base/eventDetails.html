@@ -86,14 +86,6 @@
                                     <div class="container-fluid" id="{{forloop.counter}}" style="font-size:1.8vh;">
                                     <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
                                     <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
-
-                         <form method="post" enctype="multipart/form-data" action="{% url 'merge_file' student_list.id %}">
-                                    {% csrf_token %}
-                                    <input type="file" name="file">
-                                    <button type="submit" class="btn btn-warning">merge file</button>
-                         </form>
-                                        <br><br>
-
                                         <table class="table table-striped table-red" style="width: 100%">
                                         {% for stu in student_list.list %}
                                             {% if forloop.counter is 1 %}

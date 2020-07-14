@@ -222,7 +222,7 @@ def merge_file(request, list_id):
                     list1.list.append(stu)
         os.remove('base/upload/' + data.name)
         list1.save()
-        return redirect('index')
+        return redirect('viewStudents', list_id)
     else:
         form = FileForm()
     return render(request, "base/upload_file.html", {'form': form})

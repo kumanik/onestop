@@ -46,6 +46,18 @@
         </div>
 
         <div class="jumbotron" id="list" style="font-size:1.8vh">
+
+            <p>Add a file to merge: </p>
+
+                <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data" action="{% url 'merge_file' student_list.id %}">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="file" name="file">
+        
+
+                     <button type="submit" class="btn btn-warning">merge file</button>
+                    </form>
+                    <br><br>
+
             <table>
                 {% for stu in student_list.list %}
                 <tr>
