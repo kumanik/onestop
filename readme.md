@@ -1,4 +1,4 @@
-# **One Stop**
+# **OneStop**
 A web app to manage records using MongoDB.  
 Uses MongoEngine Document-Object Mapper to simulate Django ORM functions for MongoDB.  
 Visit [MongoEngine docs](http://docs.mongoengine.org/) to see more.
