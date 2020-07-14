@@ -51,7 +51,7 @@
 
                 <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data" action="{% url 'merge_file' student_list.id %}">
                         {% csrf_token %}
-                        <input class="form-control mr-sm-2" type="file" name="file">
+                        <input class="form-control mr-sm-2" type="file" name="file" required>
         
 
                      <button type="submit" class="btn btn-warning">merge file</button>
