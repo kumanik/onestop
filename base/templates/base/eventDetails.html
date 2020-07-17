@@ -179,7 +179,7 @@
                                     <a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a>
                                     <button class="expand btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff; text-align:right" data-value="{{forloop.counter}}">Expand</button>
                                 </div>
-                                    <div class="container-fluid" id="{{forloop.counter}}" style="font-size:1.8vh;">
+                                    <div class="jumbotron" id="{{forloop.counter}}" style="font-size:1.8vh;">
                                     <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
                                     <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
                                          <table class="rwd-table">
