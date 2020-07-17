@@ -175,8 +175,8 @@
         {% endfor %}
         <td data-th="Edit/Delete">
         <div class="btn-group">
-                        <a class="btn btn-outline-danger" href="">DELETE</a>&nbsp
-                        <a class="btn btn-outline-warning" href="">EDIT</a>
+                        <a class="btn btn-outline-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>&nbsp
+                        <a class="btn btn-outline-warning" href="{% url 'updateStudent' stu.id %">EDIT</a>
                       </div>
         </td>
         </tr>
