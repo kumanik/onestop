@@ -21,7 +21,103 @@
     a{
         font-size: 2.5vh;
     }
+    
+  .rwd-table {
+  margin: auto;
+  width: 100%;
+  min-width: 300px;
+  max-width: 100%;
+  border-collapse: collapse;
+}
 
+.rwd-table tr:first-child {
+  border-top: none;
+  background: #36304a;
+  color: #fff;
+}
+
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background-color: #f5f9fc;
+}
+
+.rwd-table tr:nth-child(odd):not(:first-child) {
+  background-color: #ebf3f9;
+}
+
+.rwd-table th {
+  display: none;
+}
+
+.rwd-table td {
+  display: block;
+}
+
+.rwd-table td:first-child {
+  margin-top: .5em;
+}
+
+.rwd-table td:last-child {
+  margin-bottom: .5em;
+}
+
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 120px;
+  display: inline-block;
+  color: #000;
+}
+
+.rwd-table th,
+.rwd-table td {
+  text-align: left;
+}
+
+.rwd-table {
+  color: #333;
+  border-radius: .4em;
+  overflow: hidden;
+}
+
+.rwd-table tr {
+  border-color: #bfbfbf;
+}
+
+.rwd-table th,
+.rwd-table td {
+  padding: .5em 1em;
+}
+@media screen and (max-width: 601px) {
+  .rwd-table tr:nth-child(2) {
+    border-top: none;
+  }
+}
+@media screen and (min-width: 600px) {
+  .rwd-table tr:hover:not(:first-child) {
+    background-color: #d8e7f3;
+  }
+  .rwd-table td:before {
+    display: none;
+  }
+  .rwd-table th,
+  .rwd-table td {
+    display: table-cell;
+    padding: .25em .5em;
+  }
+  .rwd-table th:first-child,
+  .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child,
+  .rwd-table td:last-child {
+    padding-right: 0;
+  }
+  .rwd-table th,
+  .rwd-table td {
+    padding: 1em !important;
+  }
 
     </style>
         <div class="container">
@@ -86,33 +182,36 @@
                                     <div class="container-fluid" id="{{forloop.counter}}" style="font-size:1.8vh;">
                                     <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
                                     <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
-                                        <table class="table table-striped table-red" style="width: 100%">
-                                        {% for stu in student_list.list %}
-                                            {% if forloop.counter is 1 %}
-                                            <thead>
-                                                <tr id="header">
-                                                    {% for key, value in stu.to_mongo.to_dict.items %}
-                                                        {% if not forloop.counter is 1 %}
-                                                            <th scope="col">{{key}}</th>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </tr>
-                                            </thead>
-                                            {% endif %}
-                                            <tr>
+                                         <table class="rwd-table">
+                                          <tbody>
+                                                {% for stu in student_list.list %}
+                                                {% if forloop.counter is 1 %}
+                                              <tr>
                                                 {% for key, value in stu.to_mongo.to_dict.items %}
-                                                    {% if not forloop.counter is 1 %}
-                                                      {% if value %}
-                                                        <td>{{ value }}</td>
-                                                      {% else %}
-                                                        <td>---</td>
-                                                      {% endif %}
-                                                    {% endif %}
+                                                {% if not forloop.counter is 1 %}
+                                                <th>{{key}}</th>
+                                                {% endif %}
                                                 {% endfor %}
-                                            </tr>
+        
+                                             </tr>
+                                                {% endif %}
 
-                                            {% endfor %}
-                                        </table>
+                                             <tr>
+                                                {% for key, value in stu.to_mongo.to_dict.items %}
+                                            
+                                                {% if not forloop.counter is 1 %}
+
+                                                <td data-th={{key}}>
+                                                    {{value}}
+                                                </td>
+                                                {% endif %}
+                                                {% endfor %}
+                                                </tr>
+
+                                                {% endfor %}
+
+                                            </tbody>
+                                         </table>
 
                                     </div>
 
