@@ -1,50 +1,54 @@
 {% extends 'base/based.html' %}
 {% block search%}
 
-  <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
-        <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search..." aria-label="Search" style="border-color:black">
-        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Search</button>
-  </form>
+<form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
+  <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search..." aria-label="Search"
+    style="border-color:black">
+  <button class="btn btn-success my-2 my-sm-0" type="submit" style="color:black;">Search</button>
+</form>
 
 
 {% endblock %}
 
 {% block content %}
-  <style>
-    li a{
-      font-size: 2.5vh;
+<style>
+  li a {
+    font-size: 2.5vh;
 
-    }
-    body{
-      font-family: Share;
-    }
-    </style>
+  }
 
-  <div class="container">
-    <br><br>
-    <p>Search based on Fieldname :</p>
-    
+  body {
+    font-family: Share;
+  }
+</style>
+
+<div class="container">
+  <br><br>
+  <p>Search based on Fieldname :</p>
+
   <form class="form-inline my-2 my-lg-0" action="{% url 'search_field' %}" method="get">
-        <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="Search Fieldname ..." aria-label="Search" style="border-color:black" required>
+    <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="Search Fieldname ..."
+      aria-label="Search" style="border-color:black" required>
 
-         <input class="form-control mr-sm-2" name="searches" type="text" placeholder="Search Value ..." aria-label="Search" style="border-color:black" required>
-        <button class="btn btn-warning my-2 my-sm-0" type="submit" style="color:black;">Search</button>
+    <input class="form-control mr-sm-2" name="searches" type="text" placeholder="Search Value ..." aria-label="Search"
+      style="border-color:black" required>
+    <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
   </form>
   <br>
-      <div class="jumbotron" style="margin:30px 0px 0px 0px">
-          <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
-            {% if events.count > 0 %}
-            <h3 style="margin-top:10px; font-size:4vh">Events List :</h3>
-            <ol>
-                {% for event in events %}
-                    <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
-                {%  endfor  %}
-            </ol>
-            </div>
-          {% else %}
-              <h3>No matches</h3>
-          {% endif %}
-
+  <div class="jumbotron" style="margin:30px 0px 0px 0px">
+    <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
+    {% if events.count > 0 %}
+    <h3 style="margin-top:10px; font-size:4vh">Events List :</h3>
+    <ol>
+      {% for event in events %}
+      <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
+      {%  endfor  %}
+    </ol>
   </div>
+  {% else %}
+  <h3>No matches</h3>
+  {% endif %}
+
+</div>
 
 {% endblock %}

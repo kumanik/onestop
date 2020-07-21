@@ -10,12 +10,14 @@ body {
     height: 100vh;
     width: 100%;
     display: inline-block;
+    color: #fff;
 }
 
 a {
   display:inline-block;
   text-decoration: none;
   font-weight: 400;
+  color: #aaa9a9;
 }
 
 a:hover {
@@ -28,6 +30,7 @@ h2 {
     text-transform: uppercase;
     display:inline-block;
     margin: 40px 8px 10px 8px; 
+    color: #fff;
 }
 
 
@@ -62,16 +65,16 @@ h2 {
 }
 
 h2.inactive {
-  color: #cccccc;
+  color: #fff;
 }
 
 h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
+  color: #fff;
+  border-bottom: 2px solid #DC3545;
 }
 
 input[type=button], input[type=submit], input[type=reset]  {
-    background-color: #6e44ff;
+    background-color: #007BFF;
     border: none;
     color: white;
     padding: 15px 80px;
@@ -80,19 +83,17 @@ input[type=button], input[type=submit], input[type=reset]  {
     display: inline-block;
     text-transform: uppercase;
     font-size: 13px;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
     margin: 5px 20px 40px 20px;
 }
 
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-  background-color: #7113CF;
+  background-color: #0166D3;
 }
 
 input[type=text], [type=password]{
-  background-color: #f4e409;
+  background-color: #FFC107;
   border: none;
   color: #0d0d0d;
   padding: 15px 32px;
@@ -102,14 +103,14 @@ input[type=text], [type=password]{
   font-size: 16px;
   margin: 5px;
   width: 85%;
-  border: 2px solid #f4e409;
+  border: 2px solid #FFC107;
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
 
 input[type=text], [type=pasword]:focus {
-  background-color: #f4e409;
-  border-bottom: 2px solid #f4e409;
+  background-color: #FFC107;
+  border-bottom: 2px solid #FFC107;
 }
 
 input[type=text], [type=password]:placeholder {
@@ -126,7 +127,7 @@ input[type=text], [type=password]:placeholder {
     bottom: -10px;
     width: 0;
     height: 2px;
-    background-color: #56baed;
+    background-color: #DC3545;
     content: "";
     transition: width 0.2s;
   }

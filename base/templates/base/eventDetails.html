@@ -1,286 +1,197 @@
 {% extends 'base/based.html' %}
 {% block search%}
 
-  <form class="form-inline my-2 my-lg-0" action="{% url 'search1' event.id %}" method="get">
-        <input class="form-control mr-sm-2" name="search1" type="text" placeholder="Search..." aria-label="Search" style="border-color:black">
-        <button class="btn btn-success my-2 my-sm-0" type="submit" style="color: black">Search</button>
-  </form>
+<form class="form-inline my-2 my-lg-0" action="{% url 'search1' event.id %}" method="get">
+  <input class="form-control mr-sm-2" name="search1" type="text" placeholder="Search..." aria-label="Search"
+    style="border-color:black">
+  <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+</form>
 
 
 {% endblock %}
 {% block content %}
 <style>
-
-    body{
-        font-family: 'Share', cursive;
-        font-size: 2.5vh;
-    }
-    p{
-        font-size: 2.5vh;
-    }
-    a{
-        font-size: 2.5vh;
-    }
-    
-  .rwd-table {
-  margin: auto;
-  width: 100%;
-  min-width: 300px;
-  max-width: 100%;
-  border-collapse: collapse;
-}
-
-.rwd-table tr:first-child {
-  border-top: none;
-  background: #36304a;
-  color: #fff;
-}
-
-.rwd-table tr {
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: #f5f9fc;
-}
-
-.rwd-table tr:nth-child(odd):not(:first-child) {
-  background-color: #ebf3f9;
-}
-
-.rwd-table th {
-  display: none;
-}
-
-.rwd-table td {
-  display: block;
-}
-
-.rwd-table td:first-child {
-  margin-top: .5em;
-}
-
-.rwd-table td:last-child {
-  margin-bottom: .5em;
-}
-
-.rwd-table td:before {
-  content: attr(data-th) ": ";
-  font-weight: bold;
-  width: 120px;
-  display: inline-block;
-  color: #000;
-}
-
-.rwd-table th,
-.rwd-table td {
-  text-align: left;
-}
-
-.rwd-table {
-  color: #333;
-  border-radius: .4em;
-  overflow: hidden;
-}
-
-.rwd-table tr {
-  border-color: #bfbfbf;
-}
-
-.rwd-table th,
-.rwd-table td {
-  padding: .5em 1em;
-}
-@media screen and (max-width: 601px) {
-  .rwd-table tr:nth-child(2) {
-    border-top: none;
-  }
-}
-@media screen and (min-width: 600px) {
-  .rwd-table tr:hover:not(:first-child) {
-    background-color: #d8e7f3;
-  }
-  .rwd-table td:before {
-    display: none;
-  }
-  .rwd-table th,
-  .rwd-table td {
-    display: table-cell;
-    padding: .25em .5em;
-  }
-  .rwd-table th:first-child,
-  .rwd-table td:first-child {
-    padding-left: 0;
-  }
-  .rwd-table th:last-child,
-  .rwd-table td:last-child {
-    padding-right: 0;
-  }
-  .rwd-table th,
-  .rwd-table td {
-    padding: 1em !important;
+  body {
+    font-family: 'Share', cursive;
+    font-size: 2.5vh;
   }
 
-    </style>
-        <div class="container">
-            <input type="hidden" id="count" value="{{count}}">
-            <div class="jumbotron" style="margin-top:20px">
-                <h4>Event Name: {{event.name}}</h4>
-                <div id="eventDetails" class="container">
-                    {% for key, value in event_dict.items %}
-                        <p>{{ key }} : {{ value }} </p>
-                    {% endfor %}
-                </div>
-                <div class="container">
-                    <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
-                    <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
-                </div>
-            </div>
+  p {
+    font-size: 2.5vh;
+  }
+
+  a {
+    font-size: 2.5vh;
+  }
+  ``
+</style>
+
+
+<div class="container">
+  <input type="hidden" id="count" value="{{count}}">
+  <div class="jumbotron" style="margin-top:20px">
+    <h4>Event Name: {{event.name}}</h4>
+    <div id="eventDetails" class="container">
+      {% for key, value in event_dict.items %}
+      <p>{{ key }} : {{ value }} </p>
+      {% endfor %}
+    </div>
+    <div class="container">
+      <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
+      <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:2.5vh">Delete</a> this event </p>
+    </div>
+  </div>
 
 
 
-                <button class="addStudentList btn btn-outline-primary" style="background-color:#00000000; color:#ffffff;" data-value="abc" >Add a student list</button>
-               <!--  <div class="jumbotron" id="abc" style="color=#95a5a6; background-color: #2c3e50; margin-top: 10px; font-size: 2vh"> -->
-                <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-3 ">
-                            <div class="form-group">
-                                <label for="id_file">File:</label>
-                                <input class="form-control" type="file" name="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="border-width:0px;">
-                            </div>
-                        </div>
+  <button class="addStudentList btn btn-primary" data-value="abc">Add
+    a student list</button>
+  <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-3 ">
+        <div class="form-group">
+          <label for="id_file">File:</label>
+          <input class="form-control" type="file" name="file"
+            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            style="border-width:0px;">
+        </div>
+      </div>
 
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="id_input">Identifier for list:</label>
-                                <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
-                            </div>
-                        </div>
-                        <div class="form-group" style="position:relative">
+      <div class="col-4">
+        <div class="form-group">
+          <label for="id_input">Identifier for list:</label>
+          <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
+        </div>
+      </div>
+      <div class="form-group" style="position:relative">
 
-                            <input class="btn btn-outline-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0"/>
-                        </div>
+        <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0" />
+      </div>
 
-                </div>
+    </div>
 
-                </form>
-            <!-- </div> -->
-                {% if count > 0 %}
-                <div style="margin:30px 0px 0px 0px">
-                    <p style="font-size:3vh">Student lists:</p>
+  </form>
 
 
-                    <ol style="align:center">
+  {% if count > 0 %}
+  <div style="margin:30px 0px 0px 0px">
+    <p style="font-size:3vh">Student lists:</p>
 
-                        {% for student_list in eventss %}
 
-                            <li>
+    <ol style="align:center">
 
-                                <div class="container" style="width:70%; display: flex; justify-content: space-between;">
-                                    <a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a>
-                                    <button class="expand btn btn-primary btn-outline" style="background-color:#00000000; color:#ffffff; text-align:right" data-value="{{forloop.counter}}">Expand</button>
-                                </div>
-                                    <div id="{{forloop.counter}}" style="font-size:1.8vh;">
-                                    <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
-                                    <p>Students in the list:  {% if not student_list.list %} None {% endif %}</p>
-                                         <table class="rwd-table">
-                                          <tbody>
-                                                {% for stu in student_list.list %}
-                                                {% if forloop.counter is 1 %}
-                                              <tr>
-                                                {% for key, value in stu.to_mongo.to_dict.items %}
-                                                {% if not forloop.counter is 1 %}
-                                                <th>{{key}}</th>
-                                                {% endif %}
-                                                {% endfor %}
-        
-                                             </tr>
-                                                {% endif %}
+      {% for student_list in eventss %}
 
-                                             <tr>
-                                                {% for key, value in stu.to_mongo.to_dict.items %}
-                                            
-                                                {% if not forloop.counter is 1 %}
+      <li>
 
-                                                <td data-th={{key}}>
-                                                    {{value}}
-                                                </td>
-                                                {% endif %}
-                                                {% endfor %}
-                                                </tr>
-
-                                                {% endfor %}
-
-                                            </tbody>
-                                         </table>
-
-                                    </div>
-
-                                <br>
-                            </li>
-                        {% endfor %}
-                    </ol>
-
-                </div>
-                {% else %}
-                    <p style="font-size:3vh; margin:30px 0px 0px 0px;">No list to show</p>
+        <div class="container" style="width:100%; display: flex; justify-content: space-between;">
+          <a href="{% url 'viewStudents' student_list.id %}">{{ student_list.type }}</a>
+          <button class="expand btn btn-primary " style="text-align:right"
+            data-value="{{forloop.counter}}">Expand</button>
+        </div>
+        <div id="{{forloop.counter}}" style="font-size:1.8vh;">
+          <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
+          <p>Students in the list: {% if not student_list.list %} None {% endif %}</p>
+          <table class="rwd-table">
+            <tbody>
+              {% for stu in student_list.list %}
+              {% if forloop.counter is 1 %}
+              <tr>
+                {% for key, value in stu.to_mongo.to_dict.items %}
+                {% if not forloop.counter is 1 %}
+                <th>{{key}}</th>
                 {% endif %}
-            </div>
+                {% endfor %}
+
+              </tr>
+              {% endif %}
+
+              <tr>
+                {% for key, value in stu.to_mongo.to_dict.items %}
+
+                {% if not forloop.counter is 1 %}
+
+                <td data-th={{key}}>
+                  {{value}}
+                </td>
+                {% endif %}
+                {% endfor %}
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <br>
+      </li>
+      {% endfor %}
+    </ol>
+
+  </div>
+  {% else %}
+  <p style="font-size:3vh; margin:30px 0px 0px 0px;">No list to show</p>
+  {% endif %}
+</div>
 
 
-            <script type="text/javascript">
+<script type="text/javascript">
 
-                var clicks = 0;
+  var clicks = 0;
 
-                document.addEventListener('click', event => {
-                    const elem = event.target
-                    if(elem.className == 'expand btn btn-primary btn-outline'){
-                        const list = elem.getAttribute("data-value")
-                        $('#'+list).toggle()
-                    }
-                })
+  document.addEventListener('click', event => {
+    const elem = event.target
+    if (elem.className == 'expand btn btn-primary ') {
+      const list = elem.getAttribute("data-value")
+      $('#' + list).toggle()
+    }
+  })
 
-                $(document).ready(function(){
-                    var count = document.getElementById('count').value ;
-                    for(var i='1'; i<=count; i++){
-                        $('#'+i).hide()
-                    }
-                    $('.form-list').hide()
-                    $('.addStudentList').click(function(){
-                        if (clicks>0) {
-                            $('.addStudentList').innerHTML = "Add a Student list"
-                            $('.form-list').hide()
-                            clicks = 0
-                        }
-                        else if(clicks == 0 ) {
-                            clicks = 1;
-                            $('.addStudentList').innerHtml = "Remove"
-                            $('.form-list').show()
-                        }
-                    });
+  $(document).ready(function () {
+    var count = document.getElementById('count').value;
+    for (var i = '1'; i <= count; i++) {
+      $('#' + i).hide()
+    }
+    $('.form-list').hide()
+    $('.addStudentList').click(function () {
+      if (clicks > 0) {
+        $('.addStudentList').innerHTML = "Add a Student list"
+        $('.form-list').hide()
+        clicks = 0
+      }
+      else if (clicks == 0) {
+        clicks = 1;
+        $('.addStudentList').innerHtml = "Remove"
+        $('.form-list').show()
+      }
+    });
 
 
-                    $('.form-list').submit(function(e){
-                        $("#btnSubmit").prop("disabled", true);
-                        var form = $('.form-list').get(0);
-                        var data = new FormData(form);
-                        data.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val(),)
-                        $.ajax({
-                            type: 'post',
-                            url: '{% url "upload_studentlist" event.id %}',
-                            data: data,
-                            cache: false,
-                            processData: false,
-                            contentType: false,
-                            success: function(e){
-                                alert('List added successfully');
-                                window.location = '{% url "viewEvent" event.id %}'
-                            },
-                            error: function(e){
-                                alert('An error occured')
-                            },
-                        })
-                        return false;
-                    });
-                });
-            </script>
+    $('.form-list').submit(function (e) {
+      $("#btnSubmit").prop("disabled", true);
+      var form = $('.form-list').get(0);
+      var data = new FormData(form);
+      data.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val(),)
+      $.ajax({
+        type: 'post',
+        url: '{% url "upload_studentlist" event.id %}',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (e) {
+          alert('List added successfully');
+          window.location = '{% url "viewEvent" event.id %}'
+        },
+        error: function (e) {
+          alert('An error occured')
+        },
+      })
+      return false;
+    });
+  });
+</script>
 {% endblock %}
