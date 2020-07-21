@@ -3,125 +3,125 @@
 {% block content %}
 
 <style>
-	label{
+	label {
 		color: #0DB8DE;
 		font-weight: normal;
 	}
 </style>
-		<div class="container" style="margin-top:20px">
-			<form class="field_wrapper" id="studentForm" method="POST">
-				<a href="{% url 'viewStudents' list.id %}" class="btn btn-outline-danger" style="margin-bottom:20px">Cancel</a>
-				{% csrf_token %}
+<div class="container" style="margin-top:20px">
+	<form class="field_wrapper" id="studentForm" method="POST">
+		<a href="{% url 'viewStudents' list.id %}" class="btn btn-danger" style="margin-bottom:20px">Cancel</a>
+		{% csrf_token %}
 
-				{% if stu1st %}
-					{% for key, val in stu1st.items %}
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								<label>Field name</label>
-								<input type="text" name="field_name[]" value="{{ key }}" class="form-control" readonly/>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group">
-								<label>Field value</label>
-								<input type="text" name="field_value[]" value="" class="form-control"/>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-				{% else %}
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							<label>Field name</label>
-							<input type="text" name="field_name[]" value="name" class="form-control" readonly/>
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							<label>Field value</label>
-							<input type="text" name="field_value[]" value="" class="form-control"/>
-						</div>
-					</div>
+		{% if stu1st %}
+		{% for key, val in stu1st.items %}
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label>Field name</label>
+					<input type="text" name="field_name[]" value="{{ key }}" class="form-control" readonly />
 				</div>
-				{% endif %}
-				<div class="btn-group" id="btn_grp">
-					<a href="javascript:void(0);" class="btn btn-outline-primary" id="add_button" title="Add field">Add</a>&nbsp;
-	      			<input class="btn btn-outline-success" type="submit" id="btnSubmit" value="Save"/> &nbsp;
-					<input class="btn btn-outline-warning" type="submit" id="btnAddAnother" value="Save & Add Another"/>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label>Field value</label>
+					<input type="text" name="field_value[]" value="" class="form-control" />
 				</div>
-
-			</form>
+			</div>
+		</div>
+		{% endfor %}
+		{% else %}
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label>Field name</label>
+					<input type="text" name="field_name[]" value="name" class="form-control" readonly />
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label>Field value</label>
+					<input type="text" name="field_value[]" value="" class="form-control" />
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="btn-group" id="btn_grp">
+			<a href="javascript:void(0);" class="btn btn-primary" id="add_button" title="Add field">Add</a>&nbsp;
+			<input class="btn btn-success" type="submit" id="btnSubmit" value="Save" /> &nbsp;
+			<input class="btn btn-warning" type="submit" id="btnAddAnother" value="Save & Add Another" />
 		</div>
 
-		<script type="text/javascript" src={% static 'js/addStudent.js'%}></script>
+	</form>
+</div>
 
-		<script>
-			$("#btnSubmit").click(function(e) {
-			    $("#btnSubmit").prop("disabled", true);
-				$("#btnAddAnother").prop("disabled", true);
-			    var json_obj=$('#studentForm').formToJson()
-			    var json_send = {}
-			    var count = Object.keys(json_obj).length;
-			    var count = Object.keys(json_obj.field_name).length;
-			    for(var i=0; i<count; i++){
-			        json_send[json_obj.field_name[i]] = json_obj.field_value[i]
-							// if (json_obj.field_value[i] == ""){
-							// 	alert("Fill in all the defined fields")
-							// 	$("#btnSubmit").prop("disabled", false);
-							// 	$("#btnAddAnother").prop("disabled", false);
-							// 	return false;
-							// }
-			    }
+<script type="text/javascript" src={% static 'js/addStudent.js'%}></script>
 
-			    $.ajax({
-			        type:'POST',
-			        url:'{% url "addStudent" list.id%}',
-			        data:{
-			            json_sent:JSON.stringify(json_send),
-			            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-			            action: 'post',
-			        },
-			        success: function (data) {
-			            console.log("SUCC");
-			            window.location = '{% url "viewStudents" list.id %}'
-			        },
-			        error: function(data) {
-			            console.log("ERR");
-			        }
-			    });
-			    return false;
-			});
-			$("#btnAddAnother").click(function(e) {
-			    $("#btnSubmit").prop("disabled", true);
-				$("#btnAddAnother").prop("disabled", true);
-			    var json_obj=$('#studentForm').formToJson()
-			    var json_send = {}
-			    var count = Object.keys(json_obj).length;
-			    var count = Object.keys(json_obj.field_name).length;
-			    for(var i=0; i<count; i++){
-			        json_send[json_obj.field_name[i]] = json_obj.field_value[i]
-			    }
+<script>
+	$("#btnSubmit").click(function (e) {
+		$("#btnSubmit").prop("disabled", true);
+		$("#btnAddAnother").prop("disabled", true);
+		var json_obj = $('#studentForm').formToJson()
+		var json_send = {}
+		var count = Object.keys(json_obj).length;
+		var count = Object.keys(json_obj.field_name).length;
+		for (var i = 0; i < count; i++) {
+			json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+			// if (json_obj.field_value[i] == ""){
+			// 	alert("Fill in all the defined fields")
+			// 	$("#btnSubmit").prop("disabled", false);
+			// 	$("#btnAddAnother").prop("disabled", false);
+			// 	return false;
+			// }
+		}
 
-			    $.ajax({
-			        type:'POST',
-			        url:'{% url "addStudent" list.id%}',
-			        data:{
-			            json_sent:JSON.stringify(json_send),
-			            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-			            action: 'post',
-			        },
-			        success: function (data) {
-			            console.log("SUCC");
-			            window.location = '{% url "addStudent" list.id %}'
-			        },
-			        error: function(data) {
-			            console.log("ERR");
-			        }
-			    });
-			    return false;
-			});
-		</script>
+		$.ajax({
+			type: 'POST',
+			url: '{% url "addStudent" list.id%}',
+			data: {
+				json_sent: JSON.stringify(json_send),
+				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+				action: 'post',
+			},
+			success: function (data) {
+				console.log("SUCC");
+				window.location = '{% url "viewStudents" list.id %}'
+			},
+			error: function (data) {
+				console.log("ERR");
+			}
+		});
+		return false;
+	});
+	$("#btnAddAnother").click(function (e) {
+		$("#btnSubmit").prop("disabled", true);
+		$("#btnAddAnother").prop("disabled", true);
+		var json_obj = $('#studentForm').formToJson()
+		var json_send = {}
+		var count = Object.keys(json_obj).length;
+		var count = Object.keys(json_obj.field_name).length;
+		for (var i = 0; i < count; i++) {
+			json_send[json_obj.field_name[i]] = json_obj.field_value[i]
+		}
 
-		{% endblock %}
+		$.ajax({
+			type: 'POST',
+			url: '{% url "addStudent" list.id%}',
+			data: {
+				json_sent: JSON.stringify(json_send),
+				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+				action: 'post',
+			},
+			success: function (data) {
+				console.log("SUCC");
+				window.location = '{% url "addStudent" list.id %}'
+			},
+			error: function (data) {
+				console.log("ERR");
+			}
+		});
+		return false;
+	});
+</script>
+
+{% endblock %}

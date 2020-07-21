@@ -1,3 +1,8 @@
+body{
+  background-color: #020202;
+  color: white;
+}
+
 h1{
     color: white;
     text-align: center;
@@ -26,4 +31,16 @@ a{
 a:hover {
    color: #f7d794;
    text-decoration: none;
+}
+
+.jumbotron{
+  background-color: #2D2D34;
+}
+
+input.form-control{
+  background-color: #ccc8c8;
+}
+
+input.form-control:focus{
+  background-color: #ccc8c8;
 }
