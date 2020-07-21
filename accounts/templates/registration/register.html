@@ -1,60 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>OneStop</title>
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market">
 
-    </head>
-    <style>
-        body{
-            background: #222D32; 
-        }
-        .container{
-            margin-top: 13%;
-        }
-        h1{
-            color: white;
-            font-family: 'Chelsea Market';
-        }
-        label{
-            color: white;
-        }
-        .btn-whatever{
-            color: white;
-            background: #0DB8DE;
-            border: #0DB8DE;
-        }
-        </style>
-    <body>
-        <div>
-              <section>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-8 col-xl-6">
-          <div class="row">
-            <div class="col text-center">
-              <h1><strong>REGISTER</strong></h1>
-              <br>
-            </div>
-          </div>
-          <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <br>
-                <br>
-                <div class="text-center">
-                <button type="submit" name="file" class="btn btn-whatever">REGISTER</button>
-            </div>
-            </form> 
-        </div>
+<head>
+  <meta charset="utf-8">
+  <title>OneStop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div id="formContent" style="background-color: #92FC28;">
+
+      <h2 class="inactive underlineHover"> <a href="{% url 'login' %}"> Sign In </a></h2>
+      <h2 class="active "> Sign Up </a> </h2>
+
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="100"
+          height="100" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" />
+          <circle cx="12" cy="12" r="9" />
+          <line x1="9" y1="12" x2="15" y2="12" />
+          <line x1="12" y1="9" x2="12" y2="15" />
+        </svg>
       </div>
+
+      <form class="login" method="post">
+        {% load widget_tweaks %}
+        {% csrf_token %}
+        {% for error in form.errors %}
+        <span class="help-block">{{ error }}</span><br>
+        {% endfor %}
+        {% render_field form.username type="text" class="underlineHover" name="login" placeholder="login" %}
+        {% render_field form.password type="password" class="underlineHover" name="password" placeholder="password" %}
+        {% render_field form.password1 type="password" class="underlineHover" name="password" placeholder="password" %}
+        <input type="submit" class="" value="Create Account">
+      </form>
+
     </div>
-  </section>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+  </div>
+
+</body>
+
 </html>

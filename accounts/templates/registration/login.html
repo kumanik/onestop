@@ -1,69 +1,47 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>OneStop</title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <style>
-        body{
-           background: #222D32;
-        }
-        label{
-    color: white;
-}
-.login-box {
-    margin-top: 220px;
-    }
-    .btn-outline-primary {
-    border-color: #0DB8DE;
-}
-.btn-outline-primary:hover {
-    background-color: #0DB8DE;
-    }
 
-    </style>
-        <body>
-        <div>
-            <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-2"></div>
-            <div class="col-lg-6 col-md-8 login-box">
-                <div class="col-lg-12 login-key">
-                    <i class="fa fa-key" aria-hidden="true"></i>
-                </div>
-                <div class="col-lg-12 login-title">
-                    ONESTOP PANEL
-                </div>
-                <br>
+<head>
+    <meta charset="utf-8">
+    <title>OneStop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
+</head>
 
-                <div class="col-lg-12 login-form">
-                    <div class="col-lg-12 login-form">
-                        <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="col-lg-12 loginbttm">
-                                <div class="col-lg-6 login-btm login-text">
+<body>
 
-                                </div>
-                                <div class="col-lg-6 login-btm login-button">
-                                    <button type="submit" class="btn btn-outline-primary">LOGIN</button>
-                                    <a href="{% url 'register' %}" class="btn btn-outline-success">REGISTER</a>
-                                    <br><br><br>
-                                </div>
-                            </div>
+    <div class="wrapper">
+        <div id="formContent" style="background-color: #92FC28;">
 
-                   </div>
-                </div>
-                <div class="col-lg-3 col-md-2"></div>
+            <h2 class="active"> Sign In </h2>
+            <h2 class="inactive underlineHover"> <a href="{% url 'register' %}"> Sign Up </a> </h2>
+
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="100"
+                    height="100" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                    <path d="M20 12h-13l3 -3m0 6l-3 -3" />
+                </svg>
             </div>
+
+            <form class="login" method="post">
+                {% load widget_tweaks %}
+                {% csrf_token %}
+                {% for error in form.errors %}
+                <span class="help-block">{{ error }}</span><br>
+                {% endfor %}
+                {% render_field form.username type="text" class="underlineHover" id="login" name="login" placeholder="login" %}
+                {% render_field form.password type="password" class="underlineHover" id="password" name="password" placeholder="password" %}
+                <input type="submit" value="Log In">
+            </form>
+
         </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+    </div>
+
+</body>
+
+
 </html>

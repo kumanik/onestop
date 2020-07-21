@@ -50,6 +50,7 @@ webencodings = "==0.5.1"
 whitenoise = "==5.1.0"
 xlrd = "==1.2.0"
 Pygments = "==2.6.1"
+django-widget-tweaks = "*"
 
 [requires]
 python_version = "3.8"
