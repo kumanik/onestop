@@ -9,8 +9,9 @@ urlpatterns = [
     path("searchField/", views.search_field, name="search_field"),
 
     # Event Model
-    path("", views.listEvents, name="index"),
-    path("addEvent", views.create_event, name="addEvent"),
+    path("", views.homepage, name="home"),
+    path("home/", views.listEvents, name="index"),
+    path("addEvent/", views.create_event, name="addEvent"),
     path("event/<event_id>", views.viewEvent, name="viewEvent"),
     path("event/delete/<event_id>", views.deleteEvent, name="deleteEvent"),
     path("event/update/<event_id>", views.updateEvent, name="updateEvent"),

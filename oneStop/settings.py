@@ -63,32 +63,19 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, "accounts/templates"),)
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, "accounts/templates"),
+    os.path.join(BASE_DIR, "base/templates"),
+    )
 
 WSGI_APPLICATION = "oneStop.wsgi.application"
-
-# Rest Framework parser
-# REST_FRAMEWORK = {
-#     'DEFAULT_PARSER_CLASSES': [
-#         'rest_framework.parsers.JSONParser',
-#         'rest_framework.parsers.FormParser',
-#         'rest_framework.parsers.MultiPartParser'
-#     ]
-# }
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {"default": dj_database_url.config(default=config("DATABASE_URL"))}
-
-# If you cant setup postgres use this on local machine
-# Do not forget to uncomment the posgres one before commits or PRs
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    "default": dj_database_url.config( default=config("DATABASE_URL") )
+    }
 
 MONGO_HOST = config("MONGO_HOST")
 MONGO_NAME = config("MONGO_NAME")
@@ -124,11 +111,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
-     )
+    )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/accounts/check_staff'
 LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_URL = '/accounts/login/'
