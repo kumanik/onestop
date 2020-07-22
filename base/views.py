@@ -19,7 +19,7 @@ def homepage(request):
     if not request.user.is_staff:
         return redirect(settings.LOGIN_URL)
     else:
-        return redirect('base:index')
+        return redirect('index')
 
 
 @staff_member_required(login_url="/accounts/login/")

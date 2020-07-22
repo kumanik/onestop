@@ -14,7 +14,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("accounts:check_staff")
+            return redirect("check_staff")
         else:
             messages.error("Wrong username or password")
     return render(request, 'registration/login.html', {'form': form})
@@ -31,7 +31,7 @@ def register_view(request):
         login(request, new_user)
         key = api_key(user=new_user)
         key.save()
-        return redirect('accounts:check_staff')
+        return redirect('check_staff')
     return render(request, 'registration/register.html', {'form': form})
 
 
