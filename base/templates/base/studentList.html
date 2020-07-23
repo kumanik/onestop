@@ -22,7 +22,7 @@
   }
 </style>
 <div class="container" style="margin-top:20px">
-  <div class="container">
+  <div class="container jumbotron">
     {% if message %}
     <div class="alert alert-danger" role="alert">
       <h4> Error! </h4>
@@ -37,22 +37,20 @@
       <a class="btn btn-danger" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>
       <a class="btn btn-success" href="{% url 'addStudent' student_list.id %}">Add student</a>
     </div>
+    <div>
+      <p>Add a file to merge: </p>
+      <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data"
+        action="{% url 'merge_file' student_list.id %}">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="file" name="file"
+          accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          required>
+        <button type="submit" class="btn btn-warning">merge file</button>
+      </form>
+    </div>
   </div>
 
-  <div class="jumbotron" id="list" style="font-size:20px">
-
-    <p>Add a file to merge: </p>
-
-    <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data"
-      action="{% url 'merge_file' student_list.id %}">
-      {% csrf_token %}
-      <input class="form-control mr-sm-2" type="file" name="file" required>
-
-
-      <button type="submit" class="btn btn-warning">merge file</button>
-    </form>
-    <br><br>
-
+  <div class="jumbotron" id="list" style="font-size:20px;margin-top: 40px; overflow-x:auto;">
     <table class="rwd-table" style="font-size: 14px;">
       <tbody>
         {% for stu in student_list.list %}
@@ -78,7 +76,7 @@
           </td>
           {% endif %}
           {% endfor %}
-          <td data-th="Edit/Delete">
+          <td data-th=" Edit/Delete">
             <div class="btn-group">
               <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>
               <a class="btn btn-warning" href="{% url 'updateStudent' stu.id %">EDIT</a>
