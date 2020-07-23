@@ -7,3 +7,8 @@ db.sqlite3
 static/css
 static/js
 .vscode
+.env-postgres
+.env-mongodb
+.env.docker
+mongo_data
+postgres_data
