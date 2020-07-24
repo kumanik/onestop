@@ -15,7 +15,7 @@ services:
       - db-postgres
       - db-mongo
   db-postgres:
-    image: postgres:12-alpine
+    image: postgres:latest
     restart: always
     volumes:
       - ./postgres_data:/var/lib/postgresql/data/

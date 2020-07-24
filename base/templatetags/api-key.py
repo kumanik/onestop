@@ -6,6 +6,8 @@ register = template.Library()
 
 @register.simple_tag(name='get_key')
 def get_key(user):
-    key = api_key.objects.get(user=user)
-    if key is not None:
-        return key.apiKey
+    try:
+        key = api_key.objects.get(user=user)
+    except:
+        key = None
+    return key.apiKey

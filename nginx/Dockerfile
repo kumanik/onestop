@@ -1,4 +1,4 @@
-FROM nginx:1.17.2-alpine
+FROM nginx:latest
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY onestop.conf /etc/nginx/conf.d
