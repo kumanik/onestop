@@ -42,9 +42,11 @@
       <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data"
         action="{% url 'merge_file' student_list.id %}">
         {% csrf_token %}
-        <input class="form-control mr-sm-2" type="file" name="file"
-          accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          required>
+        <div class="form-group">
+            <input class="form-control mr-sm-2" type="file" name="file"
+              accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              required>
+        </div>
         <button type="submit" class="btn btn-warning">merge file</button>
       </form>
     </div>

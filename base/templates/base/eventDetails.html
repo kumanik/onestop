@@ -43,12 +43,11 @@
 
 
 
-  <button class="addStudentList btn btn-primary" data-value="abc">Add
-    a student list</button>
+  <button class="addStudentList btn btn-primary" data-value="abc">Add a student list</button>
   <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
     {% csrf_token %}
     <div class="row">
-      <div class="col-3 ">
+      <div class="col-sm-12 col-md-4">
         <div class="form-group">
           <label for="id_file">File:</label>
           <input class="form-control" type="file" name="file"
@@ -57,19 +56,18 @@
         </div>
       </div>
 
-      <div class="col-4">
-        <div class="form-group">
-          <label for="id_input">Identifier for list:</label>
-          <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
-        </div>
+      <div class="col-sm-12 col-md-8">
+          <div class="row">
+              <div class="form-group" style="margin-left:15px">
+                <label for="id_input">Identifier:</label>
+                <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
+              </div>
+              <div class="form-group" style="position:relative; left:10px">
+                <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"/>
+              </div>
+          </div>
       </div>
-      <div class="form-group" style="position:relative">
-
-        <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0" />
-      </div>
-
     </div>
-
   </form>
 
 
