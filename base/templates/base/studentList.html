@@ -1,16 +1,5 @@
 {% extends 'base/based.html' %}
 
-{% block search%}
-
-<form class="form-inline my-2 my-lg-0" action="{% url 'sort_by' student_list.id %}" method="get">
-  <input class="form-control mr-sm-2" name="sort_by" type="text" placeholder="Sort By" aria-label="sort_by"
-    style="border-color:black" required>
-  <button class="btn btn-success my-2 my-sm-0" type="submit">Sort</button>
-</form>
-
-
-{% endblock %}
-
 {% block content %}
 <style>
   body {
@@ -23,17 +12,10 @@
 </style>
 <div class="container" style="margin-top:20px">
   <div class="container jumbotron">
-    {% if message %}
-    <div class="alert alert-danger" role="alert">
-      <h4> Error! </h4>
-      <hr>
-      <p>{{ message }}</p>
-    </div>
-    {% endif %}
     <a>Back to Event view : <a href="{% url 'viewEvent' event.id %}">{{ event.name }}</a></a>
     <br />
     <a>Identifier : {{ student_list.type }}</a><br>
-    <div class="btn-group" style="margin-bottom: 10px">
+    <div class="btn-group" style="margin-bottom: 20px">
       <a class="btn btn-danger" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>
       <a class="btn btn-success" href="{% url 'addStudent' student_list.id %}">Add student</a>
     </div>
@@ -43,53 +25,95 @@
         action="{% url 'merge_file' student_list.id %}">
         {% csrf_token %}
         <div class="form-group">
-            <input class="form-control mr-sm-2" type="file" name="file"
-              accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              required>
+          <input class="form-control mr-sm-2" type="file" name="file"
+            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            required>
         </div>
-        <button type="submit" class="btn btn-warning">merge file</button>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">Merge File</button>
+        </div>
+
       </form>
     </div>
   </div>
 
-  <div class="jumbotron" id="list" style="font-size:20px;margin-top: 40px; overflow-x:auto;">
-    <table class="rwd-table" style="font-size: 14px;">
-      <tbody>
-        {% for stu in student_list.list %}
+  <div class="jumbotron" style="overflow-x:auto; height:400px;">
+    <table class="table" style="color: #ffffff;">
+      {% for stu in student_list.list %}
+      <thead>
         {% if forloop.counter is 1 %}
-        <tr>
-          {% for key, value in stu.to_mongo.to_dict.items %}
-          {% if not forloop.counter is 1 %}
-          <th>{{key}}</th>
-          {% endif %}
-          {% endfor %}
-          <th>Edit</th>
-
-        </tr>
+        <thead>
+          <tr>
+            {% for key, val in stu.to_mongo.to_dict.items %}
+            {% if forloop.counter is not 1 %}
+            <th scope="col">
+              <a href="?order_by={{key}}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-down" width="20"
+                  height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <polyline points="7 7 12 12 17 7" />
+                  <polyline points="7 13 12 18 17 13" />
+                </svg>
+              </a>
+              {{key|capfirst}}
+              <a href="?order_by=-{{key}}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-up" width="20"
+                  height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <polyline points="7 11 12 6 17 11" />
+                  <polyline points="7 17 12 12 17 17" />
+                </svg>
+              </a>
+            </th>
+            {% endif %}
+            {% endfor %}
+            <th scope="col">Edit/Delete</th>
+          </tr>
+        </thead>
         {% endif %}
-
+      </thead>
+      <tbody>
         <tr>
-          {% for key, value in stu.to_mongo.to_dict.items %}
-
-          {% if not forloop.counter is 1 %}
-
-          <td data-th={{key}}>
-            {{value}}
-          </td>
+          {% for key, val in stu.to_mongo.to_dict.items %}
+          {% if forloop.counter is not 1 %}
+          <td>{{val}}</td>
           {% endif %}
           {% endfor %}
-          <td data-th=" Edit/Delete">
+          <td>
             <div class="btn-group">
-              <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}">DELETE</a>
-              <a class="btn btn-warning" href="{% url 'updateStudent' stu.id %}">EDIT</a>
-                      </div>
-        </td>
+              <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24"
+                  height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="10" y1="11" x2="10" y2="17" />
+                  <line x1="14" y1="11" x2="14" y2="17" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                </svg>
+              </a>
+              <a class="btn btn-warning" href="{% url 'updateStudent' stu.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24"
+                  height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                  <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                </svg>
+              </a>
+            </div>
+          </td>
         </tr>
+      </tbody>
 
-        {% endfor %}
+      {% endfor %}
+    </table>
+  </div>
 
-    </tbody>
-  </table>
-        </div>
-    </div>
+
+
+</div>
 {% endblock %}

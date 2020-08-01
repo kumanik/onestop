@@ -43,7 +43,14 @@
 
 
 
-  <button class="addStudentList btn btn-primary" data-value="abc">Add a student list</button>
+  <button class="addStudentList btn btn-primary" data-value="abc"><svg xmlns="http://www.w3.org/2000/svg"
+      class="icon icon-tabler icon-tabler-cloud-upload" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5"
+      stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <path d="M7 18a4.6 4.4 0 0 1 0 -9h0a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1" />
+      <polyline points="9 15 12 12 15 15" />
+      <line x1="12" y1="12" x2="12" y2="21" />
+    </svg></button>
   <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
     {% csrf_token %}
     <div class="row">
@@ -57,15 +64,16 @@
       </div>
 
       <div class="col-sm-12 col-md-8">
-          <div class="row">
-              <div class="form-group" style="margin-left:15px">
-                <label for="id_input">Identifier:</label>
-                <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
-              </div>
-              <div class="form-group" style="position:relative; left:10px">
-                <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"/>
-              </div>
+        <div class="row">
+          <div class="form-group" style="margin-left:15px">
+            <label for="id_input">Identifier:</label>
+            <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
           </div>
+          <div class="form-group" style="position:relative; left:10px">
+            <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"
+              value="Save" />
+          </div>
+        </div>
       </div>
     </div>
   </form>
@@ -93,35 +101,52 @@
             <p>Students in the list: {% if not student_list.list %} None {% endif %}</p>
           </div>
 
-          <table class="rwd-table" style="font-size: 14px;">
-            <tbody>
-              {% for stu in student_list.list %}
+          <table class="table" style="color: #ffffff;">
+            {% for stu in student_list.list %}
+            <thead>
               {% if forloop.counter is 1 %}
-              <tr>
-                {% for key, value in stu.to_mongo.to_dict.items %}
-                {% if not forloop.counter is 1 %}
-                <th>{{key}}</th>
-                {% endif %}
-                {% endfor %}
-
-              </tr>
+              <thead>
+                <tr>
+                  {% for key, val in stu.to_mongo.to_dict.items %}
+                  {% if forloop.counter is not 1 %}
+                  <th scope="col">
+                    <a href="?order_by={{key}}">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-down"
+                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="7 7 12 12 17 7" />
+                        <polyline points="7 13 12 18 17 13" />
+                      </svg>
+                    </a>
+                    {{key|capfirst}}
+                    <a href="?order_by=-{{key}}">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-up"
+                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="7 11 12 6 17 11" />
+                        <polyline points="7 17 12 12 17 17" />
+                      </svg>
+                    </a>
+                  </th>
+                  {% endif %}
+                  {% endfor %}
+                </tr>
+              </thead>
               {% endif %}
-
+            </thead>
+            <tbody>
               <tr>
-                {% for key, value in stu.to_mongo.to_dict.items %}
-
-                {% if not forloop.counter is 1 %}
-
-                <td data-th={{key}}>
-                  {{value}}
-                </td>
+                {% for key, val in stu.to_mongo.to_dict.items %}
+                {% if forloop.counter is not 1 %}
+                <td>{{val}}</td>
                 {% endif %}
                 {% endfor %}
               </tr>
-
-              {% endfor %}
 
             </tbody>
+            {% endfor %}
           </table>
 
         </div>

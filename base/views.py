@@ -33,10 +33,11 @@ def search(request):
     events = Event.objects.filter(name__icontains=query)
     return render(request, 'base/eventList.html', {'events': events})
 
+
 def search_field(request):
     query = request.GET.get('search_field')
     querys = request.GET.get('searches')
-    abc =[]
+    abc = []
     if querys.isnumeric():
         field = query
     else:
@@ -48,6 +49,7 @@ def search_field(request):
         abc.append(r.id)
     t = Event.objects.filter(student_lists__in=abc)
     return render(request, 'base/studentSearch.html', {'events': t, 'student_event': s})
+
 
 @staff_member_required
 def viewEvent(request, event_id):
@@ -62,11 +64,11 @@ def viewEvent(request, event_id):
     eventss = event.student_lists
     count = len(event.student_lists)
     context = {
-                'event': event,
-                'event_dict': event_dict,
-                'count': count,
-                'eventss': eventss
-              }
+        'event': event,
+        'event_dict': event_dict,
+        'count': count,
+        'eventss': eventss
+    }
     return render(request, 'base/eventDetails.html', context)
 
 
@@ -87,7 +89,7 @@ def search1(request, event_id):
         'event_dict': event_dict,
         'count': count,
         'eventss': eventss
-        }
+    }
     return render(request, 'base/eventDetails.html', context)
 
 
@@ -127,22 +129,8 @@ def updateEvent(request, event_id):
     )
 
 
-@staff_member_required
-def viewStudentList(request, list_id):
+def sort_by(list_id, sort_by):
     student_list = StudentList.objects.get(id=list_id)
-    event = Event.objects.get(student_lists__contains=student_list.id)
-    return render(
-        request,
-        "base/studentList.html",
-        {"student_list": student_list, "event": event}
-    )
-
-
-@staff_member_required
-def sort_by(request, list_id):
-    student_list = StudentList.objects.get(id=list_id)
-    event = Event.objects.get(student_lists__contains=student_list.id)
-    sort_by = request.GET.get('sort_by')
     try:
         if sort_by[0] == '-':
             student_list.list = sorted(
@@ -177,24 +165,20 @@ def sort_by(request, list_id):
                     (operator.attrgetter(sort_by)(mbr) or " ").lower(),
                 reverse=False
             )
-    except AttributeError:
-        print(sort_by)
-        return render(
-            request, "base/studentList.html",
-            {
-                "event": event,
-                "student_list": student_list,
-                "message": "Enter an attribute present on all objects"
-            }
-        )
+    return student_list
+
+
+@staff_member_required
+def viewStudentList(request, list_id):
+    student_list = StudentList.objects.get(id=list_id)
+    event = Event.objects.get(student_lists__contains=student_list.id)
+    order_by = request.GET.get('order_by', None)
+    if order_by is not None:
+        student_list = sort_by(list_id, order_by)
     return render(
         request,
         "base/studentList.html",
-        {
-            "student_list": student_list,
-            "event": event,
-            "message": None
-        }
+        {"student_list": student_list, "event": event}
     )
 
 
@@ -212,8 +196,8 @@ def merge_file(request, list_id):
         handle_uploaded_file(request.FILES['file'])
         data = request.FILES['file']
         list1 = StudentList.objects.get(id=list_id)
-        previous=[]
-        c=0
+        previous = []
+        c = 0
         for i in list1.list:
             student_dict = i.to_mongo().to_dict()
             student_dict.pop('_id')
@@ -221,11 +205,11 @@ def merge_file(request, list_id):
         with open('base/upload/' + data.name, 'r') as csv_file:
             datas = csv.DictReader(csv_file)
             for row in datas:
-                c=0
+                c = 0
                 for i in previous:
-                    if row==i:
-                        c=1
-                if c==0:
+                    if row == i:
+                        c = 1
+                if c == 0:
                     stu = Student(**row)
                     stu.save()
                     list1.list.append(stu)
@@ -236,7 +220,7 @@ def merge_file(request, list_id):
         form = FileForm()
     return render(request, "base/upload_file.html", {'form': form})
 
-    
+
 def handle_uploaded_file(f):
     with open("base/upload/" + f.name, "wb+") as destination:
         for chunk in f.chunks():
@@ -320,12 +304,12 @@ def createStudent(request, list_id):
             request,
             "base/addStudent.html",
             {'list': list, 'stu1st': stu1st}
-            )
+        )
     return render(
         request,
         "base/addStudent.html",
         {'list': list, 'stu1st': stu1st}
-        )
+    )
 
 
 def addField(list_id, key):

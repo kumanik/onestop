@@ -18,34 +18,35 @@ urlpatterns = [
 
 
     # StudentList Model
-    path("event/mergestudentlist/upload/<list_id>", views.merge_file, name="merge_file"),
+    path("event/mergestudentlist/upload/<list_id>",
+         views.merge_file, name="merge_file"
+         ),
     path(
         "event/studentlist/<list_id>",
         views.viewStudentList, name="viewStudents"
-        ),
+    ),
     path(
         "event/student_list/delete/<list_id>",
         views.deleteStudentList, name="deleteStudentList"
-        ),
+    ),
     path(
         "event/addstudentlist/upload/<event_id>",
         views.addStudentList, name="upload_studentlist"
-        ),
-    path("event/studentlist/sorted/<list_id>", views.sort_by, name="sort_by"),
+    ),
 
     # Student model
     path(
         "event/studentlist/student/<student_id>",
         views.updateStudent, name="updateStudent"
-        ),
+    ),
     path(
         "event/studentlist/student/add/<list_id>",
         views.createStudent, name="addStudent"
-        ),
+    ),
     path(
         "event/studentlist/student/delete/<student_id>",
         views.deleteStudent, name="deleteStudent"
-        ),
+    ),
 
     # API
     path("api/event", views.event_APIView),
