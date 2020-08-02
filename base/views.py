@@ -37,6 +37,7 @@ def search(request):
 def search_field(request):
     query = request.GET.get('search_field')
     querys = request.GET.get('searches')
+    query = query.upper()
     abc = []
     if querys.isnumeric():
         field = query
@@ -231,6 +232,11 @@ def handle_uploaded_file(f):
     df = pd.read_csv("base/upload/" + f.name)
     df.drop_duplicates(inplace=True)
     df.to_csv("base/upload/" + f.name, index=False)
+    with open('base/upload/' + f.name, 'r') as check:
+        seen = check.readlines()
+    seen[0] = seen[0].upper()
+    with open('base/upload/' + f.name, 'w') as check:
+        check.writelines(seen)
 
 
 @staff_member_required
