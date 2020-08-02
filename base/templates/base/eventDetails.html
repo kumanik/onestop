@@ -95,57 +95,61 @@
           <button class="expand btn btn-primary " style="text-align:right"
             data-value="{{forloop.counter}}">Expand</button>
         </div>
-        <div id="{{forloop.counter}}" style="font-size:20px;">
+        <div id="{{forloop.counter}}" style="font-size:20px; overflow-x:auto; height:400px;">
           <div class="container" style="text-align: left;">
             <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
             <p>Students in the list: {% if not student_list.list %} None {% endif %}</p>
           </div>
 
-          <table class="table" style="color: #ffffff;">
+          <table class="table" style="color: #ffffff; font-size: 16px;">
             {% for stu in student_list.list %}
-            <thead>
+            <thead style="position: sticky; top: 0; background-color:#3c3c46; overflow: hidden; white-space: nowrap;">
               {% if forloop.counter is 1 %}
-              <thead>
-                <tr>
-                  {% for key, val in stu.to_mongo.to_dict.items %}
-                  {% if forloop.counter is not 1 %}
-                  <th scope="col">
-                    <a href="?order_by={{key}}">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-down"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <polyline points="7 7 12 12 17 7" />
-                        <polyline points="7 13 12 18 17 13" />
-                      </svg>
-                    </a>
-                    {{key|capfirst}}
-                    <a href="?order_by=-{{key}}">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-up"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <polyline points="7 11 12 6 17 11" />
-                        <polyline points="7 17 12 12 17 17" />
-                      </svg>
-                    </a>
-                  </th>
-                  {% endif %}
-                  {% endfor %}
-                </tr>
-              </thead>
+              <tr>
+                {% for key, val in stu.to_mongo.to_dict.items %}
+                {% if forloop.counter is not 1 %}
+                <th scope="col">
+                  <a style="display: inline-block;">{{key|capfirst}}</a>
+                </th>
+                {% endif %}
+                {% endfor %}
+                <th scope="col"><a>Edit/Delete</a></th>
+              </tr>
               {% endif %}
             </thead>
-            <tbody>
+            <tbody style="background-color: #525b70;">
               <tr>
                 {% for key, val in stu.to_mongo.to_dict.items %}
                 {% if forloop.counter is not 1 %}
                 <td>{{val}}</td>
                 {% endif %}
                 {% endfor %}
+                <td style=" overflow: hidden; white-space: nowrap;">
+                  <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24"
+                      height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <line x1="4" y1="7" x2="20" y2="7" />
+                      <line x1="10" y1="11" x2="10" y2="17" />
+                      <line x1="14" y1="11" x2="14" y2="17" />
+                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                  </a>
+                  <a class="btn btn-warning" href="{% url 'updateStudent' stu.id %}" style="display: inline-block;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24"
+                      height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                      <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                    </svg>
+                  </a>
+                </td>
               </tr>
-
             </tbody>
+
             {% endfor %}
           </table>
 
