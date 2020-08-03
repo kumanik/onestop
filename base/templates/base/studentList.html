@@ -16,7 +16,7 @@
     <br />
     <a>Identifier : {{ student_list.type }}</a><br>
     <div class="btn-group" style="margin-bottom: 20px">
-      <a class="btn btn-danger" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>
+      <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>
       <a class="btn btn-success" href="{% url 'addStudent' student_list.id %}">Add student</a>
     </div>
     <div>
@@ -81,7 +81,8 @@
           {% endif %}
           {% endfor %}
           <td style=" overflow: hidden; white-space: nowrap;">
-            <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}" style="display: inline-block;">
+            <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudent' stu.id %}"
+              style="display: inline-block;">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
                 stroke-linejoin="round">
@@ -113,4 +114,9 @@
 
 
 </div>
+<script type="text/javascript">
+  $(document).on('click', '#confirm-delete', function () {
+    return confirm('Are you sure you want to delete this?');
+  })
+</script>
 {% endblock %}

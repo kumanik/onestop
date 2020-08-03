@@ -30,10 +30,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 # install environment dependencies
-RUN pip3 install --upgrade pip numpy
-RUN pip3 install --no-use-pep517 pandas
+RUN pip3 install --upgrade pip
 COPY ./requirements.txt /usr/src/requirements.txt
-RUN pip install --no-use-pep517 -r requirements.txt
+RUN pip3 install --no-use-pep517 -r requirements.txt
 
 # copy project to working dir
 COPY . /usr/src/

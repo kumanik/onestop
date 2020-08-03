@@ -37,7 +37,8 @@
     </div>
     <div class="container">
       <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
-      <p><a class="b" href="{% url 'deleteEvent' event.id%}" style="font-size:20px">Delete</a> this event </p>
+      <p><a id="confirm-delete" href="{% url 'deleteEvent' event.id%}" style="font-size:20px">Delete</a> this event
+      </p>
     </div>
   </div>
 
@@ -67,7 +68,8 @@
         <div class="row">
           <div class="form-group" style="margin-left:15px">
             <label for="id_input">Identifier:</label>
-            <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards">
+            <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards"
+              required>
           </div>
           <div class="form-group" style="position:relative; left:10px">
             <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"
@@ -97,7 +99,8 @@
         </div>
         <div id="{{forloop.counter}}" style="font-size:20px; overflow-x:auto; height:400px;">
           <div class="container" style="text-align: left;">
-            <p><a href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a> this list</p>
+            <p><a id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a>
+              this list</p>
             <p>Students in the list: {% if not student_list.list %} None {% endif %}</p>
           </div>
 
@@ -125,7 +128,8 @@
                 {% endif %}
                 {% endfor %}
                 <td style=" overflow: hidden; white-space: nowrap;">
-                  <a class="btn btn-danger" href="{% url 'deleteStudent' stu.id %}" style="display: inline-block;">
+                  <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudent' stu.id %}"
+                    style="display: inline-block;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24"
                       height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                       stroke-linecap="round" stroke-linejoin="round">
@@ -179,12 +183,19 @@
     }
   })
 
+  $(document).on('click', '#confirm-delete', function () {
+    return confirm('Are you sure you want to delete this?');
+  })
+
   $(document).ready(function () {
     var count = document.getElementById('count').value;
+
     for (var i = '1'; i <= count; i++) {
       $('#' + i).hide()
     }
+
     $('.form-list').hide()
+
     $('.addStudentList').click(function () {
       if (clicks > 0) {
         $('.addStudentList').innerHTML = "Add a Student list"
@@ -197,7 +208,6 @@
         $('.form-list').show()
       }
     });
-
 
     $('.form-list').submit(function (e) {
       $("#btnSubmit").prop("disabled", true);
@@ -222,5 +232,6 @@
       return false;
     });
   });
+
 </script>
 {% endblock %}
