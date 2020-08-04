@@ -3,24 +3,18 @@ from decouple import config
 import dj_database_url
 from mongoengine import connect
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG")
+DEBUG = config('DEBUG_VAR', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     "one-1-stop.herokuapp.com",
     "127.0.0.1",
     "localhost",
 ]
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -43,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'base.middleware.StaffRequiredMiddleware',
 ]
 
 ROOT_URLCONF = "oneStop.urls"
@@ -63,27 +58,25 @@ TEMPLATES = [
     },
 ]
 
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "accounts/templates"),
     os.path.join(BASE_DIR, "base/templates"),
-    )
+)
+
 
 WSGI_APPLICATION = "oneStop.wsgi.application"
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config( default=config("DATABASE_URL") )
-    }
+    "default": dj_database_url.config(default=config("DATABASE_URL"))
+}
 
 MONGO_HOST = config("MONGO_HOST")
 MONGO_NAME = config("MONGO_NAME")
 
 connect(MONGO_NAME, host=MONGO_HOST, alias="default")
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -93,31 +86,31 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
+TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
-    )
+    os.path.join(BASE_DIR, 'static'),
+)
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_REDIRECT_URL = '/accounts/check_staff'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login'
 
 LOGIN_URL = '/accounts/login/'
+REGISTER_URL = '/accounts/register/'
+
+LOGIN_EXEMPT_URLS = (
+    '/accounts/login/',
+    '/accounts/logout/',
+    '/accounts/register/',
+    '/accounts/check_staff/',
+)

@@ -8,6 +8,6 @@ register = template.Library()
 def get_key(user):
     try:
         key = api_key.objects.get(user=user)
+        return key.apiKey
     except:
-        key = None
-    return key.apiKey
+        return None

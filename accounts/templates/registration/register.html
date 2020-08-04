@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title>OneStop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>OneStop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
+</head>
 
-  <body>
+<body>
 
-    <div class="wrapper">
-      <div id="formContent" style="background-color: #2D2E2E;">
+  <div class="wrapper">
+    <div id="formContent" style="height: 60vh;background-color: #2D2E2E;">
 
-        <h2 class="inactive underlineHover"> <a href="{% url 'login' %}"> Sign In </a></h2>
-        <h2 class="active "> Sign Up </a> </h2>
+      <h2 class="inactive underlineHover"> <a href="{% url 'login' %}"> Sign In </a></h2>
+      <h2 class="active "> Sign Up </a> </h2>
 
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="10vh"
-            height="10vh" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
-            stroke-linejoin="round" style="margin:2vh">
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <circle cx="12" cy="12" r="9" />
-            <line x1="9" y1="12" x2="15" y2="12" />
-            <line x1="12" y1="9" x2="12" y2="15" />
-          </svg>
-        </div>
-
-        <form class="login" method="post">
-          {% load widget_tweaks %}
-          {% csrf_token %}
-          {% for error in form.errors %}
-          <span class="help-block">{{ error }}</span><br>
-          {% endfor %}
-          {% render_field form.username type="text" class="underlineHover" name="login" placeholder="Username" %}
-          {% render_field form.password type="password" class="underlineHover" name="password" placeholder="Password" %}
-          {% render_field form.password1 type="password" class="underlineHover" name="password" placeholder="Confirm Password" %}
-          <input type="submit" class="" value="Create Account">
-        </form>
-
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="10vh"
+          height="10vh" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+          stroke-linejoin="round" style="margin:2vh">
+          <path stroke="none" d="M0 0h24v24H0z" />
+          <circle cx="12" cy="12" r="9" />
+          <line x1="9" y1="12" x2="15" y2="12" />
+          <line x1="12" y1="9" x2="12" y2="15" />
+        </svg>
       </div>
-    </div>
 
-  </body>
+      <form class="login" method="post">
+        {% load widget_tweaks %}
+        {% csrf_token %}
+        {% for error in form.errors %}
+        <span class="help-block">{{ error }}</span><br>
+        {% endfor %}
+        {% render_field form.username type="text" class="underlineHover" name="login" placeholder="Username" %}
+        {% render_field form.password type="password" class="underlineHover" name="password" placeholder="Password" %}
+        {% render_field form.password1 type="password" class="underlineHover" name="password" placeholder="Confirm Password" %}
+        <input type="submit" class="" value="Create Account">
+      </form>
+
+    </div>
+  </div>
+
+</body>
 
 </html>

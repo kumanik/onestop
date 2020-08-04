@@ -19,9 +19,6 @@ class EventSerializer(DynamicDocumentSerializer):
                 stu.save()
                 li.list.append(stu)
             li.save()
-            # serializer = StudentListSerializer(**student_list)
-            # if serializer.is_valid():
-            #     list = serializer.save()
             event.student_lists.append(li)
             event.save()
         return event

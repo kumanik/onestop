@@ -15,14 +15,6 @@ import operator
 from django.conf import settings
 
 
-def homepage(request):
-    if not request.user.is_staff:
-        return redirect(settings.LOGIN_URL)
-    else:
-        return redirect('index')
-
-
-@staff_member_required(login_url="/accounts/login/")
 def listEvents(request):
     events = Event.objects.all()
     return render(request, "base/eventList.html", {"events": events})
@@ -52,7 +44,6 @@ def search_field(request):
     return render(request, 'base/studentSearch.html', {'events': t, 'student_event': s})
 
 
-@staff_member_required
 def viewEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
@@ -94,7 +85,6 @@ def search1(request, event_id):
     return render(request, 'base/eventDetails.html', context)
 
 
-@staff_member_required
 def create_event(request):
     if request.POST.get("action") == "post":
         data = json.loads(request.POST.get("json_sent"))
@@ -104,14 +94,12 @@ def create_event(request):
     return render(request, "base/addEvent.html")
 
 
-@staff_member_required
 def deleteEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event.delete()
     return redirect("index")
 
 
-@staff_member_required
 def updateEvent(request, event_id):
     event = Event.objects.get(id=event_id)
     event_dict = event.to_mongo().to_dict()
@@ -169,7 +157,6 @@ def sort_by(list_id, sort_by):
     return student_list
 
 
-@staff_member_required
 def viewStudentList(request, list_id):
     student_list = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=student_list.id)
@@ -183,7 +170,6 @@ def viewStudentList(request, list_id):
     )
 
 
-@staff_member_required
 def deleteStudentList(request, list_id):
     list1 = StudentList.objects.get(id=list_id)
     event = Event.objects.get(student_lists__contains=list1.id)
@@ -191,7 +177,6 @@ def deleteStudentList(request, list_id):
     return redirect("viewEvent", event.id)
 
 
-@staff_member_required
 def merge_file(request, list_id):
     if request.method == 'POST':
         handle_uploaded_file(request.FILES['file'])
@@ -239,7 +224,6 @@ def handle_uploaded_file(f):
         check.writelines(seen)
 
 
-@staff_member_required
 def addStudentList(request, event_id):
     if request.method == "POST":
         data = request.FILES.get("file")
@@ -261,7 +245,6 @@ def addStudentList(request, event_id):
         return redirect("viewEvent", event_id)
 
 
-@staff_member_required
 def updateStudent(request, student_id):
     stu = Student.objects.get(id=student_id)
     list = StudentList.objects.filter(list__contains=stu.id)[0]
@@ -285,7 +268,6 @@ def updateStudent(request, student_id):
     })
 
 
-@staff_member_required
 def createStudent(request, list_id):
     list = StudentList.objects.get(id=list_id)
     try:
@@ -326,7 +308,6 @@ def addField(list_id, key):
     return None
 
 
-@staff_member_required
 def deleteStudent(request, student_id):
     stu = Student.objects.get(id=student_id)
     list = StudentList.objects.filter(list__contains=stu.id)[0]
@@ -361,9 +342,3 @@ def event_APIView(request):
             "API KEY NOT PROVIDED",
             status=status.HTTP_401_UNAUTHORIZED
         )
-
-
-def key_viewer(request):
-    key = api_key.objects.get(user=request.user)
-    if key is not None:
-        return JsonResponse({'key': key.apiKey})

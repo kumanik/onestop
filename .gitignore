@@ -12,3 +12,7 @@ static/js
 .env.docker
 mongo_data
 postgres_data
+staticfiles/accounts
+staticfiles/admin
+staticfiles/base
+staticfiles/*.*

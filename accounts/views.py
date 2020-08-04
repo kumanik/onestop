@@ -6,6 +6,8 @@ from accounts.models import api_key
 
 def login_view(request):
     form = UserLoginForm(request.POST or None)
+    if request.user.is_authenticated():
+        logout(request)
     if form.is_valid():
         if request.next is not None:
             request.next = '/accounts/check_staff'
@@ -39,8 +41,9 @@ def logout_view(request):
     logout(request)
     return render(request, '/')
 
+
 def check_staff(request):
     if request.user.is_staff:
-        return redirect('/home')
+        return redirect('/')
     else:
         return render(request, 'registration/not_authorized.html')

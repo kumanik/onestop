@@ -10,7 +10,12 @@
 </head>
 
 <body>
-
+    {% if form.errors%}
+    <div style="background-color: red;"><span class="help-block"
+            style="font-size:20px; margin-bottom: 0px;">{{form.errors}}</span>
+        <br>
+    </div>
+    {% endif %}
     <div class="wrapper">
         <div id="formContent" style="background-color: #2D2E2E;">
 
@@ -30,7 +35,6 @@
             <form class="login" method="post">
                 {% load widget_tweaks %}
                 {% csrf_token %}
-                <span class="help-block">{{form.errors}}</span><br>
                 {% render_field form.username type="text" class="underlineHover" id="login" name="login" placeholder="Username" %}
                 {% render_field form.password type="password" class="underlineHover" id="password" name="password" placeholder="Password" %}
                 <input type="submit" value="Log In">
