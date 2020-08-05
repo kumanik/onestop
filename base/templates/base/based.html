@@ -32,14 +32,16 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
 			<span>
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stack" width="44"
-					height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round"
-					stroke-linejoin="round">
-					<path stroke="none" d="M0 0h24v24H0z" />
-					<polyline points="12 4 4 8 12 12 20 8 12 4" />
-					<polyline points="4 12 12 16 20 12" />
-					<polyline points="4 16 12 20 20 16" />
-				</svg>
+				<a href="/">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stack" width="44"
+						height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none"
+						stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" />
+						<polyline points="12 4 4 8 12 12 20 8 12 4" />
+						<polyline points="4 12 12 16 20 12" />
+						<polyline points="4 16 12 20 20 16" /></svg>
+				</a>
+
 				&nbsp;
 				<a class="navbar-brand" href="{% url 'index' %}"
 					style="font-size: 24px ;font-family: 'Oswald', sans-serif;"><strong>OneStop</strong></a>
@@ -72,8 +74,8 @@
 										<h4 class="modal-title">API Key for {{user}}</h4>
 									</div>
 									<div class="modal-body" style="margin-bottom: 40px; margin-top:20px;">
-										<input class="form-control" type="text" name="" id="keystore"
-											value={% get_key user %} style="width:100%" readonly>
+										<textarea class="form-control" name="" id="keystore" rows="2"
+											disabled>{% get_key user %}</textarea>
 									</div>
 									<div>
 										<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

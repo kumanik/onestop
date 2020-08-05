@@ -35,20 +35,38 @@
     <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
   </form>
   <br>
-  <div class="jumbotron" style="margin:30px 0px 0px 0px">
+  <div class="container" style="margin:30px 0px 0px 0px">
     <a class="button btn-abcd" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
     {% if events.count > 0 %}
     <h3 style="margin-top:10px; font-size:32px">Events List :</h3>
-    <ol>
+
+    <div class="row card-deck">
       {% for event in events %}
-      <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
-      {%  endfor  %}
-    </ol>
+      <div class="col-md-4 col-sm-12 mb-4 card" style="background-color: #2D2D34;">
+        <a class="card-header" href="{% url 'viewEvent' event.id %}" style="display: inline-block;">{{event.name}}</a>
+        <div class=" card-footer btn-group" style="display: inline-block;">
+          <a class="btn btn-warning" href="{% url 'updateEvent' event.id %}">EDIT</a><a class="btn btn-danger"
+            id="confirm-delete" href="{% url 'deleteEvent' event.id %}">DELETE</a>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:3 %}
+    </div>
+    <div class="row card-deck">
+      {% endif %}
+      {% endfor %}
+    </div>
+
   </div>
   {% else %}
   <h3>No matches</h3>
   {% endif %}
 
 </div>
+
+<script type="text/javascript">
+  $(document).on('click', '#confirm-delete', function () {
+    return confirm('Are you sure you want to delete this?');
+  })
+</script>
 
 {% endblock %}

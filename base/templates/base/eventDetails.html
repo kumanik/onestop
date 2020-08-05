@@ -28,17 +28,23 @@
 
 <div class="container">
   <input type="hidden" id="count" value="{{count}}">
-  <div class="jumbotron" style="margin-top:20px">
-    <h4>Event Name: {{event.name}}</h4>
-    <div id="eventDetails" class="container">
-      {% for key, value in event_dict.items %}
-      <p>{{ key }} : {{ value }} </p>
-      {% endfor %}
-    </div>
+  <div class="jumbotron" style="margin-top:20px;">
     <div class="container">
-      <p><a href="{% url 'updateEvent' event.id %}">Edit</a> event details</p>
-      <p><a id="confirm-delete" href="{% url 'deleteEvent' event.id%}" style="font-size:20px">Delete</a> this event
-      </p>
+      <h4>{{event.name}}</h4>
+      <div class="btn-group">
+        <a class="btn btn-warning" href="{% url 'updateEvent' event.id %}">Edit</a>
+        <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteEvent' event.id%}">Delete</a>
+      </div>
+    </div>
+    <div id="eventDetails" class="container" style="margin-top: 2vh;">
+      {% if event_dict.items %}
+      <h4>Details:</h4>
+      <div class="container">
+        {% for key, value in event_dict.items %}
+        <p>{{ key }} : {{ value }} </p>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
   </div>
 
@@ -54,7 +60,7 @@
     </svg></button>
   <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
     {% csrf_token %}
-    <div class="row">
+    <div class="row container" style="padding: 3vh; background-color: #2D2D34; border-radius: 4px;">
       <div class="col-sm-12 col-md-4">
         <div class="form-group">
           <label for="id_file">File:</label>
@@ -86,7 +92,8 @@
     <p style="font-size:24px">Student lists:</p>
 
 
-    <ol style="text-align:center">
+    <ol class="container"
+      style="padding: 2vh 2vh 0vh 5vh; border-radius: 6px;text-align:center; background-color: #2D2D34;">
 
       {% for student_list in eventss %}
 
@@ -97,7 +104,7 @@
           <button class="expand btn btn-primary " style="text-align:right"
             data-value="{{forloop.counter}}">Expand</button>
         </div>
-        <div id="{{forloop.counter}}" style="font-size:20px; overflow-x:auto; height:400px;">
+        <div id="{{forloop.counter}}" style="font-size:20px; overflow-x:auto; height:400px;margin-top:20px">
           <div class="container" style="text-align: left;">
             <p><a id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a>
               this list</p>

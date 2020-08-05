@@ -342,3 +342,11 @@ def event_APIView(request):
             "API KEY NOT PROVIDED",
             status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+def handler404(request, exception):
+    return render(request, 'base/404.html', status=404)
+
+
+def handler500(request):
+    return render(request, 'base/500.html', status=500)
