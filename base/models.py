@@ -1,14 +1,15 @@
-from mongoengine import *
+from mongoengine import fields, document
 
 
-class Student(DynamicDocument):
-    name = StringField(max_length=256)
+class Student(document.DynamicDocument):
+    name = fields.StringField(max_length=256)
     meta = {'db_alias': 'default'}
 
 
-class StudentList(DynamicDocument):
-    type = StringField(max_length=256)
-    list = ListField(ReferenceField(Student, reverse_delete_rule=PULL))
+class StudentList(document.DynamicDocument):
+    type = fields.StringField(max_length=256)
+    list = fields.ListField(fields.ReferenceField(
+        Student, reverse_delete_rule=4))
     meta = {'db_alias': 'default'}
 
     def delete(self, *args, **kwargs):
@@ -17,10 +18,10 @@ class StudentList(DynamicDocument):
         super(StudentList, self).delete(*args, **kwargs)
 
 
-class Event(DynamicDocument):
-    name = StringField(max_length=256)
-    student_lists = ListField(ReferenceField(
-        StudentList, reverse_delete_rule=PULL))
+class Event(document.DynamicDocument):
+    name = fields.StringField(max_length=256)
+    student_lists = fields.ListField(fields.ReferenceField(
+        StudentList, reverse_delete_rule=4))
     meta = {'db_alias': 'default'}
 
     def delete(self, *args, **kwargs):

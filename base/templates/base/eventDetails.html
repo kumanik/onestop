@@ -113,7 +113,7 @@
 
           <table class="table" style="color: #ffffff; font-size: 16px;">
             {% for stu in student_list.list %}
-            <thead style="position: sticky; top: 0; background-color:#3c3c46; overflow: hidden; white-space: nowrap;">
+            <thead style="position: sticky; top: 0; background-color:#3c3c46; white-space: nowrap;">
               {% if forloop.counter is 1 %}
               <tr>
                 {% for key, val in stu.to_mongo.to_dict.items %}

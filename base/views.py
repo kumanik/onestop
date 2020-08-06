@@ -10,7 +10,7 @@ import json
 from rest_framework.decorators import api_view
 from django.contrib.admin.views.decorators import staff_member_required
 from accounts.models import api_key
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import operator
 from django.conf import settings
 
@@ -202,9 +202,6 @@ def merge_file(request, list_id):
         os.remove('base/upload/' + data.name)
         list1.save()
         return redirect('viewStudents', list_id)
-    else:
-        form = FileForm()
-    return render(request, "base/upload_file.html", {'form': form})
 
 
 def handle_uploaded_file(f):
@@ -235,6 +232,7 @@ def addStudentList(request, event_id):
             with open("base/upload/" + data.name, "r") as csv_file:
                 datas = csv.DictReader(csv_file)
                 for row in datas:
+                    row = {k: v or None for k, v in row.items()}
                     stu = Student(**row)
                     stu.save()
                     list1.list.append(stu)
@@ -253,6 +251,7 @@ def updateStudent(request, student_id):
     stu_dict = stu.to_mongo().to_dict()
     stu_dict.pop("_id")
     keys = []
+    keys_to_add = []
     for key, val in stu1st.to_mongo().to_dict().items():
         keys.append(key)
     if request.POST.get("action") == "post":
@@ -260,7 +259,8 @@ def updateStudent(request, student_id):
         for key, value in data.items():
             stu.update(**{key: value})
             if key not in keys:
-                addField(list.id, key)
+                keys_to_add.append(key)
+        addField(list.id, keys_to_add)
         stu.save()
         return redirect("viewStudents", list.id)
     return render(request, "base/updateStudent.html", {
@@ -281,11 +281,13 @@ def createStudent(request, list_id):
         stu.save()
         if stu1st is not None:
             keys = []
+            keys_to_add = []
             for key, val in stu1st.items():
                 keys.append(key)
             for key, value in data.items():
                 if key not in keys:
-                    addField(list.id, key)
+                    keys_to_add.append(key)
+            addField(list.id, keys_to_add)
         list.list.append(stu)
         list.save()
         return render(
@@ -300,10 +302,11 @@ def createStudent(request, list_id):
     )
 
 
-def addField(list_id, key):
+def addField(list_id, keys):
     list = StudentList.objects.get(id=list_id)
     for each in list.list:
-        each.update(**{key: None})
+        for key in keys:
+            each.update(**{key: None})
         each.save()
     return None
 
