@@ -179,8 +179,8 @@ def deleteStudentList(request, list_id):
 
 def merge_file(request, list_id):
     if request.method == 'POST':
-        handle_uploaded_file(request.FILES['file'])
-        data = request.FILES['file']
+        handle_uploaded_file(request.FILES.get('file'))
+        data = request.FILES.get('file')
         list1 = StudentList.objects.get(id=list_id)
         previous = []
         c = 0
@@ -190,6 +190,18 @@ def merge_file(request, list_id):
             previous.append(student_dict)
         with open('base/upload/' + data.name, 'r') as csv_file:
             datas = csv.DictReader(csv_file)
+            keys_new = datas.fieldnames
+            keys_init = [k for k, v in previous[0].items()]
+            if len(keys_new) == len(keys_init):
+                for k in keys_init:
+                    if k not in keys_new:
+                        return JsonResponse(
+                            {"error": "Fields on original and new data do not match"},
+                            status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return JsonResponse(
+                    {"error": "Fields on original and new data do not match"},
+                    status=status.HTTP_400_BAD_REQUEST)
             for row in datas:
                 c = 0
                 for i in previous:

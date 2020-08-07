@@ -21,8 +21,7 @@
     </div>
     <div>
       <p>Add a file to merge: </p>
-      <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data"
-        action="{% url 'merge_file' student_list.id %}">
+      <form class="form-inline my-2 my-lg-0" id="merge-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
           <input class="form-control mr-sm-2" type="file" name="file"
@@ -30,7 +29,7 @@
             required>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-success">Merge File</button>
+          <button id="btnSubmit" type="submit" class="btn btn-success">Merge File</button>
         </div>
 
       </form>
@@ -118,5 +117,31 @@
   $(document).on('click', '#confirm-delete', function () {
     return confirm('Are you sure you want to delete this?');
   })
+
+  $('#merge-form').submit(function (e) {
+    $("#btnSubmit").prop("disabled", true);
+    var form = $('#merge-form').get(0);
+    var data = new FormData(form);
+    data.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val(),)
+    $.ajax({
+      type: 'post',
+      url: "{% url 'merge_file' student_list.id %}",
+      data: data,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        alert('List merged successfully');
+        window.location = '{% url "viewStudents" student_list.id %}'
+      },
+      error: function (data) {
+        console.log(data)
+        alert(data.responseJSON.error)
+        $("#btnSubmit").prop("disabled", false);
+      },
+    })
+    return false;
+  });
+
 </script>
 {% endblock %}
