@@ -255,6 +255,30 @@ def addStudentList(request, event_id):
         return redirect("viewEvent", event_id)
 
 
+def batch_edit_list(request, list_id):
+    lst = StudentList.objects.get(id=list_id)
+    keys = lst.list[0].to_mongo().to_dict().keys()
+    count = len(lst.list)
+    context = {
+        'list': lst,
+        'keys': keys,
+        'count': count,
+    }
+    if request.POST.get("action") == "post":
+        data = json.loads(request.POST.get("data"))
+        try:
+            for elem in data:
+                id = data[elem].pop('_id')
+                stu = Student.objects.get(id=id)
+                stu.update(**data[elem])
+                stu.save()
+        except:
+            return JsonResponse(
+                {'error': 'An error occured'},
+                status=status.HTTP_400_BAD_REQUEST)
+    return render(request, 'base/batchEdit.html', context)
+
+
 def updateStudent(request, student_id):
     stu = Student.objects.get(id=student_id)
     list = StudentList.objects.filter(list__contains=stu.id)[0]
@@ -359,6 +383,7 @@ def event_APIView(request):
         )
 
 
+# Custom 404 and 500 pages
 def handler404(request, exception):
     return render(request, 'base/404.html', status=404)
 

@@ -1,0 +1,81 @@
+{% extends 'base/based.html' %}
+{% load static %}
+
+
+{% block content %}
+{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="{% static 'base/css/table.css'%}">
+<input type="hidden" id="count" value=" {{ count }} ">
+<nav class="navbar navbar-dark bg-dark" style="margin-bottom: 0px; text-align: center; justify-content: center;">
+  <div class="btn-group" style="padding: 0px; margin-bottom: 0px;">
+    <a class="btn btn-danger" href="{% url 'viewStudents' list.id %}">Cancel</a>
+    <a class="btn btn-success" id="submitBtn" style="color:#ffffff">Save</a>
+  </div>
+</nav>
+<div class="bdy">
+  <div class="table-wrapper">
+    <table class="table" style="color: #ffffff;">
+      <thead>
+        <tr>
+          {% for key in keys %}
+          {% if forloop.counter is 1 %}
+          <th id={{key}} hidden> {{ key }} </th>
+          {% else %}
+          <th id={{key}}> {{ key }} </th>
+          {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody class="list-data">
+        {% for stu in list.list %}
+        <tr id="{{ forloop.counter }}">
+          {% for k, v in stu.to_mongo.to_dict.items %}
+          {% if forloop.counter is 1 %}
+          <td hidden><input id="{{k}}" type="text" value="{{ v }}"></td>
+          {% else %}
+          <td><input id="{{k}}" type="text" value="{{ v }}"></td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#submitBtn').click((e) => {
+    var count = document.getElementById('count').value;
+    data = Object.create(null);
+    for (let i = 1; i <= count; i++) {
+      var tbl_row = document.getElementById(i);
+      var chldrn = tbl_row.children;
+      var row_data = Object.create(null);
+      for (let j = 0; j < chldrn.length; j++) {
+        var inp = chldrn[j].children[0];
+        row_data[inp.id] = inp.value;
+      }
+      data[i] = row_data;
+    }
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: '{% url "batch_edit_list" list.id %}',
+      data: {
+        data: JSON.stringify(data),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post',
+      },
+      success: (data) => {
+        alert("Successfully saved changes");
+        window.location = '{% url "viewStudents" list.id %}'
+      },
+      error: (data) => {
+        alert(data.responseJSON.error)
+      }
+    })
+    return false;
+  })
+</script>
+
+{% endblock %}

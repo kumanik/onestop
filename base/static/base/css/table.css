@@ -1,0 +1,53 @@
+.bdy {
+    padding-top: 20px;
+    display: flex;
+    font-size: 14px;
+    color: #596275;
+    justify-content: center;
+    
+}
+
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: scroll;
+    height: 85vh;
+}
+
+table {
+    position: relative;
+    border: 1px solid #8395a7;
+    border-collapse: collapse;
+    width:100%;
+}
+
+td, th {
+    min-width: 200px;
+    border: 1px solid #8395a7;
+    text-align: center;
+    height: 30px;
+}
+
+th {
+    background-color: #2D2D34;
+    position: sticky;
+    top: -1px;
+    z-index: 2;
+}
+
+tbody{
+    background-color: #525b70;
+    text-align: center;
+}
+
+input{
+    text-align: justify;
+    width:100%;
+    border-width: 0px;
+    color: white;
+    background-color: #525b70;
+}
+
+input:active {
+    border-color: #546de5;
+}

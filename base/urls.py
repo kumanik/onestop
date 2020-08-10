@@ -32,6 +32,10 @@ urlpatterns = [
         "event/addstudentlist/upload/<event_id>",
         views.addStudentList, name="upload_studentlist"
     ),
+    path(
+        "event/studentlist/batchedit/<list_id>",
+        views.batch_edit_list, name="batch_edit_list"
+    ),
 
     # Student model
     path(

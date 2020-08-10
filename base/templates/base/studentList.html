@@ -17,6 +17,7 @@
     <a>Identifier : {{ student_list.type }}</a><br>
     <div class="btn-group" style="margin-bottom: 20px">
       <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}">Delete list</a>
+      <a class="btn btn-warning" href="{% url 'batch_edit_list' student_list.id %}">Batch Edit List</a>
       <a class="btn btn-success" href="{% url 'addStudent' student_list.id %}">Add student</a>
     </div>
     <div>
