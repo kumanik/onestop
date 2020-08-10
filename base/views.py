@@ -30,18 +30,18 @@ def search_field(request):
     query = request.GET.get('search_field')
     querys = request.GET.get('searches')
     query = query.upper()
-    abc = []
+    studentList_ids = []
     if querys.isnumeric():
         field = query
     else:
         field = query+"__icontains"
     val = querys
-    s = Student.objects.filter(**{field: val})
-    for i in s:
-        r = StudentList.objects.get(list__contains=i.id)
-        abc.append(r.id)
-    t = Event.objects.filter(student_lists__in=abc)
-    return render(request, 'base/studentSearch.html', {'events': t, 'student_event': s})
+    students = Student.objects.filter(**{field: val})
+    for stu in students:
+        stu_list = StudentList.objects.get(list__contains=stu.id)
+        studentList_ids.append(stu_list.id)
+    events = Event.objects.filter(student_lists__in=studentList_ids)
+    return render(request, 'base/studentSearch.html', {'events': events, 'student_event': students})
 
 
 def viewEvent(request, event_id):
@@ -184,8 +184,8 @@ def merge_file(request, list_id):
         list1 = StudentList.objects.get(id=list_id)
         previous = []
         c = 0
-        for i in list1.list:
-            student_dict = i.to_mongo().to_dict()
+        for lists in list1.list:
+            student_dict = lists.to_mongo().to_dict()
             student_dict.pop('_id')
             previous.append(student_dict)
         with open('base/upload/' + data.name, 'r') as csv_file:
@@ -204,8 +204,8 @@ def merge_file(request, list_id):
                     status=status.HTTP_400_BAD_REQUEST)
             for row in datas:
                 c = 0
-                for i in previous:
-                    if row == i:
+                for student in previous:
+                    if row == student:
                         c = 1
                 if c == 0:
                     stu = Student(**row)
