@@ -46,45 +46,35 @@
       </div>
       {% endif %}
     </div>
+    <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
+      {% csrf_token %}
+      <div class="row container">
+        <div class="col-sm-12 col-md-4">
+          <div class="form-group">
+            <h4 for="id_file">File Upload:</h4>
+            <input class="form-control" type="file" name="file"
+              accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              style="border-width:0px;">
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-8">
+          <div class="row">
+            <div class="form-group">
+              <label for="id_input">Identifier:</label>
+              <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards"
+                required>
+            </div>
+            <div class="form-group" style="position:relative; left:10px">
+              <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"
+                value="Save">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
-
-
-  <button class="addStudentList btn btn-primary" data-value="abc"><svg xmlns="http://www.w3.org/2000/svg"
-      class="icon icon-tabler icon-tabler-cloud-upload" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5"
-      stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <path d="M7 18a4.6 4.4 0 0 1 0 -9h0a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1" />
-      <polyline points="9 15 12 12 15 15" />
-      <line x1="12" y1="12" x2="12" y2="21" />
-    </svg></button>
-  <form class="form-list" method="POST" enctype="multipart/form-data" style="margin:20px 0px 0px 0px;">
-    {% csrf_token %}
-    <div class="row container" style="padding: 3vh; background-color: #2D2D34; border-radius: 4px;">
-      <div class="col-sm-12 col-md-4">
-        <div class="form-group">
-          <label for="id_file">File:</label>
-          <input class="form-control" type="file" name="file"
-            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            style="border-width:0px;">
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-8">
-        <div class="row">
-          <div class="form-group" style="margin-left:15px">
-            <label for="id_input">Identifier:</label>
-            <input type="text" name="input" class="form-control" placeholder="E.g. Participants or Leaderboards"
-              required>
-          </div>
-          <div class="form-group" style="position:relative; left:10px">
-            <input class="btn btn-success " type="submit" id="btnSubmit" style="position:absolute; bottom:0px"
-              value="Save" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
 
 
   {% if count > 0 %}
@@ -106,8 +96,11 @@
         </div>
         <div id="{{forloop.counter}}" style="font-size:20px; overflow-x:auto; height:400px;margin-top:20px">
           <div class="container" style="text-align: left;">
-            <p><a id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}" style="color:red">Delete</a>
-              this list</p>
+            <div class="btn-group" style="margin-bottom: 20px">
+              <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudentList' student_list.id %}">Delete
+                list</a>
+              <a class="btn btn-warning" href="{% url 'batch_edit_list' student_list.id %}">Batch Edit List</a>
+            </div>
             <p>Students in the list: {% if not student_list.list %} None {% endif %}</p>
           </div>
 
@@ -123,7 +116,6 @@
                 </th>
                 {% endif %}
                 {% endfor %}
-                <th scope="col"><a>Edit/Delete</a></th>
               </tr>
               {% endif %}
             </thead>
@@ -134,30 +126,6 @@
                 <td>{{val}}</td>
                 {% endif %}
                 {% endfor %}
-                <td style=" overflow: hidden; white-space: nowrap;">
-                  <a class="btn btn-danger" id="confirm-delete" href="{% url 'deleteStudent' stu.id %}"
-                    style="display: inline-block;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24"
-                      height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" />
-                      <line x1="4" y1="7" x2="20" y2="7" />
-                      <line x1="10" y1="11" x2="10" y2="17" />
-                      <line x1="14" y1="11" x2="14" y2="17" />
-                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                    </svg>
-                  </a>
-                  <a class="btn btn-warning" href="{% url 'updateStudent' stu.id %}" style="display: inline-block;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24"
-                      height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" />
-                      <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-                      <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-                    </svg>
-                  </a>
-                </td>
               </tr>
             </tbody>
 
@@ -201,20 +169,6 @@
       $('#' + i).hide()
     }
 
-    $('.form-list').hide()
-
-    $('.addStudentList').click(function () {
-      if (clicks > 0) {
-        $('.addStudentList').innerHTML = "Add a Student list"
-        $('.form-list').hide()
-        clicks = 0
-      }
-      else if (clicks == 0) {
-        clicks = 1;
-        $('.addStudentList').innerHtml = "Remove"
-        $('.form-list').show()
-      }
-    });
 
     $('.form-list').submit(function (e) {
       $("#btnSubmit").prop("disabled", true);

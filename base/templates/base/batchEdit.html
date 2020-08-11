@@ -57,7 +57,6 @@
       }
       data[i] = row_data;
     }
-    console.log(data);
     $.ajax({
       type: 'POST',
       url: '{% url "batch_edit_list" list.id %}',

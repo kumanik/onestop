@@ -244,7 +244,7 @@ def addStudentList(request, event_id):
             with open("base/upload/" + data.name, "r") as csv_file:
                 datas = csv.DictReader(csv_file)
                 for row in datas:
-                    row = {k: v or None for k, v in row.items()}
+                    row = {k.strip(): v or None for k, v in row.items()}
                     stu = Student(**row)
                     stu.save()
                     list1.list.append(stu)

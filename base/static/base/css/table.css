@@ -22,7 +22,7 @@ table {
 }
 
 td, th {
-    min-width: 200px;
+    min-width: 300px;
     border: 1px solid #8395a7;
     text-align: center;
     height: 30px;
