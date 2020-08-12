@@ -3,8 +3,7 @@
 <style>
   li a {
     font-size: 20px;
-
-  }
+}
 
   body {
     font-family: Share;
@@ -28,33 +27,33 @@
     <h3 style="margin-top:10px">Participated Events:</h3>
     <ol>
 
-      {% for event in events %}
+    {% for event in events %}
       <li><a href="{% url 'viewEvent' event.id %}">{{event.name}}</a></li>
 
-      {% for student_list in event.student_lists %}
+        {% for student_list in event.student_lists %}
+      
+            {% if student_list.id in Student_List %}
+              <a href="{% url 'viewStudents' student_list.id %}">Identifier - {{student_list.type}}</a>
+              <br><br>
+            {% endif %}
+          {% for student in student_event %}
 
+              {% if student in student_list.list %}
 
-      <a href="{% url 'viewStudents' student_list.id %}">Identifier - {{student_list.type}}</a>
-      <br><br>
+      
+                  {% for key, value in student.to_mongo.to_dict.items %}
+                      {% if not forloop.counter is 1 %}
+                          <ul>
+                            <li>{{ key }} : {{ value }}</li>
+                          </ul>
+                      {% endif %}
+                  {% endfor %}
 
-
-
-
-
-      {%  for student in student_event %}
-      {% if student in student_list.list %}
-
-      {% for key, value in student.to_mongo.to_dict.items %}
-      <ul>
-        <li>{{ key }} : {{ value }}</li>
-      </ul>
-      {% endfor %}
-
-      <br>
-      {% endif %}
-      {%  endfor  %}
-      {% endfor %}
-      {% endfor %}
+                        <br>
+              {% endif %}
+          {%  endfor  %}
+        {% endfor %}
+    {% endfor %}
 
     </ol>
   </div>
