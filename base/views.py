@@ -41,7 +41,7 @@ def search_field(request):
         stu_list = StudentList.objects.get(list__contains=stu.id)
         studentList_ids.append(stu_list.id)
     events = Event.objects.filter(student_lists__in=studentList_ids)
-    return render(request, 'base/studentSearch.html', {'events': events, 'student_event': students})
+    return render(request, 'base/studentSearch.html', {'events': events, 'student_event': students, 'Student_List': studentList_ids})
 
 
 def viewEvent(request, event_id):
