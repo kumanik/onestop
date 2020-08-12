@@ -3,13 +3,13 @@ $.fn.formToJson = function () { form = $(this); var formArray = form.serializeAr
 
 $(document).ready(function () {
 
-    var addButton = $('.btn-group');
+    var addButton = $('#add_button');
     var wrapper = $('#eventForm');
+    btngrp = $('#btn-grp')
     var fieldHTML = '<div class="row"><div class="col"><div class="form-group"><label>Field name</label><input type="text" name="field_name[]" value="" class="form-control"/></div></div><div class="col"><div class="form-group"><label>Field value</label><input type="text" name="field_value[]" value="" class="form-control"/></div></div>';
 
     $(addButton).click(function () {
-
         $(wrapper).append(fieldHTML);
-        $(wrapper).append(addButton);
+        $(wrapper).append(btngrp);
     });
 });
