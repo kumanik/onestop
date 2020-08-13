@@ -24,7 +24,7 @@
 
 <div class="container">
   <br><br>
- <p>Global Search</p>
+  <p>Global Search</p>
 
   <form class="form-inline my-2 my-lg-0" action="{% url 'search_field' %}" method="get">
     <input class="form-control mr-sm-2" name="search_field" type="text" placeholder="E.g. name, score, etc"
@@ -37,7 +37,7 @@
   <br>
   <div class="container" style="margin:30px 0px 0px 0px">
     <div class="btn-group">
-      <a class="btn btn-warning" href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
+      <a href="{% url 'addEvent' %}"><strong>Add Event</strong></a>
     </div>
     {% if events.count > 0 %}
     <h3 style="margin-top:10px; font-size:32px">Events List :</h3>
